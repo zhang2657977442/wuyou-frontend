@@ -1,0 +1,372 @@
+/**
+ * 内容区域
+ */
+.content {
+	flex: 1;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	align-items: center;
+}
+
+/**
+ * 横向布局
+ */
+.row {
+	flex-direction: row;
+}
+
+/**
+ * 竖向布局
+ */
+.column {
+	flex-direction: column;
+}
+
+/**
+ * 居中对齐
+ */
+.center-algin{
+	justify-content: center;
+	align-items: center;
+}
+
+.align-height{
+	align-items: center;
+}
+
+.align-width{
+	justify-content: center;
+}
+.align-top{
+	align-items:flex-start;
+}
+.align-bottom{
+	align-items: flex-end;
+}
+
+/**
+ * 左右对齐
+ */
+.space-between-algin{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+/*通用 */
+view {
+	font-size: 30upx;
+	line-height: 1.8;
+}
+
+progress,
+checkbox-group {
+	width: 100%;
+}
+
+form {
+	width: 100%;
+}
+
+/**
+ * 全局输入框文本大小
+ */
+input {
+	font-size: 32upx;
+}
+
+/**
+ * 全局文本大小
+ */
+text {
+	font-size: 30upx;
+}
+.text-size-22 {
+	font-size: 22upx;
+}
+.text-size-24 {
+	font-size: 24upx;
+}
+.text-size-mim {
+	font-size: 26upx;
+}
+.text-size-max {
+	font-size: 34upx;
+}
+.text-size-below-max {
+	font-size: 32upx;
+}
+
+.text-size-38 {
+	font-size: 38upx;
+}
+
+.text-size-50 {
+	font-size: 50upx;
+}
+
+.text-size-36 {
+	font-size: 36upx;
+}
+.text-size-below-normal {
+	font-size: 28upx;
+}
+
+.text-size-normal {
+	font-size: 30upx;
+}
+
+
+/* 文本溢出隐藏 */
+.text-ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+
+/* 背景色 */
+
+.bg-white{
+	background: #FFFFFF;
+}
+.bg-red {
+	background: #ff4c4c;
+}
+.bg-green {
+	background: #4AA849;
+}
+.bg-grey {
+	background: #F5F5F5;
+}
+.bg-grey2 {
+	background: #9B9B9B;
+}
+.bg-orange {
+	background: #FF822B;
+}
+
+/* 字体色 */
+.text-white {
+	color: #FFFFFF;
+}
+.text-red {
+	color: #ff4c4c;
+}
+.text-green {
+	color: #4AA849;
+}
+.text-grey {
+	color: #9B9B9B;
+}
+
+.text-grey2 {
+	color: #626262;
+}
+
+.text-black {
+	color: #101010;
+}
+.text-normal {
+	color: #656262;
+}
+
+.text-orange {
+	color: #FF822B;
+}
+
+/**
+ *  字体加粗
+ */
+.font-bold{
+	font-weight: bold;
+}
+
+
+/**
+ * 1行显示，多与的后面省略号显示
+ */
+.ellipsis-oneline{
+	text-overflow: -o-ellipsis-lastline;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+}
+
+/**
+ * 两行显示，多与的后面省略号显示
+ */
+.ellipsis-twoline{
+	text-overflow: -o-ellipsis-lastline;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.bottom-line{
+	border-bottom: #EEEEEE solid 1upx;
+}
+.bottom-line2{
+	border-bottom: #f8f7fc solid 1upx;
+}
+
+.left-line{
+	border-left: #EEEEEE solid 1upx;
+}
+.right-line{
+	border-right: #EEEEEE solid 1upx;
+}
+
+.top-line{
+	border-top: #EEEEEE solid 1upx;
+}
+
+.width-100{
+	width: 100%;
+}
+.height-100{
+	height: 100%;
+}
+
+
+.padding-5{
+	padding: 5upx;
+}
+.padding-10{
+	padding: 10upx;
+}
+.padding-15{
+	padding: 15upx;
+}
+
+.padding-20{
+	padding: 20upx;
+}
+
+.padding-height-5{
+	padding: 5upx 0;
+}
+.padding-height-10{
+	padding: 10upx 0;
+}
+.padding-height-15{
+	padding: 15upx 0;
+}
+.padding-height-20{
+	padding: 20upx 0;
+}
+.padding-height-25{
+	padding: 25upx 0;
+}
+.padding-width-5{
+	padding:0 5upx;
+}
+.padding-width-10{
+	padding:0 10upx;
+}
+.padding-width-15{
+	padding: 0 15upx;
+}
+.padding-width-20{
+	padding:0 20upx;
+}
+
+
+.margin-5{
+	margin: 5upx;
+}
+.margin-10{
+	margin: 10upx;
+}
+.margin-15{
+	margin: 15upx;
+}
+
+.margin-20{
+	margin: 20upx;
+}
+
+
+
+.margin-left-5{
+	margin-left: 5upx;
+}
+.margin-left-10{
+	margin-left: 10upx;
+}
+.margin-left-15{
+	margin-left: 15upx;
+}
+.margin-left-20{
+	margin-left: 20upx;
+}
+
+.margin-right-5{
+	margin-right: 5upx;
+}
+.margin-right-10{
+	margin-right: 10upx;
+}
+.margin-right-15{
+	margin-right: 15upx;
+}
+.margin-right-20{
+	margin-right: 20upx;
+}
+
+.margin-top-5{
+	margin-top: 5upx;
+}
+.margin-top-10{
+	margin-top: 10upx;
+}
+.margin-top-15{
+	margin-top: 15upx;
+}
+.margin-top-20{
+	margin-top: 20upx;
+}
+
+.margin-bottom-5{
+	margin-bottom: 5upx;
+}
+.margin-bottom-10{
+	margin-bottom: 10upx;
+}
+.margin-bottom-15{
+	margin-bottom: 15upx;
+}
+.margin-bottom-20{
+	margin-bottom: 20upx;
+}
+
+
+.margin-height-5{
+	margin: 5upx 0;
+}
+.margin-height-10{
+	margin: 10upx 0;
+}
+.margin-height-15{
+	margin: 15upx 0;
+}
+.margin-height-20{
+	margin: 20upx 0;
+}
+.margin-width-5{
+	margin:0 5upx;
+}
+.margin-width-10{
+	margin:0 10upx;
+}
+.margin-width-15{
+	margin: 0 15upx;
+}
+.margin-width-20{
+	margin:0 20upx;
+}

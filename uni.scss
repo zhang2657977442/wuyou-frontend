@@ -1,0 +1,124 @@
+// 主色调
+$main-color: #12ae85;
+
+/* 页面左右间距 */
+$page-row-spacing: 30upx;
+$page-color-base: #f8f8f8;
+$page-color-light: #f8f6fc;
+$base-color: #fa436a;
+
+/* 文字尺寸 */
+$font-sm: 24upx;
+$font-base: 28upx;
+$font-base-more: 30upx;
+$font-lg: 32upx;
+$font-size-34: 34upx;
+$font-size-36: 36upx;
+$font-size-40: 40upx;
+
+/*文字颜色*/
+$font-color-white:#ffffff;
+$font-color-dark: #303133;
+$font-color-base: #606266;
+$font-color-light: #909399;
+$font-color-disabled: #C0C4CC;
+$font-color-spec: #4399fc;
+$font-color-gray:#999999;
+// $font-color-red:#dd0037;
+$font-color-red:#ff201f;
+$font-color-ccc:#cccccc;
+$font-color-999:#999999;
+$font-color-666:#666666;
+$font-color-333:#333333;
+$font-color-000:#000000;
+$font-color-orange:#FF822B;
+/* 边框颜色 */
+$border-color-dark: #DCDFE6;
+$border-color-base: #E4E7ED;
+$border-color-light: #EBEEF5;
+/* 背景颜色 */
+$image-bg-color:#eeeeee;
+$bgcolor_white:#ffffff;
+$all_bgcolor:#f4f4f4;
+$vui_bgcolor:#8c0027;
+$bg-color-orange:#FF822B;
+/* 图片加载中颜色 */
+$image-bg-color: #eee;
+/* 行为相关颜色 */
+$uni-color-primary:#ff201f;
+// $uni-color-primary:#fa436a;
+$uni-color-success: #4cd964;
+$uni-color-warning: #f0ad4e;
+$uni-color-error: #dd524d;
+
+//自定义变量
+$theme-color: #28b8a1;
+$bg-grey: #f4f4f4;
+$bd-color: #f0f0f0;
+$color-light: #5e5e5e;
+$g2: #eeeeee;
+$g5: #9e9e9e;
+$fz12: 24upx;
+$fz16: 32upx;
+$fz18: 36upx;
+$fz20: 40upx;
+
+/* 文字基本颜色 */
+$uni-text-color:#333;//基本色
+$uni-text-color-inverse:#fff;//反色
+$uni-text-color-grey:#999;//辅助灰色，如加载更多的提示信息
+$uni-text-color-placeholder: #808080;
+$uni-text-color-disable:#c0c0c0;
+
+/* 背景颜色 */
+$uni-bg-color:#ffffff;
+$uni-bg-color-grey:#f8f8f8;
+$uni-bg-color-hover:#f1f1f1;//点击状态颜色
+$uni-bg-color-mask:rgba(0, 0, 0, 0.4);//遮罩颜色
+
+/* 边框颜色 */
+$uni-border-color:#c8c7cc;
+
+/* 尺寸变量 */
+
+/* 文字尺寸 */
+$uni-font-size-sm:24upx;
+$uni-font-size-base:28upx;
+$uni-font-size-lg:32upx;
+
+/* 图片尺寸 */
+$uni-img-size-sm:40upx;
+$uni-img-size-base:52upx;
+$uni-img-size-lg:80upx;
+
+/* Border Radius */
+$uni-border-radius-sm: 4upx;
+$uni-border-radius-base: 6upx;
+$uni-border-radius-lg: 12upx;
+$uni-border-radius-circle: 50%;
+
+/* 水平间距 */
+$uni-spacing-row-sm: 10px;
+$uni-spacing-row-base: 20upx;
+$uni-spacing-row-lg: 30upx;
+
+/* 垂直间距 */
+$uni-spacing-col-sm: 8upx;
+$uni-spacing-col-base: 16upx;
+$uni-spacing-col-lg: 24upx;
+
+/* 透明度 */
+$uni-opacity-disabled: 0.3; // 组件禁用态的透明度
+
+/* 文章场景相关 */
+$uni-color-title: #2C405A; // 文章标题颜色
+$uni-font-size-title:40upx;
+$uni-color-subtitle: #555555; // 二级标题颜色
+$uni-font-size-subtitle:36upx;
+$uni-color-paragraph: #3F536E; // 文章段落颜色
+$uni-font-size-paragraph:30upx;
+
+
+
+
+

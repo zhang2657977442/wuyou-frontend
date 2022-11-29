@@ -1,0 +1,318 @@
+{
+	"pages": [{
+			"path": "pages/main/main",
+			"style": {
+				// #ifdef H5
+				"navigationStyle": "custom",
+				// #endif
+				"navigationBarTitleText": "人才直聘"
+			}
+		},
+		{
+			"path": "pages/main/search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		},
+		{
+			"path": "pages/position/list",
+			"style": {
+				"navigationBarTitleText": "岗位列表",
+				 "navigationBarBackgroundColor":"#FFFFFF",
+				 "navigationBarTextStyle":"black"
+			}
+		},
+		{
+			"path": "pages/position/detail",
+			"style": {
+				"navigationBarTitleText": "职位详情"
+			}
+		},
+		{
+			"path": "pages/position/search",
+			"style": {
+				"navigationBarTitleText": "职位搜索",
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"navigationBarTextStyle":"black"
+			}
+		},
+		{
+			"path": "pages/company/list",
+			"style": {
+				"navigationBarTitleText": "公司列表"
+			}
+		},
+		{
+			"path": "pages/company/resumeList",
+			"style": {
+				"navigationBarTitleText": "简历列表"
+			}
+		},
+		{
+			"path": "pages/company/detail",
+			"style": {
+				"navigationBarTitleText": "公司详情"
+			}
+		},
+		{
+			"path": "pages/user/user",
+			"style": {
+				// #ifdef H5
+				// "navigationStyle": "custom",
+				// #endif
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/user/aboutUs",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
+		},
+		{
+			"path": "pages/user/contactUs",
+			"style": {
+				"navigationBarTitleText": "联系我们"
+			}
+		},
+		{
+			"path": "pages/user//promoCode",
+			"style": {
+
+				"navigationBarTitleText": "我的推广码"
+			}
+		}, {
+			"path": "pages/user/userInfo",
+			"style": {
+				"navigationBarTitleText": "基本信息",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"btnType": "EDIT",
+							"text": "\ue901",
+							"fontSize": "20px",
+							"fontSrc": "/static/icomoon-local/fonts/icomoon.ttf"
+						}]
+					}
+				}
+			}
+		}, {
+			"path": "pages/user/uUserInfo",
+			"style": {
+				"navigationBarTitleText": "修改结算卡"
+			}
+		},
+		{
+			"path": "pages/user/collect",
+			"style": {
+				"navigationBarTitleText": "我的收藏"
+			}
+		},
+		{
+			"path": "pages/chat/chat",
+			"style": {
+				"navigationBarTitleText": "消息"
+			}
+		},
+
+		{
+			"path": "pages/type/type",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		}
+	],
+
+	"subPackages": [
+		{
+			"root": "pages/login",
+			"pages": [{
+					"path": "login",
+					"style": {
+						"navigationBarTitleText": "登录"
+					}
+				}, {
+					"path": "index",
+					"style": {
+						// #ifdef H5
+						"navigationStyle": "custom",
+						// #endif
+						"navigationBarTitleText": "推荐注册",
+						"navigationBarBackgroundColor": "#4587D5"
+					}
+				},
+				{
+					"path": "reg",
+					"style": {
+						"navigationBarTitleText": "注册"
+					}
+				},
+				{
+					"path": "success",
+					"style": {
+						"navigationBarTitleText": "提交成功"
+					}
+				}
+			]
+		},
+
+		{
+			"root": "pages/common",
+			"pages": [{
+					"path": "industry",
+					"style": {
+						"navigationBarTitleText": "行业选择"
+					}
+				},
+				{
+					"path": "post",
+					"style": {
+						"navigationBarTitleText": "职位选择"
+					}
+				}
+			]
+		},
+
+		{
+			"root": "pages/user/person",
+			"pages": [{
+					"path": "resume",
+					"style": {
+						"navigationBarTitleText": "个人简历"
+					}
+				},
+				{
+						"path": "resumeDetail",
+						"style": {
+							"navigationBarTitleText": "个人简历"
+						}
+					},
+				{
+					"path": "edit-cert",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "edit-edu",
+					"style": {
+						"navigationBarTitleText": "添加教育经历"
+					}
+				},
+				{
+					"path": "edit-expect",
+					"style": {
+						"navigationBarTitleText": "添加求职期望"
+					}
+				},
+				{
+					"path": "edit-pro",
+					"style": {
+						"navigationBarTitleText": "添加项目经历"
+					}
+				},
+				{
+					"path": "edit-pro-content",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "edit-skill",
+					"style": {
+						"navigationBarTitleText": "添加个人优势"
+					}
+				},
+				{
+					"path": "edit-work",
+					"style": {
+						"navigationBarTitleText": "添加工作经历"
+					}
+				},
+				{
+					"path": "edit-work-content",
+					"style": {
+						"navigationBarTitleText": "工作内容"
+					}
+				}
+
+			]
+		},
+		{
+			"root": "pages/user/company",
+			"pages": [{
+					"path": "company",
+					"style": {
+						"navigationBarTitleText": "编辑公司信息"
+					}
+				},
+				{
+					"path": "enter",
+					"style": {
+						"navigationBarTitleText": "公司入驻"
+					}
+				},
+				{
+					"path": "positions",
+					"style": {
+						"navigationBarTitleText": "职位管理",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "position-edit",
+					"style": {
+						"navigationBarTitleText": "新增职位"
+					}
+				}
+
+			]
+		}
+	],
+	"condition": {
+		//模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式（list 的索引项）
+		"list": [{
+			"name": "首页", //模式名称
+			"path": "pages/main/main", //启动页面，必选
+			"query": "" //启动参数，在页面的onLoad函数里面得到。
+		}]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#12AE85",
+		"backgroundColor": "#fbf9fe"
+	},
+
+	"tabBar": {
+		"color": "#444444",
+		"selectedColor": "#12ae85",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/main/main",
+				"iconPath": "static/icon/home_light.png",
+				"selectedIconPath": "static/icon/home_fill_light.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/type/type",
+				"iconPath": "static/icon/search.png",
+				"selectedIconPath": "static/icon/search-fill.png",
+				"text": "分类"
+			},
+			{
+				"pagePath": "pages/chat/chat",
+				"iconPath": "static/icon/message_light.png",
+				"selectedIconPath": "static/icon/message_fill_light.png",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/user/user",
+				"iconPath": "static/icon/my_light.png",
+				"selectedIconPath": "static/icon/my_fill_light.png",
+				"text": "我的"
+			}
+		]
+	}
+}
