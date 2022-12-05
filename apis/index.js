@@ -2,15 +2,15 @@ import http from "./http.js";
 import config from "@/config/index.config.js";
 
 // 获取OpenId
-export const getOpenId = (data) => http.GET(`${config.baseUrl}/ums/getOpenId`, data);
+export const getOpenId = (data) => http.GET(`${config.baseUrl}/user/getOpenId`, data);
 // 绑定手机号
-export const bindPhoneForWx = (data) => http.GET(`${config.baseUrl}/ums/bindPhoneForWx`, data);
+export const bindPhoneForWx = (data) => http.GET(`${config.baseUrl}/user/bindPhoneForWx`, data);
 // 小程序授权登录
-export const xcxUserLogin = (data) => http.GET(`${config.baseUrl}/ums/xcxUserLogin`, data);
+export const xcxUserLogin = (data) => http.GET(`${config.baseUrl}/user/xcxUserLogin`, data);
 // 获取用户资料
-export const getUserInfo = (data) => http.GET(`${config.baseUrl}/ums/getMember`, data);
+export const getUserInfo = (data) => http.GET(`${config.baseUrl}/user/getUserInfo`, data);
 // 用户角色切换
-export const switchRole = (data) => http.GET(`${config.baseUrl}/ums/switchRole`, data);
+export const switchRole = (data) => http.GET(`${config.baseUrl}/user/switchRole`, data);
 
 
 // 查询轮播图

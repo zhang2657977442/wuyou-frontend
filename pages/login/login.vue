@@ -84,17 +84,18 @@
 			},
 			
 			
-			async getOpenId(code){
-				let res = await this.$apis.getOpenId({code:code});
+			async getOpenId(codeId){
+				let res = await this.$apis.getOpenId({codeId:codeId});
 				this.openid = res.openid;
 				this.session_key = res.session_key;
-				this.$store.commit("SET_OPENID", res.openId);
+				this.$store.commit("SET_OPENID", this.openid);
 				uni.setStorage({
 					key: "session_key",
-					data: res.session_key
+					data: this.session_key
 				})
+
 				if (res != null) {
-					this.xcxLogin(res.openId);
+					this.xcxLogin(this.openid);
 				}
 			},
 			
@@ -108,6 +109,7 @@
 					uni.showLoading({
 						title:'授权登录中···'
 					});
+					console.log('用户信息:',this.bindUserInfo)
 					this.wxAuth();
 				} else {
 					//用户按了拒绝按钮

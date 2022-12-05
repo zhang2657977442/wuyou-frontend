@@ -31,7 +31,7 @@ function HTTP(obj, config) {
 			success: (res) => {
 				console.log("HTTP请求结果：",res)
 				uni.hideLoading();
-				// 状态码为200
+				// 状态码为0
 				if (res.statusCode == 200) {
 					let data = res.data;
 
@@ -47,11 +47,11 @@ function HTTP(obj, config) {
 					}
 					// 返回 data:[]
 					else {
-						if (data.code == "200") {
+						if (data.code === 0) {
 							resolve(data.data || true)
 						} else {
 							wx.showToast({
-								title: data.msg,
+								title: data.message,
 								icon: "none",
 								duration: 2000
 							})

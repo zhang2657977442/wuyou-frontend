@@ -4,7 +4,7 @@ const CONFIG = {
                 loginTitleTxt: "欢迎使用人才直聘", // 登录页标题
                 copyrightTxt: "人才直聘v1.0", // 版本信息
                 assetsPath: "/static/img", // 静态资源路径
-                baseUrl: "https://whiteones.cn/api",
+                baseUrl: "http://localhost:8080/api",
                 tokenKey: "WECHAT_TRADE", // 登录标识
                 testOpenId: "oEjRxwy7jL9PgG0kWeb4VcDTZEas", // 小程序测试openId
                 forcedLogin: false, // touristMode游客模式下APP是否强制用户登录 场景：当用户进入登录页面后无法后退。
