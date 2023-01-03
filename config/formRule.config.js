@@ -47,11 +47,6 @@ export default {
 	
 	/*基本信息 */
 	regResumeBaseRule: [{
-		name: "avatar",
-		checkType: "notnull",
-		checkRule: "",
-		errorMsg: "头像不能为空"
-	},{
 		name: "name",
 		checkType: "notnull",
 		checkRule: "",

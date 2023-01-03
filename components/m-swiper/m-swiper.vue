@@ -4,7 +4,7 @@
 		 @change="change">
 			<swiper-item v-for="(item,index) in list" :key="index">
 				<view class="swiper-item">
-					<image class="swiper-item" :src="item.pic" mode="" @click="clickImg(index)" ></image>
+					<image class="swiper-item" :src="item" mode="" @click="clickImg(index)" ></image>
 				</view>
 			</swiper-item>
 		</swiper>

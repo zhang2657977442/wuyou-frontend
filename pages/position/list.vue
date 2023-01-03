@@ -55,13 +55,13 @@ export default {
 	async onLoad(query) {
 		this.type=query.type;
 		if(this.type==1){
-			this.bgImg=this.$mAssetsPath.job_new;
+			this.bgImg="https://pan.whiteones.cn/d/PicGo/wuyou/job-new.png";
 			uni.setNavigationBarTitle({
 				title:"最近发布"
 			})
 			console.log(this.bgImg);
 		}else if(this.type==2){
-			this.bgImg=this.$mAssetsPath.job_high;
+			this.bgImg="https://pan.whiteones.cn/d/PicGo/wuyou/job-high.png";
 			uni.setNavigationBarTitle({
 				title:"高薪优选"
 			})
@@ -123,6 +123,7 @@ export default {
 
 .top{
 	height: 320upx;
+	width: 100%;
 }
 	
 	

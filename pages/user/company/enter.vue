@@ -6,7 +6,7 @@
 					<text class="title">公司Logo</text>
 					<text class="tip">公司Logo将出现在公司主页、公司职位等位置！</text>
 				</view>
-				<view class="head-img"><image :src="company.logo || '/static/img/head.png'"></image></view>
+				<view class="head-img"><image :src="company.logo || '/static/img/company.png'"></image></view>
 			</view>
 			<view class="input-column border-bottom-1px">
 				<text class="title">公司简称</text>

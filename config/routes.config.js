@@ -39,12 +39,42 @@ export default {
 		name: "联系我们",
 		path: "/pages/user/contactUs"
 	},
-	
+	help:{
+		name: "帮助中心",
+		path: "/pages/user/help"
+	},
+	setting:{
+		name: "系统设置",
+		path: "/pages/user/settings"
+	},
+	hideSetting: {
+		name: "隐藏设置",
+		path: "/pages/user/hideSetting",
+	},
 	collect: {
 		name: "我的收藏",
 		path: "/pages/user/collect"
 	},
-	
+	connected: {
+		name: "已沟通过",
+		path: "/pages/user/connected",
+	},
+	robot: {
+		name: "在线客服",
+		path: "/pages/user/robot",
+	},
+	browse: {
+		name: "浏览记录",
+		path: "/pages/user/browse",
+	},
+	companyAuth: {
+		name: "公司认证",
+		path: "/pages/user/company/auth",
+	},
+	apply: {
+		name: "我的投递",
+		path: "/pages/user/apply",
+	},
 	ccList: {
 		name: "信用卡管理",
 		path: "/pages/cc/ccList",

@@ -2,7 +2,7 @@
 		<view class="wx-auth">
 			<view class="wx-auth" v-if="canIUse">
 				<view class='header'>
-					<image src='../../static/img/logo.jpg'></image>
+					<image src='../../static/img/logo.png'></image>
 				</view>
 				<view class='content2'>
 					<view class="text-size-max">申请获取以下权限</view>

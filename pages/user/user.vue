@@ -4,19 +4,18 @@
 			<view class="userinfo" @click="toLogin">
 				<view class="face"><image :src="userInfo.avatar || '/static/img/head.png'"></image></view>
 				<view class="info" v-if="hasLogin">
-					<view class="username">{{ userInfo.name }}</view>
-					<view v-if="userInfo.memberRole==0" class="integral">{{ userInfo.phone }}</view>
-					<view v-else class="integral">{{userInfo.company}} . {{userInfo.postName}}</view>
+					<view class="username">{{ userInfo.username }}</view>
+					<view class="integral">{{userInfo.role}}</view>
 				</view>
 				<view class="info" v-else>
 					<view class="username">未登录/注册</view>
 					<view class="integral">点击可登陆/注册</view>
 				</view>
 			</view>
-			<view class="setting" @click="toUserInfo"><image src="../../static/HM-PersonalCenter/setting.png"></image></view>
+			<!-- <view class="setting" @click="toUserInfo"><image src="../../static/HM-PersonalCenter/setting.png"></image></view> -->
 		</view>
 		<view class="orders">
-			<view class="box" v-if="userInfo.memberRole==undefined || userInfo.memberRole==0">
+			<view class="box" v-if="userInfo.role==undefined || userInfo.role=='求职者'">
 				<view class="label" v-for="(row, index) in orderTypeLise" :key="row.name" hover-class="hover" @tap="toOrderType(index)">
 					<view class="icon">
 						<view class="badge" v-if="row.badge > 0">{{ row.badge }}</view>
@@ -35,16 +34,16 @@
 				</view>
 			</view>
 		</view>
-		<view class="list" v-if="userInfo.memberRole==undefined || userInfo.memberRole==0" v-for="(list, list_i) in severList" :key="list_i">
+		<view class="list" v-if="userInfo.role==undefined || userInfo.role=='求职者'" v-for="(list, list_i) in severList" :key="list_i">
 			<view class="li" v-for="(li, li_i) in list" @tap="toPage(list_i, li_i)" v-bind:class="{ noborder: li_i == list.length - 1 }" hover-class="hover" :key="li.name">
-				<view class="icon"><image :src="'../../static/HM-PersonalCenter/sever/' + li.icon"></image></view>
+				<view class="icon"><image :src="'../../static/img/my/' + li.icon"></image></view>
 				<view class="text">{{ li.name }}</view>
 				<text class="yzb yzb-next icon-next"></text>
 			</view>
 		</view>
-		<view class="list" v-if="userInfo.memberRole==1" v-for="(list, list_i) in severList2" :key="list_i">
+		<view class="list" v-if="userInfo.role=='招聘者'" v-for="(list, list_i) in severList2" :key="list_i">
 			<view class="li" v-for="(li, li_i) in list" @tap="toPage2(list_i, li_i)" v-bind:class="{ noborder: li_i == list.length - 1 }" hover-class="hover" :key="li.name">
-				<view class="icon"><image :src="'../../static/HM-PersonalCenter/sever/' + li.icon"></image></view>
+				<view class="icon"><image :src="'../../static/img/my/' + li.icon"></image></view>
 				<view class="text">{{ li.name }}</view>
 				<text class="yzb yzb-next icon-next"></text>
 			</view>
@@ -63,43 +62,40 @@ export default {
 			orderTypeLise: [
 				//name-标题 icon-图标 badge-角标
 				{ name: '我的简历', show:true, icon: 'yzb-jianli', badge: 0, url: this.$mRoutesConfig.personReume },
-				{ name: '我的投递', show:true,icon: 'yzb-mianshiyaoqing', badge: 0, url:null},
+				{ name: '我的投递', show:true,icon: 'yzb-mianshiyaoqing', badge: 0, url: this.$mRoutesConfig.apply},
 				{ name: '我的收藏', show:true,icon: 'yzb-ziyuan141', badge: 2, url: this.$mRoutesConfig.collect },
-				{ name: '谁看过我', show:true,icon: 'yzb-liulanjilu', badge: 1, url: null }
+				{ name: '谁看过我', show:true,icon: 'yzb-liulanjilu', badge: 1, url: this.$mRoutesConfig.connected }
 			],
 			orderTypeLise2: [
 				//name-标题 icon-图标 badge-角标
 				{ name: '公司主页', show:true,icon: 'yzb-liulanjilu', badge: 0, url: this.$mRoutesConfig.companyDetail},
-				{ name: '已沟通过', show:true, icon: 'yzb-jianli', badge: 1, url: null },
-				{ name: '我的面试', show:true,icon: 'yzb-mianshiyaoqing', badge: 0, url:null},
+				{ name: '已沟通过', show:true, icon: 'yzb-jianli', badge: 1, url: this.$mRoutesConfig.connected },
+				{ name: '收到简历', show:true,icon: 'yzb-mianshiyaoqing', badge: 0, url:this.$mRoutesConfig.apply},
 				{ name: '我的收藏', show:true,icon: 'yzb-ziyuan141', badge: 2, url: this.$mRoutesConfig.collect },
 				// { name: '谁看过我', show:true,icon: 'yzb-liulanjilu', badge: 1, url: null }
 			],
 			severList: [
 				[
-					{ name: '附件简历', show:true,icon: 'momey.png', url: null}, 
-					// { name: '求职意向', icon: 'point.png', url: this.$mRoutesConfig.editExpect}, 
-					{ name: '隐私设置', show:true,icon: 'quan.png', url:null}, 
-					{ name: '我要招聘', show:true,icon: 'renw.png', url:"zhaopin" }],
+					{ name: '隐私设置', show:true,icon: 'faxian.png', url:this.$mRoutesConfig.hideSetting}, 
+					{ name: '我要招聘', show:true,icon: 'switch.png', url:"zhaopin" }],
 				[
-					{ name: '帮助中心', show:true,icon: 'mingxi.png', url: null},
-					{ name: '意见反馈', show:true,icon: 'choujiang.png', url: null},
-					{ name: '关于我们', show:true,icon: 'addr.png', url: this.$mRoutesConfig.aboutUs},
-					{ name: '系统设置', show:true,icon: 'bank.png', url: null},
-					{ name: '在线客服', show:true,icon: 'kefu.png', url: this.$mRoutesConfig.contactUs}
+					{ name: '客服中心', show:true,icon: 'contactus.png', url: this.$mRoutesConfig.robot },
+					{ name: '帮助中心', show:true,icon: 'help.png', url: this.$mRoutesConfig.help},
+					{ name: '关于我们', show:true,icon: 'aboutus.png', url: this.$mRoutesConfig.aboutUs},
+					{ name: '系统设置', show:true,icon: 'setting.png', url: this.$mRoutesConfig.setting},
 				]
 			],
 			severList2: [
 				[
-					{ name: '公司管理', show:true,icon: 'momey.png', url:  this.$mRoutesConfig.company}, 
-					{ name: '职位管理', show:true,icon: 'quan.png', url:this.$mRoutesConfig.positions}, 
-					{ name: '我要求职', show:false,icon: 'renw.png', url:"qiuzhi"}],
+					{ name: '公司认证', show: true, icon: 'auth.png', url: this.$mRoutesConfig.companyAuth },
+					{ name: '公司管理', show:true,icon: 'company.png', url:  this.$mRoutesConfig.company}, 
+					{ name: '职位管理', show:true,icon: 'yijian.png', url:this.$mRoutesConfig.positions}, 
+					{ name: '我要求职', show:false,icon: 'switch.png', url:"qiuzhi"}],
 				[
-					{ name: '帮助中心', show:true,icon: 'mingxi.png', url: null},
-					{ name: '意见反馈', show:true,icon: 'choujiang.png', url: null},
-					{ name: '关于我们', show:true,icon: 'addr.png', url: this.$mRoutesConfig.aboutUs},
-					{ name: '系统设置', show:true,icon: 'bank.png', url: null},
-					{ name: '在线客服', show:true,icon: 'kefu.png', url: this.$mRoutesConfig.contactUs}
+					{ name: '客服中心', show:true,icon: 'contactus.png', url: this.$mRoutesConfig.robot },
+					{ name: '帮助中心', show:true,icon: 'help.png', url: this.$mRoutesConfig.help},
+					{ name: '关于我们', show:true,icon: 'aboutus.png', url: this.$mRoutesConfig.aboutUs},
+					{ name: '系统设置', show:true,icon: 'setting.png', url: this.$mRoutesConfig.setting},
 				]
 			]
 		};
@@ -115,11 +111,6 @@ export default {
 		async getUserInfo() {
 			let userInfo = await this.$apis.getUserInfo();
 			this.$store.commit("SET_USERINFO", userInfo);
-			if(userInfo.memberRole==1 && userInfo.companyId==0){
-				this.$mRouter.push({
-					route: this.$mRoutesConfig.enter
-				});
-			}
 		},
 
 		//用户点击订单类型
@@ -145,12 +136,13 @@ export default {
 
 		toLogin() {
 			if (this.hasLogin) {
-				this.$mRouter.push({
-					route: this.$mRoutesConfig.personReume,
-					query: {
-						id: 1
-					}
-				});
+				if(this.userInfo.role==='求职者'){
+						this.toUserInfo()
+				}else{
+					this.$mRouter.push({
+						route: this.$mRoutesConfig.enter
+					});
+				}
 			} else {
 				this.$mRouter.push({
 					route: this.$mRoutesConfig.login,
@@ -162,16 +154,16 @@ export default {
 		},
 		
 		async switchRole(role){
-			let res = await this.$apis.switchRole({role:role});
+			let res = await this.$apis.switchRole({id:this.userInfo.id,role:role});
 			this.getUserInfo();
 			console.log("res======",res);
-			if(res.result){
+			if(this.userInfo.companyId){
 				// 存在，直接切换
 				console.log("存在，直接切换")
 			}else{
 				//不存在，跳转编辑
 				console.log("不存在，跳转编辑")
-				if(role==0){
+				if(role=="DEFAULT"){
 					//跳转到简历编辑页面。
 					this.$mRouter.push({
 						route: this.$mRoutesConfig.personReume,
@@ -196,7 +188,7 @@ export default {
 					content: '确定切换到招聘？',
 					success: res => {
 						if (res.confirm) {
-							that.switchRole(1);
+							that.switchRole("BOSS");
 						}
 					}
 				});
@@ -219,7 +211,7 @@ export default {
 					content: '确定切换到求职？',
 					success: res => {
 						if (res.confirm) {
-							that.switchRole(0);
+							that.switchRole("DEFAULT");
 						}
 					}
 				});

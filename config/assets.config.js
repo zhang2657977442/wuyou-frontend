@@ -22,6 +22,9 @@ export default {
 	grid_4: PATH + "/grid-4.png",
 	grid_5: PATH + "/grid-5.png",
 	grid_6: PATH + "/grid-6.png",
+	grid_7: PATH + "/grid-7.png",
+	grid_8: PATH + "/grid-8.png",
+	grid_9: PATH + "/grid-9.png",
 
 	// 注册引导页的图片
 	reg_img: PATH + "/register@3x.png",

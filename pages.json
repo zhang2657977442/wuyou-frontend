@@ -70,13 +70,55 @@
 			}
 		},
 		{
+			"path": "pages/user/help",
+			"style": {
+				"navigationBarTitleText": "帮助中心"
+			}
+		},
+		{
+			"path": "pages/user/settings",
+			"style": {
+				"navigationBarTitleText": "系统设置"
+			}
+		},
+		{
+			"path": "pages/user/hideSetting",
+			"style": {
+				"navigationBarTitleText": "隐私设置"
+			}
+		},
+		{
+			"path": "pages/user/apply",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/user/connected",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/user/browse",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/user/robot",
+			"style": {
+				"navigationBarTitleText": "在线客服"
+			}
+		},
+		{
 			"path": "pages/user/contactUs",
 			"style": {
 				"navigationBarTitleText": "联系我们"
 			}
 		},
 		{
-			"path": "pages/user//promoCode",
+			"path": "pages/user/promoCode",
 			"style": {
 
 				"navigationBarTitleText": "我的推广码"
@@ -264,8 +306,13 @@
 					"style": {
 						"navigationBarTitleText": "新增职位"
 					}
+				},
+				{
+					"path": "auth",
+					"style": {
+						"navigationBarTitleText": "公司认证"
+					}
 				}
-
 			]
 		}
 	],

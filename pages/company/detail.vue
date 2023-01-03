@@ -7,7 +7,7 @@
 						<text class="name">{{company.name}}</text>
 						<text class="require">{{company.industryName}} · {{company.staffSize}}</text>
 					</view>
-					<image class="logo" :src="company.logo"></image>
+					<image class="logo" :src="company.logo || '/static/img/company.png'"></image>
 				</view>
 			</view>
 			<view class="time">

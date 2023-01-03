@@ -5,7 +5,7 @@
 			<view class="input-row border-bottom-1px" @click="uploadImg">
 				<text class="title">公司Logo</text>
 				<view class="align-height row">
-					<view class="head-img"><image :src="company.logo || '/static/img/head.png'"></image></view>
+					<view class="head-img"><image :src="company.logo || '/static/img/company.png'"></image></view>
 					<text class="yzb yzb-next"></text>
 				</view>
 			</view>

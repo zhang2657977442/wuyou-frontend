@@ -3,13 +3,13 @@
 		<view class="mp-search">
 			<view class="mp-search-input" @click="search">
 				<text class="yzb yzb-search" style="font-size: 36upx;margin-right: 15upx;"></text>
-				<text>搜索商品或关键词</text>
+				<text>搜索岗位或关键词</text>
 			</view>
 		</view>
 		<view style="position: relative;top: 80upx;">
 			<m-swiper :list="banner"></m-swiper>
 			<view style="padding: 20upx 0;background-color: #FFFFFF;"><uni-grid :columnNum="5" :data="grid" show-border="false" @click="handleClickGrid"></uni-grid></view>
-			<!-- <view class="notice">
+			<view class="notice">
 				<view class="content">
 					<text class="yzb yzb-notice notice-icon"></text>
 					<view class="notice-text">
@@ -20,7 +20,7 @@
 					</view>
 					<text class="yzb yzb-next notice-next"></text>
 				</view>
-			</view> -->
+			</view>
 			<view class="post">
 				<text class="title">热门工作</text>
 				<view class="post-list">
@@ -34,19 +34,19 @@
 				</view>
 			</view>
 			<!-- <m-ad :list="adList"></m-ad> -->
-			<template v-if="hasLogin==false ||( hasLogin && userInfo.memberRole==0)">
+			<template v-if="hasLogin==false ||( hasLogin && userInfo.role=='求职者')">
 				<view class="expect">
 					<scroll-view class="items" :scroll-x="true">
-						<text v-for="(item, index) in JobExpectList" :key="index" :class="item.selected ? 'selected' : ''" @click="selectExpect(index)">{{ item.postName }}</text>
+						<text v-for="(item, index) in JobExpectList" :key="index" :class="item.selected ? 'selected' : ''" @click="selectExpect(index)">{{ item.name }}</text>
 					</scroll-view>
 					<text class="yzb yzb-bianji1 expect-icon"></text>
 				</view>
 				<m-position :positions="list" @click="positionDetail"></m-position>
 			</template>
-			<template v-if="hasLogin && userInfo.memberRole==1">
+			<template v-if="hasLogin && userInfo.role=='招聘者'">
 				<view class="expect">
 					<scroll-view class="items" :scroll-x="true">
-						<text v-for="(item, index) in JobExpectList" :key="index" :class="item.selected ? 'selected' : ''" @click="selectExpect(index)">{{ item.postName }}</text>
+						<text v-for="(item, index) in JobExpectList" :key="index" :class="item.selected ? 'selected' : ''" @click="selectExpect(index)">{{ item.name }}</text>
 					</scroll-view>
 					<text class="yzb yzb-bianji1 expect-icon"></text>
 				</view>
@@ -88,7 +88,7 @@ export default {
 			status: '',
 			page: 1,
 			limit: 10,
-			banner: [],
+			banner: ['https://pan.whiteones.cn/d/PicGo/wuyou/job-high.png','https://pan.whiteones.cn/d/PicGo/wuyou/job-new.png'],
 			grid: [],
 			ka: [],
 			adList: [],
@@ -106,7 +106,7 @@ export default {
 				{ name: '销售', selected: false, type: 1 },
 				{ name: '影视媒体', selected: false, type: 1 }
 			],
-			JobExpectList: [],
+			JobExpectList: [{ name: '销售', selected: true, type: 1 }],
 			list: [],
 			selectExpected: null
 		};
@@ -114,13 +114,11 @@ export default {
 		
 	async onLoad(query) {
 		await this.$AppEntryController.main(query);
-		this.getBanners();
 		this.getGrids();
-		this.getPostPageList();
 	},
 	
 	onShow() {
-		if(this.hasLogin && this.userInfo.memberRole==1){
+		if(this.hasLogin && this.userInfo.role==='招聘者'){
 			this.getCompanyPositionList();
 		}else{
 			this.getJobExpectList();
@@ -132,28 +130,7 @@ export default {
 		this.getPositionList();
 	},
 	methods: {
-		
-		async getPostPageList() {
-			let param = {
-				page: 1,
-				limit: 12,
-				pid:0
-			};
-			let res = await this.$apis.getPostPageList(param);
-			if (res) {
-				console.log("xxxxxxxxxxxxxx");
-				console.log(res.data);
-				this.postList=res.data;
-			}
-		},
-		
-		async getBanners() {
-			let data = await this.$apis.getBanners();
-			if (data) {
-				this.banner = data;
-			}
-		},
-
+	
 		async getJobExpectList() {
 			let data = await this.$apis.getJobExpectList();
 			if (data) {
@@ -257,31 +234,31 @@ export default {
 		getGrids() {
 			this.grid = [
 				{
-					image: this.$mAssetsPath.grid_2,
+					image: this.$mAssetsPath.grid_1,
 					text: '最新发布',
 					path: this.$mRoutesConfig.positionList,
 					type: 1
 				},
 				{
-					image: this.$mAssetsPath.grid_1,
+					image: this.$mAssetsPath.grid_7,
 					text: '全部职位',
 					path: this.$mRoutesConfig.type,
 					type: 999
 				},
 				{
-					image: this.$mAssetsPath.grid_3,
+					image: this.$mAssetsPath.grid_5,
 					text: '热门公司',
 					path: this.$mRoutesConfig.companyList,
 					type: 2
 				},
 				{
-					image: this.$mAssetsPath.grid_4,
+					image: this.$mAssetsPath.grid_2,
 					text: '高薪优选',
 					path: this.$mRoutesConfig.positionList,
 					type: 2
 				},
 				{
-					image: this.$mAssetsPath.grid_5,
+					image: this.$mAssetsPath.grid_6,
 					text: '简历列表',
 					path: this.$mRoutesConfig.resumeList,
 					type: 2

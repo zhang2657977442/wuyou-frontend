@@ -30,6 +30,7 @@
 	progress,
 	checkbox-group {
 		width: 100%;
+		
 	}
 	
 	form {

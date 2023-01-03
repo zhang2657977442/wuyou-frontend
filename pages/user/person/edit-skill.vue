@@ -6,19 +6,18 @@
 			<!-- <mTextarea :content="content" style="margin-top: 10upx;" ref="content" pl="请输入内容" :len='150'>
 			</mTextarea> -->
 			<view class="r-top">
-				<textarea :maxlength="len" placeholder-style="color:rgba(153,153,153,1);" v-model="content" :placeholder="pl" />
+				<textarea :maxlength="len" placeholder-style="color:rgba(153,153,153,1);" v-model="this.content" :placeholder="pl" />
 				<view class="r-top-t">
 				 	<view></view>
 					<view> {{contentLength}}/{{len}}</view>
 				 </view>
 			</view>
 		</view>
-		<view class="btn-row"><button type="primary" class="primary" @tap="register">保存</button></view>
+		<view class="btn-row"><button type="primary" class="primary" @tap="save">保存</button></view>
 	</view>
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import mTextarea from '@/components/m-textarea/m-textarea.vue';
 import formRuleConfig from '@/config/formRule.config.js';
 import graceChecker from '@/common/graceChecker.js';
@@ -27,28 +26,25 @@ export default {
 		mTextarea,
 	},
 	computed: {
-		...mapState(['openId', 'customerInfo']),
 		contentLength(){
 			return this.content.length;
 		}
 	},
 	data() {
 		return {
-			id:0,
-			content:'',
+			resume:{},
+			content:"",
 			len:150,
 		}
 	},
 	onLoad(query) {
 		console.log("query====",query);
-		this.id=query.id;
-		this.content=query.content;
-		console.log(this.id);
+		this.resume=JSON.parse(query.resume);
+		this.content=this.resume.skill
 	},
 	
 	methods: {
-		async register() {
-			// this.content=this.$refs.content.content;
+		async save() {
 			let reqBody = {"content":this.content};
 			let checkRes = graceChecker.check(reqBody, formRuleConfig.regContentRule);
 			if (!checkRes) {
@@ -58,16 +54,10 @@ export default {
 				});
 				return;
 			}
-			// console.log(this.$page.prePage());
-			// this.$page.prePage().skillContent = this.$refs.content.content;
-			
-			let param={
-				id:this.id,
-				personalSkill:this.content
-			}
-			let res = await this.$apis.updateResumeBasic(param);
+			this.resume.skill = this.content
+			let res = await this.$apis.updateResume(this.resume);
 			if(res){
-				this.$page.prePage().resume.personalSkill = this.content;
+				this.$page.prePage().resume.skill = this.content;
 				uni.navigateBack({
 					delta:1
 				})
