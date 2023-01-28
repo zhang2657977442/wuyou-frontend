@@ -36,7 +36,7 @@ function HTTP(obj, config) {
 					let data = res.data;
 
 					//自动校验用户是否登录过期
-					if (data.code == "01") {
+					if (data.code == "40100") {
 						store.dispatch("reLogin");
 						return;
 					}
@@ -58,7 +58,8 @@ function HTTP(obj, config) {
 							reject(data.msg);
 						}
 					}
-				} else {
+				} 
+				else {
 					reject("HTTP:状态码异常！");
 				}
 			},

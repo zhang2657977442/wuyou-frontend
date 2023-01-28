@@ -1,34 +1,11 @@
 <template>
 	<view>
-		<!-- <view class="datajson">
-			<view class="text">菜单数据index：</view>
-			<view>
-				<view class="index" v-for="(v,index) in indexArr" :key="index">
-					<text class="item">{{index}}</text>:{{v|outData}}
-				</view>
-			</view>
-			<view>
-				<view class="text">菜单数据value：</view>
-				<view class="value" v-for="(v,index) in valueArr" :key="index">
-					<text class="item">{{index}}</text>:{{v|outData}}
-				</view>
-			</view>
-		</view> -->
 		<yzbfilterDropdown :menuTop="0" :filterData="filterData" :defaultSelected ="defaultSelected"  :updateMenuName="true" @confirm="confirm" dataFormat="Object"></yzbfilterDropdown>
 		<!-- 占位 -->
 		<view class="place"></view>
 		<!-- 商品列表 -->
 		<view class="goods-list">
-			<!-- <view class="product-list">
-				<view class="product" v-for="(goods) in goodsList" :key="goods.goods_id" @tap="toGoods(goods)">
-					<image mode="widthFix" :src="goods.img"></image>
-					<view class="name">{{goods.name}}</view>
-					<view class="info">
-						<view class="price">{{goods.price}}</view>
-						<view class="slogan">{{goods.slogan}}</view>
-					</view>
-				</view>
-			</view> -->
+
 			<m-position :positions="positionList" @click="positionDetail"></m-position>
 			<view class="load-more-box">
 				<uni-load-more v-if="status == '请求中'" status="正在加载..." :showIcon="true"></uni-load-more>
@@ -56,25 +33,11 @@
 				status: '',
 				page: 1,
 				limit: 10,
-				
 				indexArr:'',
 				valueArr:'',
-				//商品数据
-				goodsList:[
-					{ goods_id: 0, img: '/static/img/goods/p1.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 1, img: '/static/img/goods/p2.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 2, img: '/static/img/goods/p3.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 3, img: '/static/img/goods/p4.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 4, img: '/static/img/goods/p5.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 5, img: '/static/img/goods/p6.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 6, img: '/static/img/goods/p7.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 7, img: '/static/img/goods/p8.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 8, img: '/static/img/goods/p9.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 9, img: '/static/img/goods/p10.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' }
-				],
 				loadingText:"正在加载...",
 				defaultSelected:[],
-				filterData:[]
+				filterData:[{}]
 			};
 		}, 
 		filters: {
@@ -83,16 +46,9 @@
 		　　}
 		},
 		onLoad: function () {
-			//定时器模拟ajax异步请求数据
-			setTimeout(()=>{
-				this.filterData = data; 
-			},100);
-
-			//模拟ajax请求子菜单数据。
-			setTimeout(()=>{
-				this.filterData[1].submenu[0].submenu = [{"name": "附近","value": "附近"},{"name": "1km","value": "1km"},{"name": "2km","value": "2km"},{"name": "3km","value": "3km"},{"name": "4km","value": "4km"},{"name": "5km","value": "5km"}];
-			},1000)
-			this.getPositionList();
+			this.getIndustryList()
+			this.getPositionList()
+			this.getWelfareList()
 		},
 		
 		onReachBottom() {
@@ -102,13 +58,49 @@
 		
 		methods:{
 			
+			async getIndustryList() {
+				let param = {
+					current: 1,
+					pageSize: 999,
+				};
+				this.status = '请求中';
+				let res = await this.$apis.getIndustryList(param);
+				if (res) {
+					let data = res.data;
+					for (let i in data) {
+						if (data[i].skill) {
+							data[i].skill = data[i].skill.split(',');
+						}
+					}
+					this.positionList = this.positionList.concat(data || []);
+					this.changeStatus(res);
+				}
+			},
 			async getPositionList() {
 				let param = {
-					page: this.page,
-					limit: this.limit,
+					current: 1,
+					pageSize: 999,
 				};
 				this.status = '请求中';
 				let res = await this.$apis.getPositionList(param);
+				if (res) {
+					let data = res.data;
+					for (let i in data) {
+						if (data[i].skill) {
+							data[i].skill = data[i].skill.split(',');
+						}
+					}
+					this.positionList = this.positionList.concat(data || []);
+					this.changeStatus(res);
+				}
+			},
+			async getWelfareList() {
+				let param = {
+					current: 1,
+					pageSize: 999,
+				};
+				this.status = '请求中';
+				let res = await this.$apis.getWelfareList(param);
 				if (res) {
 					let data = res.data;
 					for (let i in data) {
@@ -146,23 +138,6 @@
 				this.indexArr = e.index;
 				this.valueArr = e.value;
 				
-			},
-			//修改选中项-示例
-			changeSelected(){
-				this.defaultSelected = [];
-				this.$nextTick(()=>{
-					this.defaultSelected = [
-						[1,1,0],				//第0个菜单选中 一级菜单的第1项，二级菜单的第1项，三级菜单的第3项
-						[null,null],			//第1个菜单选中 都不选中
-						[1],					//第2个菜单选中 一级菜单的第1项
-						[[0],[1,2,7],[1,0]],	//筛选菜单选中 第一个筛选的第0项，第二个筛选的第1,2,7项，第三个筛选的第1,0项
-						[[0],[1],[1]]			//单选菜单选中 第一个筛选的第0项，第二个筛选的第1项，第三个筛选的第1项
-					];
-				})
-			},
-			//轮播图指示器
-			swiperChange(event) {
-				//this.currentSwiper = event.detail.current;
 			},
 		},
 	}

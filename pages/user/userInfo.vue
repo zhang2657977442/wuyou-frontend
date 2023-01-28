@@ -5,7 +5,7 @@
 				<text class="title">姓名</text>
 				<view class="input-item">
 					<m-input type="text" clearable v-model="resumeInfo.name" placeholder="请输入姓名" :maxLength="30"></m-input>
-					<!-- <text class="yzb yzb-next"></text> -->
+<!-- 					<text class="yzb yzb-next"></text> -->
 				</view>
 			</view>
 

@@ -65,7 +65,7 @@ const store = new Vuex.Store({
 			commit
 		}, info) {
 			commit("SET_TOKEN","");
-			$mRouter.redirectTo({
+			$mRouter.push({
 				route:$mRoutesConfig.login
 			});
 		}

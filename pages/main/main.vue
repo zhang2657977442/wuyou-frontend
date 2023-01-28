@@ -8,7 +8,9 @@
 		</view>
 		<view style="position: relative;top: 80upx;">
 			<m-swiper :list="banner"></m-swiper>
-			<view style="padding: 20upx 0;background-color: #FFFFFF;"><uni-grid :columnNum="5" :data="grid" show-border="false" @click="handleClickGrid"></uni-grid></view>
+			<view style="padding: 20upx 0;background-color: #FFFFFF;">
+				<uni-grid :columnNum="5" :data="grid" show-border="false" @click="handleClickGrid"></uni-grid>
+			</view>
 			<view class="notice">
 				<view class="content">
 					<text class="yzb yzb-notice notice-icon"></text>
@@ -22,7 +24,7 @@
 				</view>
 			</view>
 			<view class="post">
-				<text class="title">热门工作</text>
+				<text class="title">热门岗位</text>
 				<view class="post-list">
 					<view v-for="(item, index) in postList" :key="index" @click="toPost(item)">
 						<text class="post-item" :class="index % 4 != 0 ? 'post-item-left' : ''">{{ item.name }}</text>
@@ -34,21 +36,15 @@
 				</view>
 			</view>
 			<!-- <m-ad :list="adList"></m-ad> -->
-			<template v-if="hasLogin==false ||( hasLogin && userInfo.role=='求职者')">
+			<template v-if="hasLogin == false || (hasLogin && userInfo.role == '求职者')">
 				<view class="expect">
-					<scroll-view class="items" :scroll-x="true">
-						<text v-for="(item, index) in JobExpectList" :key="index" :class="item.selected ? 'selected' : ''" @click="selectExpect(index)">{{ item.name }}</text>
-					</scroll-view>
-					<text class="yzb yzb-bianji1 expect-icon"></text>
+					<scroll-view class="items" :scroll-x="true"><text class="title">热门工作</text></scroll-view>
 				</view>
 				<m-position :positions="list" @click="positionDetail"></m-position>
 			</template>
-			<template v-if="hasLogin && userInfo.role=='招聘者'">
+			<template v-if="hasLogin && userInfo.role == '招聘者'">
 				<view class="expect">
-					<scroll-view class="items" :scroll-x="true">
-						<text v-for="(item, index) in JobExpectList" :key="index" :class="item.selected ? 'selected' : ''" @click="selectExpect(index)">{{ item.name }}</text>
-					</scroll-view>
-					<text class="yzb yzb-bianji1 expect-icon"></text>
+					<scroll-view class="items" :scroll-x="true"><text class="title">推荐简历</text></scroll-view>
 				</view>
 				<yzb-resume :list="list" @click="resumeDetail"></yzb-resume>
 			</template>
@@ -56,20 +52,25 @@
 				<uni-load-more v-if="status == '请求中'" status="正在加载..." :showIcon="true"></uni-load-more>
 				<uni-load-more v-if="status == '没有更多'" status="没有更多了" :showIcon="false"></uni-load-more>
 				<uni-load-more v-if="status == '暂无数据'" status="暂无数据" :showIcon="false"></uni-load-more>
-				<uni-load-more v-if="status == '请求失败'" status="加载失败，点我重试" :showIcon="false" @click="reLoad"></uni-load-more>
+				<uni-load-more
+					v-if="status == '请求失败'"
+					status="加载失败，点我重试"
+					:showIcon="false"
+					@click="reLoad"
+				></uni-load-more>
 			</view>
 		</view>
 	</joy-page>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
-import mSwiper from '@/components/m-swiper/m-swiper.vue';
-import uniGrid from '@/components/uni-grid/uni-grid.vue';
-import mPosition from '@/components/m-position/m-position.vue';
-import yzbResume from '@/components/yzb/yzb-resume.vue';
-import mAd from '@/components/m-ad/m-ad.vue';
-import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
+import { mapState, mapGetters } from 'vuex'
+import mSwiper from '@/components/m-swiper/m-swiper.vue'
+import uniGrid from '@/components/uni-grid/uni-grid.vue'
+import mPosition from '@/components/m-position/m-position.vue'
+import yzbResume from '@/components/yzb/yzb-resume.vue'
+import mAd from '@/components/m-ad/m-ad.vue'
+import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'
 export default {
 	components: {
 		mSwiper,
@@ -88,7 +89,10 @@ export default {
 			status: '',
 			page: 1,
 			limit: 10,
-			banner: ['https://pan.whiteones.cn/d/PicGo/wuyou/job-high.png','https://pan.whiteones.cn/d/PicGo/wuyou/job-new.png'],
+			banner: [
+				'https://pan.whiteones.cn/d/PicGo/wuyou/job-high.png',
+				'https://pan.whiteones.cn/d/PicGo/wuyou/job-new.png'
+			],
 			grid: [],
 			ka: [],
 			adList: [],
@@ -107,127 +111,69 @@ export default {
 				{ name: '影视媒体', selected: false, type: 1 }
 			],
 			JobExpectList: [{ name: '销售', selected: true, type: 1 }],
-			list: [],
-			selectExpected: null
-		};
+			list: []
+		}
 	},
-		
+
 	async onLoad(query) {
-		await this.$AppEntryController.main(query);
-		this.getGrids();
+		await this.$AppEntryController.main(query)
+		this.getGrids()
 	},
-	
+
 	onShow() {
-		if(this.hasLogin && this.userInfo.role==='招聘者'){
-			this.getCompanyPositionList();
-		}else{
-			this.getJobExpectList();
+		if (this.hasLogin && this.userInfo.role === '招聘者') {
+			this.getResumeList()
+		} else {
+			this.getJobList()
 		}
 	},
 
 	onReachBottom() {
-		this.page++;
-		this.getPositionList();
+		this.page++
+		this.getJobList()
 	},
 	methods: {
-	
-		async getJobExpectList() {
-			let data = await this.$apis.getJobExpectList();
-			if (data) {
+		async getJobList() {
+			let param = {
+				current: this.page,
+				pageSize: this.limit
+			}
+			this.status = '请求中'
+			let res = await this.$apis.getJobList(param)
+			if (res) {
+				let data = res.list
 				for (let i in data) {
-					data[i].selected = false;
-					if (i == 0) {
-						data[i].selected = true;
+					if (data[i].skill) {
+						data[i].skill = data[i].skill.split(',')
 					}
 				}
-				this.JobExpectList = data;
-				this.selectExpected = this.JobExpectList[0];
-				this.getPositionList();
+				this.list = this.list.concat(data || [])
+				this.changeStatus(res)
 			}
 		},
 
-		async getPositionList() {
-			let param = {
-				page: this.page,
-				limit: this.limit
-			};
-			if (this.selectExpected) {
-				param = {
-					page: this.page,
-					limit: this.limit,
-					postName: this.selectExpected.postName
-				};
-			}
-			this.status = '请求中';
-			let res = await this.$apis.getPositionList(param);
-			if (res) {
-				let data = res.data;
-				for (let i in data) {
-					if (data[i].skill) {
-						data[i].skill = data[i].skill.split(',');
-					}
-				}
-				this.list = this.list.concat(data || []);
-				this.changeStatus(res);
-			}
-		},
-		
-		async getCompanyPositionList(){
-			let param={
-				page:1,
-				limit:30
-			}
-			console.log("---===getCompanyPositionList")
-			let res = await this.$apis.getCompanyPositionList(param);
-			if(res){
-				let data=res.data;
-				for (let i in data) {
-					data[i].selected = false;
-					if (i == 0) {
-						data[i].selected = true;
-					}
-				}
-				this.JobExpectList = data;
-				this.selectExpected = this.JobExpectList[0];
-				this.getResumeList();
-			}
-		},
-		
 		async getResumeList() {
 			let param = {
 				page: this.page,
 				limit: this.limit
-			};
-			if (this.selectExpected) {
-				param = {
-					page: this.page,
-					limit: this.limit,
-					postName: this.selectExpected.postName
-				};
 			}
-			this.status = '请求中';
-			let res = await this.$apis.getResumeList(param);
+			this.status = '请求中'
+			let res = await this.$apis.getResumeList(param)
 			if (res) {
-				let data = res.data;
-				// for (let i in data) {
-				// 	if (data[i].skill) {
-				// 		data[i].skill = data[i].skill.split(',');
-				// 	}
-				// }
-				this.list = this.list.concat(data || []);
-				this.changeStatus(res);
+				let data = res.list
+				this.list = this.list.concat(data || [])
+				this.changeStatus(res)
 			}
 		},
-		
 
 		// 修改请求状态
 		changeStatus(data) {
 			if (this.list.length === 0) {
-				this.status = '暂无数据';
+				this.status = '暂无数据'
 			} else if (this.page >= Math.ceil(data.count / this.limit)) {
-				this.status = '没有更多';
+				this.status = '没有更多'
 			} else {
-				this.status = '请求更多';
+				this.status = '请求更多'
 			}
 		},
 
@@ -263,40 +209,22 @@ export default {
 					path: this.$mRoutesConfig.resumeList,
 					type: 2
 				}
-			];
+			]
 		},
 
 		handleClickGrid(o) {
 			if (this.grid[o.index].type == 999) {
 				uni.switchTab({
 					url: '../type/type'
-				});
-				return;
+				})
+				return
 			}
 			this.$mRouter.push({
 				route: this.grid[o.index].path,
 				query: {
 					type: this.grid[o.index].type
 				}
-			});
-		},
-
-		selectExpect(index) {
-			for (let i in this.JobExpectList) {
-				if (index == i) {
-					this.JobExpectList[i].selected = true;
-				} else {
-					this.JobExpectList[i].selected = false;
-				}
-			}
-			this.selectExpected = this.JobExpectList[index];
-			this.page = 1;
-			this.list = [];
-			if(this.hasLogin && this.userInfo.memberRole==1){
-				this.getResumeList();
-			}else{
-				this.getPositionList();
-			}
+			})
 		},
 
 		positionDetail(item) {
@@ -305,16 +233,16 @@ export default {
 				query: {
 					id: item.id
 				}
-			});
+			})
 		},
-		
-		resumeDetail(item){
+
+		resumeDetail(item) {
 			this.$mRouter.push({
 				route: this.$mRoutesConfig.resumeDetail,
 				query: {
 					id: item.id
 				}
-			});
+			})
 		},
 
 		toAllPost() {
@@ -323,7 +251,7 @@ export default {
 				query: {
 					id: 1
 				}
-			});
+			})
 		},
 		toPost(item) {
 			this.$mRouter.push({
@@ -331,16 +259,16 @@ export default {
 				query: {
 					id: item.id
 				}
-			});
+			})
 		},
 
 		search() {
 			this.$mRouter.push({
 				route: this.$mRoutesConfig.search
-			});
-		},
+			})
+		}
 	}
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -453,9 +381,9 @@ export default {
 		border-radius: 8upx;
 		margin-top: 20upx;
 		text-align: center;
-		
+
 		overflow: hidden;
-		text-overflow:ellipsis;
+		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
 	.post-item-left {
@@ -497,15 +425,9 @@ export default {
 		justify-content: flex-start;
 		white-space: nowrap;
 		align-items: center;
-		text {
-			padding: 0 10upx;
-			font-size: $uni-font-size-lg;
-			color: $font-color-base;
-		}
-		.selected {
+		.title {
 			font-weight: bold;
-			color: $font-color-000;
-			font-size: $font-size-34;
+			font-size: $uni-font-size-lg;
 		}
 	}
 	.expect-icon {

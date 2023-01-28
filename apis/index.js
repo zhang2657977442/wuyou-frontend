@@ -16,15 +16,18 @@ export const switchRole = (data) => http.POST(`${config.baseUrl}/user/switchRole
 export const getResumeInfo = (data) => http.GET(`${config.baseUrl}/resume/getResumeInfo`, data);
 //更新简历信息
 export const updateResume = (data) => http.POST(`${config.baseUrl}/resume/updateResume`, data);
+//获取简历列表
+export const getResumeList = (data) => http.POST(`${config.baseUrl}/resume/getResumeList`, data);
 
+
+// 查询公司职位列表
+export const getJobList = (data) => http.POST(`${config.baseUrl}/company/getJobList`, data);
 // 查询行业列表
-export const getIndustryList = (data) => http.GET(`${config.baseUrl}/basic/getIndustryList`, data);
+export const getIndustryList = (data) => http.POST(`${config.baseUrl}/industry/getIndustryList`, data);
 // 查询职位列表
-export const getPositionList = (data) => http.GET(`${config.baseUrl}/basic/getPositionList`, data);
+export const getPositionList = (data) => http.POST(`${config.baseUrl}/position/getPositionList`, data);
 // 查询福利列表
-export const getWelfareList = (data) => http.GET(`${config.baseUrl}/basic/getWelfareList`, data);
-
-
+export const getWelfareList = (data) => http.POST(`${config.baseUrl}/welfare/getWelfareList`, data);
 
 
 // 查询期望职位列表

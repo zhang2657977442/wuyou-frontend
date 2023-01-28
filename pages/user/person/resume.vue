@@ -8,7 +8,7 @@
 				</view>
 				<text class="text-color">{{formatAge(resume.birthday)}}岁 · {{resume.education}}</text>
 			</view>
-			<image class="header" :src="resume.avatar || '/static/img/head.png'"></image>
+			<image class="header" :src="userInfo.avatar || '/static/img/head.png'"></image>
 		</view>
 		<view class="skill width-100 padding-height-30 column bottom-line">
 			<view class="space-between-algin">
@@ -61,9 +61,13 @@
 		formatDate,
 		calCurrentYear
 	} from '@/common/date';
+	import { mapState } from 'vuex';
 	export default {
 		components: {
 			mCell
+		},
+		computed: {
+			...mapState(['userInfo']),
 		},
 		data() {
 			return {

@@ -9,9 +9,9 @@
 					<text>获得您的公开信息(昵称，头像等)</text>
 				</view>
 				<view class="bottom">
-					<button  class='cancel-login' type='default' lang="zh_CN" @click="cancle()">
+<!-- 					<button  class='cancel-login' type='default' lang="zh_CN" @click="cancle()">
 						暂不登录
-					</button>
+					</button> -->
 					<button  class='auth' open-type="getUserInfo" lang="zh_CN" @getuserinfo="bindGetUserInfo">
 						授权登录
 					</button>

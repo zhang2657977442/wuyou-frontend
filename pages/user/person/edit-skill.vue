@@ -3,10 +3,8 @@
 		<view class="column">
 			<text class="title">我的优势</text>
 			<text class="text-color">一句话介绍自己，突出核心优势</text>
-			<!-- <mTextarea :content="content" style="margin-top: 10upx;" ref="content" pl="请输入内容" :len='150'>
-			</mTextarea> -->
 			<view class="r-top">
-				<textarea :maxlength="len" placeholder-style="color:rgba(153,153,153,1);" v-model="this.content" :placeholder="pl" />
+				<textarea :maxlength="len" placeholder-style="color:rgba(153,153,153,1);" v-model="content" :placeholder="pl" />
 				<view class="r-top-t">
 				 	<view></view>
 					<view> {{contentLength}}/{{len}}</view>
@@ -33,12 +31,11 @@ export default {
 	data() {
 		return {
 			resume:{},
-			content:"",
+			content:"1231",
 			len:150,
 		}
 	},
 	onLoad(query) {
-		console.log("query====",query);
 		this.resume=JSON.parse(query.resume);
 		this.content=this.resume.skill
 	},
