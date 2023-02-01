@@ -4,26 +4,21 @@
 			<view class="title space-between">
 				<view class="left">
 					<text class="title-parttime">{{item.jobType}}</text>
-					<text class="title-name">{{ item.id }}</text>
+					<text class="title-name">{{ item.postName }}</text>
 				</view>
 				<text class="right">{{ item.salary }}</text>
 			</view>
 			<view class="company">
-				<!-- {{ item.companyName }}
-				<view class="height-line"></view>
-				{{ item.companyStaffSize }}
-				<view class="height-line"></view>
-				{{ item.companyNature }} -->
 				<view class="left">
 					{{ item.companyName }}
 					<view class="height-line"></view>
-					{{ item.companyStaffSize }}
+					{{ item.staffSize }}
 					<view class="height-line"></view>
-					{{ item.companyNature }}
+					{{ item.nature }}
 				</view>
-				<view class="right">
+	<!-- 			<view class="right">
 					<text class="address">{{formatDistance(item.distance)}}</text>
-				</view>
+				</view> -->
 			</view>
 			<view class="desc">
 				<text>{{ item.expRequire }}</text>
@@ -31,13 +26,11 @@
 			</view>
 			<view class="user">
 				<view class="left">
-					<image :src="item.memberAvatar"></image>
-					<text class="name">{{ item.memberName }}</text>
-					<text class="post">{{ item.memberPostName }}</text>
+					<image :src="item.userAvatar"></image>
+					<text class="name">{{ item.userName }}</text>
 				</view>
 				<view class="right">
-					<text class="area">{{item.pcity}}</text>
-					<text class="address">{{item.city}}</text>
+					<text class="address">{{item.address}}</text>
 				</view>
 			</view>
 		</view>

@@ -65,6 +65,7 @@ const store = new Vuex.Store({
 			commit
 		}, info) {
 			commit("SET_TOKEN","");
+			commit("SET_USERINFO","");
 			$mRouter.push({
 				route:$mRoutesConfig.login
 			});

@@ -20,8 +20,8 @@ export const updateResume = (data) => http.POST(`${config.baseUrl}/resume/update
 export const getResumeList = (data) => http.POST(`${config.baseUrl}/resume/getResumeList`, data);
 
 
-// 查询公司职位列表
-export const getJobList = (data) => http.POST(`${config.baseUrl}/company/getJobList`, data);
+// 查询工作列表
+export const getJobList = (data) => http.POST(`${config.baseUrl}/job/getJobList`, data);
 // 查询行业列表
 export const getIndustryList = (data) => http.POST(`${config.baseUrl}/industry/getIndustryList`, data);
 // 查询职位列表
@@ -67,7 +67,7 @@ export const updateEduExp = (data) => http.POST(`${config.baseUrl}/person/update
 export const deleteEduExpById = (data) => http.GET(`${config.baseUrl}/person/deleteEduExpById`, data);
 
 // 查询公司列表
-export const getCompanyList = (data) => http.GET(`${config.baseUrl}/company/getCompanyList`, data);
+export const getCompanyList = (data) => http.POST(`${config.baseUrl}/company/getCompanyList`, data);
 // 新增/更新公司信息
 export const updateCompany = (data) => http.POST(`${config.baseUrl}/company/updateCompany`, data);
 // 查询公司信息
