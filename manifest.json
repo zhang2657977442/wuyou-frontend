@@ -60,7 +60,11 @@
             "postcss" : true,
             "es6" : true
         },
-        "permission" : {}
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : ""
+            }
+        }
     },
     "h5" : {
         "title" : "",

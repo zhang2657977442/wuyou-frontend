@@ -29,7 +29,7 @@ function HTTP(obj, config) {
 				"X-requested-With": "XMLHttpRequest"
 			},
 			success: (res) => {
-				console.log("HTTP请求结果：",res)
+				// console.log("HTTP请求结果：",res)
 				uni.hideLoading();
 				// 状态码为0
 				if (res.statusCode == 200) {
@@ -80,7 +80,7 @@ function HTTP(obj, config) {
 		
 		const OPENID = uni.getStorageSync("openId");
 		const Token=uni.getStorageSync("token");
-		console.log("Token==="+Token);
+		// console.log("Token==="+Token);
 		if (OPENID) options["header"]["openId"] = OPENID;
 		if (Token) options["header"]["token"] = Token;
 		if (options.url && options.method) {

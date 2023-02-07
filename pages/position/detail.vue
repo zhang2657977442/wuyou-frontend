@@ -3,59 +3,65 @@
 		<view class="body">
 			<view class="top">
 				<view class="space-between">
-					<text class="post">{{position.postName}}</text>
-					<text class="salary">{{position.salary}}</text>
+					<text class="post">{{ position.postName }}</text>
+					<text class="salary">{{ position.salary }}</text>
 				</view>
 				<view class="require">
-					<!-- <view class="item">
-						<text class="yzb yzb-location top-icon"></text>
-						<text>赣州</text>
-					</view> -->
 					<view class="item">
 						<text class="yzb yzb-gongzuobao top-icon"></text>
-						<text>{{position.expRequire}}</text>
+						<text>{{ position.expRequire }}</text>
 					</view>
 					<view class="item">
 						<text class="yzb yzb-xueli top-icon"></text>
-						<text>{{position.minEducation}}</text>
+						<text>{{ position.minEducation }}</text>
 					</view>
 				</view>
 			</view>
 			<view class="user space-between">
 				<view class="left">
-					<image style="width: 60upx;height: 60upx;" :src="position.memberAvatar"></image>
+					<image
+						style="width: 100upx;height: 100upx;"
+						:src="position.userAvatar || '/static/img/head.png'"
+					></image>
 					<view class="info">
 						<view class="name">
-							<text class="user-name">{{position.memberName}}</text>
-							<!-- <text class="last-status">刚刚活跃</text> -->
+							<text class="user-name">{{ position.userName }}</text>
+							<text class="last-status">刚刚活跃</text>
 						</view>
-						<text class="position">{{position.companyName}} · {{position.memberPostName}}</text>
+						<text class="position">{{ position.companyName }}</text>
 					</view>
 				</view>
 				<text class="yzb yzb-next icon-next"></text>
 			</view>
 			<view class="detail">
-				<text class="title">职位详情</text>
-				<text class="desc">
-					{{position.descr}}
-				</text>
-				<view class="skill">
-					<text v-for="(item,index) in position.skill" :index="index">{{item}}</text>
-				</view>
+				<text class="title">职位要求</text>
+				<text class="desc">{{ position.skill }}</text>
 			</view>
 
 			<view class="company">
 				<view class="company-info space-between" @click="toCompany()">
 					<view class="left">
-						<image style="width: 60upx;height: 60upx;" :src="position.companyLogo"></image>
+						<image
+							style="width: 100upx;height: 100upx;"
+							:src="position.companyLogo || '/static/img/company.png'"
+						></image>
 						<view class="info">
-							<view class="name"><text class="user-name">{{position.companyName}}</text></view>
-							<text class="position">{{position.industryName}} · {{position.companyStaffSize}}</text>
+							<view class="name">
+								<text class="user-name">{{ position.companyName }}</text>
+							</view>
+							<text class="position">{{ position.industryName }} · {{ position.staffSize }}</text>
 						</view>
 					</view>
 					<text class="yzb yzb-next icon-next"></text>
 				</view>
-				<view class="company-location"><map></map></view>
+				<view class="company-location">
+					<map
+						:latitude="latitude"
+						:longitude="longitude"
+						:markers="covers"
+						style="width: 100%; height: 300px"
+					></map>
+				</view>
 			</view>
 			<view class="warn">
 				<view class="top">
@@ -74,7 +80,12 @@
 					<uni-load-more v-if="status == '请求中'" status="正在加载..." :showIcon="true"></uni-load-more>
 					<uni-load-more v-if="status == '没有更多'" status="没有更多了" :showIcon="false"></uni-load-more>
 					<uni-load-more v-if="status == '暂无数据'" status="暂无数据" :showIcon="false"></uni-load-more>
-					<uni-load-more v-if="status == '请求失败'" status="加载失败，点我重试" :showIcon="false" @click="reLoad"></uni-load-more>
+					<uni-load-more
+						v-if="status == '请求失败'"
+						status="加载失败，点我重试"
+						:showIcon="false"
+						@click="reLoad"
+					></uni-load-more>
 				</view>
 			</view>
 		</view>
@@ -82,10 +93,11 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
-import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
+import { mapState, mapGetters } from 'vuex'
+import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'
+const QQMapWX = require('../../common/qqmap-wx-jssdk.min.js')
 export default {
-	components: {uniLoadMore},
+	components: { uniLoadMore },
 	computed: {
 		...mapState(['forcedLogin']),
 		...mapGetters(['hasLogin'])
@@ -96,90 +108,97 @@ export default {
 			grid: [],
 			ka: [],
 			adList: [],
-			position:{},
+			position: {},
 			query: {
 				limit: 10,
 				page: 1,
-				id:null,
+				id: null
 			},
-			positionList:[],
+			positionList: [],
 			status: '',
-		};
-	},
-	async onLoad(query) {
-		if(query.id){
-			this.getDetail(query.id);
+			latitude: 39.909,
+			longitude: 116.39742,
+			covers: [],
+			qqmapsdk: null
 		}
 	},
+	async onLoad(query) {
+		const data = decodeURIComponent(query.details)
+		this.position = JSON.parse(data)
+		this.qqmapsdk = new QQMapWX({
+			key: 'H2RBZ-76OWD-BUO4P-PDBMT-TXUTS-PABLR'
+		})
+		this.getLocation()
+	},
 	onReachBottom() {
-		this.query.page++;
-		this.getPositionList();
+		this.query.page++
+		// this.getPositionList()
 	},
 	methods: {
-		
-		/**
-		 * 查询职位详情
-		 */
-		async getDetail(id){
-			let data = await this.$apis.getPositionDetail({id:id});
-			if(data){
-				if(data.skill){
-					data.skill=data.skill.split(",");
+		async getLocation() {
+			await this.qqmapsdk.geocoder({
+				address: this.position.address,
+				success: res => {
+					const data = res.result.location
+					this.latitude = data.lat
+					this.longitude = data.lng
+					this.covers.push({
+						latitude: this.latitude,
+						longitude: this.longitude
+					})
+				},
+				fail: res => {
+					console.log(res)
 				}
-				this.position=data;
-				this.getPositionList();
-			}
+			})
 		},
-		
+
 		async getPositionList() {
-			this.query.id=this.position.id;
-			this.status = '请求中';
-			let res = await this.$apis.getCompanyPositionList(this.query);
+			this.query.id = this.position.id
+			this.status = '请求中'
+			let res = await this.$apis.getCompanyPositionList(this.query)
 			if (res) {
-				let data = res.data;
+				let data = res.data
 				for (let i in data) {
 					if (data[i].skill) {
-						data[i].skill = data[i].skill.split(',');
+						data[i].skill = data[i].skill.split(',')
 					}
 				}
-				this.positionList = this.positionList.concat(data || []);
-				this.changeStatus(res);
+				this.positionList = this.positionList.concat(data || [])
+				this.changeStatus(res)
 			}
 		},
-		
+
 		// 修改请求状态
 		changeStatus(data) {
 			if (this.positionList.length === 0) {
-				this.status = '暂无数据';
+				this.status = '暂无数据'
 			} else if (this.page >= Math.ceil(data.count / this.limit)) {
-				this.status = '没有更多';
+				this.status = '没有更多'
 			} else {
-				this.status = '请求更多';
+				this.status = '请求更多'
 			}
 		},
-		
-		
-		
-		toCompany(){
+
+		toCompany() {
 			this.$mRouter.push({
 				route: this.$mRoutesConfig.companyDetail,
 				query: {
 					id: this.position.companyId
 				}
-			});
+			})
 		},
-		
+
 		positionDetail(item) {
 			this.$mRouter.push({
 				route: this.$mRoutesConfig.positionDetail,
-				query: {
+				params: {
 					id: item.id
 				}
-			});
+			})
 		}
-		
 	}
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -280,18 +299,6 @@ export default {
 	.desc {
 		line-height: 1.8;
 	}
-	.skill {
-		margin-top: 25upx;
-		flex-wrap: wrap;
-		text {
-			font-size: $uni-font-size-base;
-			padding: 10upx 20upx;
-			margin-right: 15upx;
-			background-color: $border-color-base;
-			border-radius: 5upx;
-			color: $font-color-666;
-		}
-	}
 }
 
 .company {
@@ -342,41 +349,38 @@ export default {
 	}
 }
 
-.warn{
+.warn {
 	padding: 10upx 0 40upx 0;
 	border-bottom: 1upx solid $border-color-base;
-	.top{
+	.top {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		.icon-warn{
+		.icon-warn {
 			color: $main-color;
 		}
-		.title{
+		.title {
 			margin-left: 10upx;
 			font-size: $uni-font-size-lg;
 			font-weight: bold;
 		}
 	}
-	
-	.bottom{
+
+	.bottom {
 		font-size: $uni-font-size-base;
 	}
-	.report{
+	.report {
 		color: $main-color;
 	}
 }
 
-.others{
+.others {
 	display: flex;
 	flex-direction: column;
-	.title{
+	.title {
 		font-size: $font-size-36;
 		font-weight: bold;
 		padding: 20upx;
 	}
-	
 }
-
-
 </style>

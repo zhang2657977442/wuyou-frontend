@@ -231,7 +231,7 @@ export default {
 			this.$mRouter.push({
 				route: this.$mRoutesConfig.positionDetail,
 				query: {
-					id: item.id
+					details: encodeURIComponent(JSON.stringify(item))
 				}
 			})
 		},
