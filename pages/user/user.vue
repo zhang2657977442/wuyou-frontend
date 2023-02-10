@@ -12,7 +12,7 @@
 					<view class="integral">点击可登陆/注册</view>
 				</view>
 			</view>
-			<view class="setting" @click="toUserInfo"><image src="../../static/img/setting.png"></image></view>
+			<view class="setting" @click="toUserInfo"><image src="/static/img/setting.png"></image></view>
 		</view>
 		<view class="orders">
 			<view class="box" v-if="userInfo.role==undefined || userInfo.role=='求职者'">

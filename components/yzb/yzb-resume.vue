@@ -3,53 +3,37 @@
 		<view class="item" v-for="(item, index) in list" :key="index" @click="onClick(item)">
 			<view class="title space-between">
 				<view class="left">
-					<text class="name">{{item.name}}</text>
+					<text class="name">{{ item.name }}</text>
 					<view class="skill">
-						{{formatAge(item.timeToWork)}}年
+						{{ item.gender }}
 						<view class="height-line"></view>
-						本科
+						{{ formatAge(item.birthday) }}岁
 						<view class="height-line"></view>
-						3-5K
+						{{ item.education }}
 					</view>
 				</view>
-				<image class="right" src="../../static/HM-PersonalCenter/sever/momey.png"></image>
+				<text class="right" >{{item.jobStatus}}</text>
 			</view>
 			<view class="exp">
 				<view class="exp-item">
 					<text class="yzb yzb-gongzuobao top-icon"></text>
-					<text v-if="item.workExpList.length>0">{{item.workExpList[0].companyName}} · {{item.workExpList[0].postName}}</text>
+					<text>{{ item.experience }}</text>
 				</view>
-				<!-- <view class="item">
+				<view class="exp-item">
 					<text class="yzb yzb-xueli top-icon"></text>
-					<text>{{position.minEducation}}</text>
-				</view> -->
+					<text>{{ item.salary }}</text>
+				</view>
 			</view>
 			<view class="desc">
-				<!-- <text>{{item.expRequire}}</text> -->
-				<!-- <text>{{item.education}}</text> -->
-				<text v-for="(item2,index2) in formatString(item.workExpList[0].skill)" :key="index2" >{{item2}}</text>
+				<text v-for="(item2, index2) in formatString(item.skill)" :key="index2">{{ item2 }}</text>
 			</view>
-			<!-- <view class="user">
-				<view class="left">
-					<image :src="item.memberAvatar"></image>
-					<text class="name">{{item.memberName}}</text>
-					<text class="post">{{item.memberPostName}}</text>
-				</view>
-				<view class="right">
-					<text class="area">南康区</text>
-					<text class="address">家具城</text>
-				</view>
-			</view> -->
 		</view>
 	</view>
 </template>
 
 <script>
-import mEmptyData from '@/components/m-empty-data/m-empty-data.vue';
-import {
-		formatDate,
-		calCurrentYear
-	} from '@/common/date';
+import mEmptyData from '@/components/m-empty-data/m-empty-data.vue'
+import { formatDate, calCurrentYear } from '@/common/date'
 export default {
 	name: 'm-position',
 	props: {
@@ -59,26 +43,29 @@ export default {
 		mEmptyData
 	},
 	data() {
-		return {
-			no_order_1: this.$mAssetsPath.no_order_1,
-		};
+		return {}
 	},
 
 	methods: {
 		onClick(item) {
-			console.log('1111111', item);
-			this.$emit('click', item);
+			this.$emit('click', item)
 		},
-		
-		formatAge(birthday){
-			return calCurrentYear(birthday);
+
+		formatAge(birthday) {
+			return calCurrentYear(birthday)
 		},
-		
-		formatString(val){
-			return val.split(",");
+
+		formatString(val) {
+			if (!val) {
+				return ''
+			}
+			if (val instanceof Array) {
+				return val
+			}
+			return val.split(',')
 		}
 	}
-};
+}
 </script>
 
 <style lang="scss">
@@ -99,7 +86,7 @@ export default {
 	.left {
 		display: flex;
 		flex-direction: column;
-		.name{
+		.name {
 			font-weight: bold;
 			font-size: $uni-font-size-lg;
 		}
@@ -119,8 +106,9 @@ export default {
 		}
 	}
 	.right {
-		width: 120upx;
-		height: 120upx;
+		color: $main-color;
+		font-weight: bold;
+		font-size: 32upx;
 	}
 }
 
@@ -133,14 +121,15 @@ export default {
 	}
 }
 
-.exp{
+.exp {
 	line-height: 1.2;
-	.exp-item{
+	display: flex;
+	
+	.exp-item {
 		display: flex;
 		flex-direction: row;
-		align-items: center;
-		line-height: 1.2;
-		.top-icon{
+		padding-right: 30upx;
+		.top-icon {
 			margin-right: 10upx;
 			margin-top: 3upx;
 		}
@@ -160,37 +149,4 @@ export default {
 	}
 }
 
-.user {
-	margin-top: 35upx;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-	image {
-		width: 60upx;
-		height: 60upx;
-	}
-	.left {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		font-size: $uni-font-size-base;
-		.name {
-			margin: 0 20upx;
-		}
-		.post {
-			// color: $font-color-666;
-		}
-	}
-	.right {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		color: $font-color-666;
-		font-size: $uni-font-size-base;
-		.area {
-			margin-right: 15upx;
-		}
-	}
-}
 </style>

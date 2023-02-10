@@ -96,7 +96,7 @@
 			},
 			
 			async getResume(){
-				this.resume = await this.$apis.getResumeInfo();
+				this.resume = await this.$apis.getUserResume();
 				// let cur=calCurrentYear(this.resume.birthday);
 				this.workStatus=this.resume.jobStatus;
 				// console.log("年龄",cur);

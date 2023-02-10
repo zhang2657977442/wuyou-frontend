@@ -110,8 +110,8 @@ export default {
 			adList: [],
 			position: {},
 			query: {
-				limit: 10,
-				page: 1,
+				current: 1,
+				pageSize: 10,
 				id: null
 			},
 			positionList: [],
@@ -128,11 +128,14 @@ export default {
 		this.qqmapsdk = new QQMapWX({
 			key: 'H2RBZ-76OWD-BUO4P-PDBMT-TXUTS-PABLR'
 		})
+	    this.query.id = this.position.companyId
 		this.getLocation()
+		this.getCompanyJob()
+
 	},
 	onReachBottom() {
-		this.query.page++
-		// this.getPositionList()
+		this.query.current++
+		this.getCompanyJob()
 	},
 	methods: {
 		async getLocation() {
@@ -153,12 +156,11 @@ export default {
 			})
 		},
 
-		async getPositionList() {
-			this.query.id = this.position.id
+		async getCompanyJob() {
 			this.status = '请求中'
-			let res = await this.$apis.getCompanyPositionList(this.query)
+			let res = await this.$apis.getCompanyJob(this.query)
 			if (res) {
-				let data = res.data
+				let data = res.list.filter((item) => item.id !== this.position.id)
 				for (let i in data) {
 					if (data[i].skill) {
 						data[i].skill = data[i].skill.split(',')
@@ -173,7 +175,7 @@ export default {
 		changeStatus(data) {
 			if (this.positionList.length === 0) {
 				this.status = '暂无数据'
-			} else if (this.page >= Math.ceil(data.count / this.limit)) {
+			} else if (this.query.current >= Math.ceil(data.total / this.query.pageSize)) {
 				this.status = '没有更多'
 			} else {
 				this.status = '请求更多'
@@ -184,16 +186,18 @@ export default {
 			this.$mRouter.push({
 				route: this.$mRoutesConfig.companyDetail,
 				query: {
-					id: this.position.companyId
+					id: this.position.companyId,
+					latitude : this.latitude,
+					longitude: this.longitude,
 				}
 			})
 		},
 
 		positionDetail(item) {
-			this.$mRouter.push({
+			this.$mRouter.redirectTo({
 				route: this.$mRoutesConfig.positionDetail,
-				params: {
-					id: item.id
+				query: {
+					details: encodeURIComponent(JSON.stringify(item))
 				}
 			})
 		}

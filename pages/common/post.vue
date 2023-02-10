@@ -39,7 +39,7 @@ export default {
 	},
 	methods: {
 		async getTypes() {
-			this.types = await this.$apis.getPostList();
+			this.types = await this.$apis.getPositionList();
 			this.$refs.yzb.init();
 		},
 

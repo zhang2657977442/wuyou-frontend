@@ -20,7 +20,7 @@
 					</view>
 					<!-- 机器人消息 -->
 					<view v-if="!x.my" class="flex-row-start margin-left margin-top one-show">
-						<view class="chat-img flex-row-center"><image style="height: 75rpx;width: 75rpx;" src="../../../static/img/robt.png" mode="aspectFit"></image></view>
+						<view class="chat-img flex-row-center"><image style="height: 75rpx;width: 75rpx;" src="/static/img/robt.png" mode="aspectFit"></image></view>
 						<view class="flex" style="width: 500rpx;">
 							<view class="margin-left padding-chat flex-column-start" style="border-radius: 35rpx;background-color: #f9f9f9;">
 								<text style="word-break: break-all;">{{ x.msg }}</text>
@@ -55,7 +55,7 @@
 				</view>
 				<!-- loading是显示 -->
 				<view v-show="msgLoad" class="flex-row-start margin-left margin-top">
-					<view class="chat-img flex-row-center"><image style="height: 75rpx;width: 75rpx;" src="../../../static/img/robt.png" mode="aspectFit"></image></view>
+					<view class="chat-img flex-row-center"><image style="height: 75rpx;width: 75rpx;" src="/static/img/robt.png" mode="aspectFit"></image></view>
 					<view class="flex" style="width: 500rpx;">
 						<view class="margin-left padding-chat flex-column-start" style="border-radius: 35rpx;background-color: #f9f9f9;">
 							<view class="cuIcon-loading turn-load" style="font-size: 35rpx;color: #3e9982;"></view>

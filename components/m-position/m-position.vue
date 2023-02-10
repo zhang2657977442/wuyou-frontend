@@ -199,16 +199,6 @@ export default {
 		border-radius: 5upx;
 		color: $font-color-666;
 	}
-	.position-type2 {
-		border: $uni-color-primary 1upx solid;
-		background-color: #fff;
-		color: $uni-color-primary;
-	}
-	.position-type3 {
-		border: $font-color-orange 1upx solid;
-		background-color: #fff;
-		color: $font-color-orange;
-	}
 }
 
 .user {

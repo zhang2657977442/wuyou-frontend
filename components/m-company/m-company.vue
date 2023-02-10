@@ -3,13 +3,17 @@
 		<view class="item" v-for="(item, index) in list" :key="index" @click="onClick(item)">
 			<view class="company">
 				<view>
-					<image class="logo" src="../../static/HM-PersonalCenter/face.jpeg"></image>
+					<image class="logo" :src="item.logo || '/static/img/company.png'"></image>
 				</view>
 				<view style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;width:100%;">
 					<view class="info">
 						<text class="name">{{item.name}}</text>
 						<text class="require">{{item.industryName}} · {{item.staffSize}}</text>
-						<view class="post">热招<text>{{item.positonName}}</text>{{item.salary}}</view>
+						<view class="desc">
+							<text>{{ item.nature }}</text>
+							<text>{{ item.restTime }}</text>
+							<text>{{item.workOvertime}}</text>
+						</view>
 					</view>
 					<text class="yzb yzb-next"></text>
 				</view>
@@ -72,11 +76,23 @@ export default {
 				color: $font-color-666;
 				margin-top: 5upx;
 			}
-			.post{
-				color: $font-color-666;
-				text{
-					margin: 0 10upx;
-					color: $main-color;
+			.desc {
+				// margin: 10upx 0;
+				margin-top: 5upx;
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				align-content: flex-start;
+				flex-direction: row;
+				justify-content: flex-start;
+				text {
+					font-size: $uni-font-size-sm;
+					padding: 0upx 10upx;
+					margin-right: 15upx;
+					margin-bottom: 8upx;
+					background-color: $border-color-light;
+					border-radius: 5upx;
+					color: $font-color-666;
 				}
 			}
 		}

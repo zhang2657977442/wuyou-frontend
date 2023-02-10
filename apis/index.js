@@ -13,7 +13,9 @@ export const getUserInfo = (data) => http.GET(`${config.baseUrl}/user/getUserInf
 export const switchRole = (data) => http.POST(`${config.baseUrl}/user/switchRole`, data);
 
 // 查询简历信息
-export const getResumeInfo = (data) => http.GET(`${config.baseUrl}/resume/getResumeInfo`, data);
+export const getResumeInfo = (data) => http.GET(`${config.baseUrl}/resume/getResumeInfo${id}`);
+// 查询用户简历
+export const getUserResume = (data) => http.GET(`${config.baseUrl}/resume/getUserResume`, data);
 //更新简历信息
 export const updateResume = (data) => http.POST(`${config.baseUrl}/resume/updateResume`, data);
 //获取简历列表
@@ -66,18 +68,20 @@ export const updateEduExp = (data) => http.POST(`${config.baseUrl}/person/update
 // 删除教育经历
 export const deleteEduExpById = (data) => http.GET(`${config.baseUrl}/person/deleteEduExpById`, data);
 
+
+// 查询公司职位列表
+export const getCompanyJob = (data) => http.POST(`${config.baseUrl}/company/getCompanyJob`, data);
 // 查询公司列表
 export const getCompanyList = (data) => http.POST(`${config.baseUrl}/company/getCompanyList`, data);
+// 查询公司信息
+export const getCompanyInfo = (id) => http.GET(`${config.baseUrl}/company/getCompanyInfo/${id}`);
+
 // 新增/更新公司信息
 export const updateCompany = (data) => http.POST(`${config.baseUrl}/company/updateCompany`, data);
-// 查询公司信息
-export const getCompanyDetail = (data) => http.GET(`${config.baseUrl}/company/getCompanyDetail`, data);
 // 新增/更新职位信息
 export const updatePosition = (data) => http.POST(`${config.baseUrl}/company/updatePosition`, data);
 // 查询职位信息
 export const getPositionDetail = (data) => http.GET(`${config.baseUrl}/company/getPositionDetail`, data);
-// 查询公司职位列表
-export const getCompanyPositionList = (data) => http.GET(`${config.baseUrl}/company/getCompanyPositionList`, data);
 // 删除公司职位
 export const deletePositionById = (data) => http.GET(`${config.baseUrl}/company/deletePositionById`, data);
 

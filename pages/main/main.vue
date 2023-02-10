@@ -26,7 +26,7 @@
 			<view class="post">
 				<text class="title">热门岗位</text>
 				<view class="post-list">
-					<view v-for="(item, index) in postList" :key="index" @click="toPost(item)">
+					<view v-for="(item, index) in postList" :key="index" @click="toAllPost">
 						<text class="post-item" :class="index % 4 != 0 ? 'post-item-left' : ''">{{ item.name }}</text>
 					</view>
 				</view>
@@ -90,8 +90,10 @@ export default {
 			page: 1,
 			limit: 10,
 			banner: [
-				'https://pan.whiteones.cn/d/PicGo/wuyou/job-high.png',
-				'https://pan.whiteones.cn/d/PicGo/wuyou/job-new.png'
+				'https://pan.whiteones.cn/d/PicGo/wuyou/jobhigh_banner.png',
+				'https://pan.whiteones.cn/d/PicGo/wuyou/jobnew_banner.png',
+				'https://pan.whiteones.cn/d/PicGo/wuyou/company_banner.png',
+				'https://pan.whiteones.cn/d/PicGo/wuyou/resume_banner.png'
 			],
 			grid: [],
 			ka: [],
@@ -170,7 +172,7 @@ export default {
 		changeStatus(data) {
 			if (this.list.length === 0) {
 				this.status = '暂无数据'
-			} else if (this.page >= Math.ceil(data.count / this.limit)) {
+			} else if (this.page >= Math.ceil(data.total / this.limit)) {
 				this.status = '没有更多'
 			} else {
 				this.status = '请求更多'
@@ -250,14 +252,6 @@ export default {
 				route: this.$mRoutesConfig.post,
 				query: {
 					id: 1
-				}
-			})
-		},
-		toPost(item) {
-			this.$mRouter.push({
-				route: this.$mRoutesConfig.post,
-				query: {
-					id: item.id
 				}
 			})
 		},

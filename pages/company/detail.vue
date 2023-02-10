@@ -14,11 +14,11 @@
 				<!-- <text class="title">福利待遇</text> -->
 				<view class="require">
 					<view class="item">
-						<text class="yzb yzb-location top-icon"></text>
-						<text>{{company.startTime}}-{{company.endTime}}</text>
+						<text class="yzb yzb-gongzuobao top-icon"></text>
+						<text>{{company.workTime}}</text>
 					</view>
 					<view class="item">
-						<text class="yzb yzb-gongzuobao top-icon"></text>
+						<text class="yzb yzb-shoucang1 top-icon"></text>
 						<text>{{company.restTime}}</text>
 					</view>
 					<view class="item">
@@ -27,29 +27,19 @@
 					</view>
 				</view>
 				<view class="welfare">
-					<text class="items" v-for="(item, index) in company.welfare" :key="index" >{{item}}</text>
-					<!-- <text class="items">包吃包住</text>
+<!-- 					<text class="items" v-for="(item, index) in company.welfare" :key="index" >{{item}}</text> -->
+					<text class="items">社保</text>
 					<text class="items">五险一金</text>
-					<text class="items">节日福利</text> -->
+					<text class="items">节日福利</text>
 				</view>
 			</view>
 			
-			<!-- <view class="welfare">
-				<text class="title">福利待遇</text>
-				<view class="item">
-					<text>社保</text>
-					<text>包吃包住</text>
-					<text>五险一金</text>
-					<text>节日福利</text>
-				</view>
-			</view> -->
 			
 			<view class="address">
 				<text class="title">公司地址</text>
 				<view class="space-between">
 					<view class="column">
-						<text class="info">{{company.addressName}}{{company.addressHouse}}</text>
-						<text class="margin-left-10 text-color-grey">{{company.address}}</text>
+						<text class="info">{{company.address}}</text>
 					</view>
 					<view class="nav" @click="toMap()">
 						<text class="yzb yzb-daohang"></text>
@@ -60,106 +50,107 @@
 			</view>
 			<view class="detail">
 				<text class="title">公司介绍</text>
-				<view class="desc"><sunui-grand :content="company.companyProfile" color="#1D82FE" bg="#fff" :clamp="3" expandText="点击展开全文" shinkText="收起"></sunui-grand></view>
+				<view class="desc"><sunui-grand :content="company.introduce" color="#1D82FE" bg="#fff" :clamp="3" expandText="点击展开全文" shinkText="收起"></sunui-grand></view>
 			</view>
 			
-			<view class="detail">
-				<text class="title">公司照片</text>
-				<view class="margin-top-20">
-					<m-swiper :list="ablumList" @clickImg="clickImg"></m-swiper>		
-				</view>
-			</view>
 
 			<view class="others">
 				<text class="title">招聘岗位</text>
-				<m-position></m-position>
+				<m-position :positions="positionList" @click="positionDetail"></m-position>
+				<view class="load-more-box">
+					<uni-load-more v-if="status == '请求中'" status="正在加载..." :showIcon="true"></uni-load-more>
+					<uni-load-more v-if="status == '没有更多'" status="没有更多了" :showIcon="false"></uni-load-more>
+					<uni-load-more v-if="status == '暂无数据'" status="暂无数据" :showIcon="false"></uni-load-more>
+					<uni-load-more
+						v-if="status == '请求失败'"
+						status="加载失败，点我重试"
+						:showIcon="false"
+						@click="reLoad"
+					></uni-load-more>
+				</view>
 			</view>
 		</view>
 	</joy-page>
 </template>
 
 <script>
+	import sunUiGrand from '@/components/sunui-grand/sunui-grand.vue';
 import { mapState, mapGetters } from 'vuex';
-import sunUiGrand from '@/components/sunui-grand/sunui-grand.vue';
 export default {
 	components: {
 		sunUiGrand
 	},
 	computed: {
 		...mapState(['userInfo']),
-		...mapGetters(['hasLogin'])
 	},
 	data() {
 		return {
 			company:{},
-			ablumList:[],
-			list:[],
-			desc:
-				'1、带领实施团队完成软件项目实施，完成从软件项目立项需求调研、需求分析，到系统开发，系统测试、系统实施部署等过程的管理；' +
-				'2、置顶项目计划和实施部署，负责整个项目开发进度、质量的管理、控制以及推进；有效的保证项目节点达成。' +
-				'3、置顶项目计划和实施部署，负责整个项目开发进度、质量的管理、控制以及推进；有效的保证项目节点达成。'
+			status: '',
+			query: {
+				current: 1,
+				pageSize: 10,
+				id: null
+			},
+			latitude: 39.909,
+			longitude: 116.39742,
+			positionList:[]
 		};
 	},
 	async onLoad(query) {
-		console.log('APP进入首页');
-		if(query.id>0){
-			this.getDetail(query.id);
+		this.latitude =  query.latitude
+		this.longitude = query.longitude
+		this.query.id = query.id
+		if(query.id){
+			this.getCompanyInfo(query.id);
 		}else{
-			this.getDetail(this.userInfo.companyId);
+			this.getCompanyInfo(this.userInfo.companyId);
 		}
+		this.getCompanyJob()
+	},
+	onReachBottom() {
+		this.query.current++
+		this.getCompanyJob()
 	},
 	methods: {
 		
-		async getDetail(id) {
-			let res = await this.$apis.getCompanyDetail({id:id});
+	
+		async getCompanyInfo(id) {
+			let res = await this.$apis.getCompanyInfo(id);
 			if (res) {
 				this.company = res;
-				if(this.company.welfare){
-					this.company.welfare=this.company.welfare.split(",");
-				}
-				this.list = res.album.split(',');
-				for(let i in this.list){
-					let item={
-						pic:''
-					}
-					item.pic=this.list[i];
-					this.ablumList.push(item);
-				}
 			}
 		},
 		
-		clickImg(index){
-			console.log(index);
-			this.previewImg(index);
-		},
-		
-		// 查看图片
-		previewImg(index) {
-			console.log("预览=="+index)
-			uni.previewImage({
-				indicator: 'number',
-				loop: true,
-				current: this.list[index],
-				urls: this.list
-			});
-		},
-		
-		toCompany() {
-			this.$mRouter.push({
-				route: this.$mRoutesConfig.companyDetail,
-				query: {
-					id: 1
+		async getCompanyJob() {
+			let res = await this.$apis.getCompanyJob(this.query)
+			if (res) {
+				let data = res.list
+				for (let i in data) {
+					if (data[i].skill) {
+						data[i].skill = data[i].skill.split(',')
+					}
 				}
-			});
+				this.positionList = this.positionList.concat(data || [])
+				this.changeStatus(res)
+			}
+		},
+		
+		// 修改请求状态
+		changeStatus(data) {
+			if (this.positionList.length === 0) {
+				this.status = '暂无数据'
+			} else if (this.query.current >= Math.ceil(data.total / this.query.pageSize)) {
+				this.status = '没有更多'
+			} else {
+				this.status = '请求更多'
+			}
 		},
 
 		toMap() {
-			console.log("地图");
-			// let latitude=this.company.latitude;
-			// let longitude=this.company.longitude;
 			uni.openLocation({
-				latitude: parseFloat(this.company.latitude),
-				longitude: parseFloat(this.company.longitude),
+				latitude: parseFloat(this.latitude),
+				longitude: parseFloat(this.longitude),
 				success: function() {
 					console.log('success');
 				}
@@ -313,8 +304,7 @@ export default {
 	.title {
 		font-size: $uni-font-size-lg;
 		font-weight: bold;
-		padding: 30upx;
-		border-bottom: 1upx solid $border-color-base;
+		padding: 30upx 0;
 	}
 }
 </style>

@@ -102,12 +102,12 @@ export default {
 		};
 	},
 	onLoad() {
-		this.getResumeInfo();
+		this.getUserResume();
 	},
 	methods: {
 		
-		async getResumeInfo(){
-			this.resumeInfo = await this.$apis.getResumeInfo();
+		async getUserResume(){
+			this.resumeInfo = await this.$apis.getUserResume();
 		},
 		
 		radioChange (e) {
