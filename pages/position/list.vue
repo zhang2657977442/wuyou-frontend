@@ -58,6 +58,7 @@ export default {
 			let param = {
 				current: this.page,
 				pageSize: this.limit,
+				jobName: ""
 			};
 			this.status = '请求中';
 			let res = await this.$apis.getJobList(param);

@@ -11,8 +11,10 @@
 						<view class="height-line"></view>
 						{{ item.education }}
 					</view>
+					
 				</view>
-				<text class="right" >{{item.jobStatus}}</text>
+				<view class="right">{{item.jobStatus}}</view>
+				
 			</view>
 			<view class="exp">
 				<view class="exp-item">
@@ -24,9 +26,16 @@
 					<text>{{ item.salary }}</text>
 				</view>
 			</view>
-			<view class="desc">
-				<text v-for="(item2, index2) in formatString(item.skill)" :key="index2">{{ item2 }}</text>
+		<view class="user">
+			<view class="left">
+				<image :src="item.userAvatar"></image>
+				<text class="name">{{item.username}}</text>
 			</view>
+			<view class="right">
+				<text class="area">意向岗位</text>
+				<text class="address">{{item.postName}}</text>
+			</view>
+		</view>
 		</view>
 	</view>
 </template>
@@ -104,8 +113,9 @@ export default {
 				margin: 0 15upx;
 			}
 		}
+	
 	}
-	.right {
+	.right{
 		color: $main-color;
 		font-weight: bold;
 		font-size: 32upx;
@@ -136,16 +146,38 @@ export default {
 	}
 }
 
-.desc {
-	margin-top: 25upx;
-	flex-wrap: wrap;
-	text {
+.user {
+	margin-top:15upx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	image {
+		width: 80upx;
+		height: 80upx;
+		border-radius: 40upx;
+	}
+	.left {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 		font-size: $uni-font-size-base;
-		padding: 5upx 10upx;
-		margin-right: 15upx;
-		background-color: $border-color-base;
-		border-radius: 5upx;
+		.name {
+			margin: 0 20upx;
+		}
+		.post {
+			// color: $font-color-666;
+		}
+	}
+	.right {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 		color: $font-color-666;
+		font-size: $uni-font-size-base;
+		.area {
+			margin-right: 15upx;
+		}
 	}
 }
 

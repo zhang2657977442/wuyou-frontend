@@ -13,7 +13,7 @@ export const getUserInfo = (data) => http.GET(`${config.baseUrl}/user/getUserInf
 export const switchRole = (data) => http.POST(`${config.baseUrl}/user/switchRole`, data);
 
 // 查询简历信息
-export const getResumeInfo = (data) => http.GET(`${config.baseUrl}/resume/getResumeInfo${id}`);
+export const getResumeInfo = (id) => http.GET(`${config.baseUrl}/resume/getResumeInfo/${id}`);
 // 查询用户简历
 export const getUserResume = (data) => http.GET(`${config.baseUrl}/resume/getUserResume`, data);
 //更新简历信息

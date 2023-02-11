@@ -25,7 +25,7 @@
 			</view>
 		</view>
 		<view style="background-color:#efefef ;width: 100%;" class="top-line" v-if="list.length > 0">
-			<m-position v-if="role==0" :positions="list" @click="positionDetail"></m-position>
+			<m-position v-if="userInfo.role == '求职者'" :positions="list" @click="positionDetail"></m-position>
 			<yzb-resume v-else :list="list" @click="detail"></yzb-resume>
 			<view class="load-more-box">
 				<uni-load-more v-if="status == '请求中'" status="正在加载..." :showIcon="true"></uni-load-more>
@@ -61,11 +61,9 @@ export default {
 			searchRecent: false, // 最近搜索
 			searchRecentList: [], // 最近搜索
 			page: 1,
-			limit: 15,
+			limit: 10,
 			currentIndex: 0,
-			type: 1, // 1-札记，2-曲谱，3-视频
 			list: [], //搜索结果列表
-			role:0,//0-求职，1-招聘
 		};
 	},
 	onLoad() {
@@ -73,36 +71,30 @@ export default {
 		if (this.searchValue == '' && this.searchRecentList != null && this.searchRecentList != '') {
 			this.searchRecent = true;
 		}
-		if(this.hasLogin && this.userInfo.memberRole==1){
-			this.role=1;
-		}else{
-			this.role=0
-		}
 	},
 	onReachBottom() {
 		this.pages++;
-		this.getPositionList();
+		this.getJobList();
 	},
 	methods: {
-		
 		getList(){
-			if(this.role==0){
-				this.getPositionList();
+			if(this.userInfo.role == '求职者'){
+				this.getJobList();
 			}else{
 				this.getResumeList();
 			}
 		},
 		
-		async getPositionList() {
+		async getJobList() {
 			let param = {
-				page: this.page,
-				limit: this.limit,
-				postName:this.searchValue,
+				current: this.page,
+				pageSize: this.limit,
+				jobName:this.searchValue,
 			};
 			this.status = '请求中';
-			let res = await this.$apis.getPositionList(param);
+			let res = await this.$apis.getJobList(param);
 			if (res) {
-				let data = res.data;
+				let data = res.list;
 				for (let i in data) {
 					if (data[i].skill) {
 						data[i].skill = data[i].skill.split(',');
@@ -115,13 +107,14 @@ export default {
 		
 		async getResumeList() {
 			let param = {
-				page: this.page,
-				limit: this.limit
+				current: this.page,
+				pageSize: this.limit,
+				keyword:this.searchValue,
 			};
 			this.status = '请求中';
 			let res = await this.$apis.getResumeList(param);
 			if (res) {
-				let data = res.data;
+				let data = res.list;
 				this.list = this.list.concat(data || []);
 				this.changeStatus(res);
 			}
@@ -131,7 +124,7 @@ export default {
 		changeStatus(data) {
 			if (this.list.length === 0) {
 				this.status = '暂无数据';
-			} else if (this.page >= Math.ceil(data.count / this.limit)) {
+			} else if (this.page >= Math.ceil(data.total / this.limit)) {
 				this.status = '没有更多';
 			} else {
 				this.status = '请求更多';
@@ -142,7 +135,7 @@ export default {
 			this.$mRouter.push({
 				route: this.$mRoutesConfig.positionDetail,
 				query: {
-					id: item.id
+					details: encodeURIComponent(JSON.stringify(item))
 				}
 			});
 		},

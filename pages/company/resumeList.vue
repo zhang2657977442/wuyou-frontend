@@ -41,7 +41,8 @@ export default {
 		async getResumeList() {
 			let param = {
 				current: this.page,
-				pageSize: this.limit
+				pageSize: this.limit,
+				keyword: ""
 			};
 			this.status = '请求中';
 			let res = await this.$apis.getResumeList(param);

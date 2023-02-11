@@ -138,7 +138,8 @@ export default {
 		async getJobList() {
 			let param = {
 				current: this.page,
-				pageSize: this.limit
+				pageSize: this.limit,
+				jobName: ""
 			}
 			this.status = '请求中'
 			let res = await this.$apis.getJobList(param)
@@ -156,8 +157,8 @@ export default {
 
 		async getResumeList() {
 			let param = {
-				page: this.page,
-				limit: this.limit
+				current: this.page,
+				pageSize: this.limit
 			}
 			this.status = '请求中'
 			let res = await this.$apis.getResumeList(param)
