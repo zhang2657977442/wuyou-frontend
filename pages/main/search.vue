@@ -66,10 +66,14 @@ export default {
 			list: [], //搜索结果列表
 		};
 	},
-	onLoad() {
+	onLoad(query) {
 		this.searchRecentList = this.$db.get('historySearch');
 		if (this.searchValue == '' && this.searchRecentList != null && this.searchRecentList != '') {
 			this.searchRecent = true;
+		}
+		if(query.keyword){
+			this.searchValue = query.keyword
+			this.search()
 		}
 	},
 	onReachBottom() {

@@ -15,7 +15,7 @@
 				<view class="content">
 					<text class="yzb yzb-notice notice-icon"></text>
 					<view class="notice-text">
-						<text>益源科技</text>
+						<text>北京世佳科技</text>
 						正在招聘
 						<text>项目经理</text>
 						职位
@@ -102,17 +102,17 @@ export default {
 				{ name: '销售', selected: false, type: 1 },
 				{ name: '技工/普工', selected: false, type: 1 },
 				{ name: '餐饮', selected: false, type: 1 },
-				{ name: '销售管理', selected: false, type: 1 },
+				{ name: '后端开发', selected: false, type: 1 },
 				{ name: '市场/营销', selected: false, type: 1 },
-				{ name: '销售', selected: false, type: 1 },
-				{ name: '技工/普工', selected: false, type: 1 },
-				{ name: '餐饮', selected: false, type: 1 },
-				{ name: '销售管理', selected: false, type: 1 },
-				{ name: '市场/营销', selected: false, type: 1 },
-				{ name: '销售', selected: false, type: 1 },
+				{ name: '地产中介', selected: false, type: 1 },
+				{ name: '助教', selected: false, type: 1 },
+				{ name: '产品经理', selected: false, type: 1 },
+				{ name: '工程造价', selected: false, type: 1 },
+				{ name: '证券/基金', selected: false, type: 1 },
+				{ name: '律师顾问', selected: false, type: 1 },
 				{ name: '影视媒体', selected: false, type: 1 }
 			],
-			JobExpectList: [{ name: '销售', selected: true, type: 1 }],
+			JobExpectList: [{ name: '后端开发', selected: true, type: 1 }],
 			list: []
 		}
 	},

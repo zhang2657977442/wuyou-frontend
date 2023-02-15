@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<yzbfilterDropdown :menuTop="0" :filterData="filterData" :defaultSelected ="defaultSelected"  :updateMenuName="true" @confirm="confirm" dataFormat="Object"></yzbfilterDropdown>
+		<!-- <yzbfilterDropdown :menuTop="0" :filterData="filterData" :defaultSelected ="defaultSelected"  :updateMenuName="true" @confirm="confirm" dataFormat="Object"></yzbfilterDropdown> -->
 		<!-- 占位 -->
 		<view class="place"></view>
 		<!-- 商品列表 -->
@@ -46,9 +46,10 @@
 		　　}
 		},
 		onLoad: function () {
-			this.getIndustryList()
-			this.getPositionList()
-			this.getWelfareList()
+			// this.getIndustryList()
+			this.getJobList()
+			// this.getPositionList()
+			// this.getWelfareList()
 		},
 		
 		onReachBottom() {
@@ -57,7 +58,25 @@
 		},
 		
 		methods:{
-			
+			async getJobList() {
+				let param = {
+					current: this.page,
+					pageSize: this.limit,
+					jobName: ""
+				}
+				this.status = '请求中'
+				let res = await this.$apis.getJobList(param)
+				if (res) {
+					let data = res.list
+					for (let i in data) {
+						if (data[i].skill) {
+							data[i].skill = data[i].skill.split(',')
+						}
+					}
+					this.positionList = this.positionList.concat(data || [])
+					this.changeStatus(res)
+				}
+			},
 			async getIndustryList() {
 				let param = {
 					current: 1,
@@ -66,7 +85,7 @@
 				this.status = '请求中';
 				let res = await this.$apis.getIndustryList(param);
 				if (res) {
-					let data = res.data;
+					let data = res.list;
 					for (let i in data) {
 						if (data[i].skill) {
 							data[i].skill = data[i].skill.split(',');
@@ -84,7 +103,7 @@
 				this.status = '请求中';
 				let res = await this.$apis.getPositionList(param);
 				if (res) {
-					let data = res.data;
+					let data = res.list;
 					for (let i in data) {
 						if (data[i].skill) {
 							data[i].skill = data[i].skill.split(',');
@@ -102,7 +121,7 @@
 				this.status = '请求中';
 				let res = await this.$apis.getWelfareList(param);
 				if (res) {
-					let data = res.data;
+					let data = res.list;
 					for (let i in data) {
 						if (data[i].skill) {
 							data[i].skill = data[i].skill.split(',');
@@ -117,7 +136,7 @@
 			changeStatus(data) {
 				if (this.positionList.length === 0) {
 					this.status = '暂无数据';
-				} else if (this.page >= Math.ceil(data.count / this.limit)) {
+				} else if (this.page >= Math.ceil(data.total / this.limit)) {
 					this.status = '没有更多';
 				} else {
 					this.status = '请求更多';

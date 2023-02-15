@@ -2,7 +2,7 @@
 	<view class="content">
 		<yzbClassification
 			ref="yzb"
-			:list="types"
+			:dataList="list"
 			:index="index"
 			:selectedColor="color"
 			:type1LineHeight="lineheight1"
@@ -23,7 +23,7 @@ export default {
 	},
 	data() {
 		return {
-			types: [],
+			list:[],
 			index: 0,
 			color: '#12ae85',
 			size1: '12px',
@@ -31,7 +31,6 @@ export default {
 			size3: '10px',
 			heigth1: '90rpx',
 			lineheight1: '90rpx'
-			// type11: []
 		};
 	},
 	onLoad() {
@@ -39,16 +38,22 @@ export default {
 	},
 	methods: {
 		async getTypes() {
-			this.types = await this.$apis.getPositionList();
-			this.$refs.yzb.init();
+			const params = {
+				current:1,
+				pageSize:999
+			}
+			const res = await this.$apis.getPositionList(params)
+			this.list = this.$mUtils.transData(res.list, 'id', 'pid', 'child')
 		},
 
 		select(n1, n2, n3) {
 			console.log('点击传来的值为', n1, n2, n3);
-			console.log('点击的值为', this.types[n1].child[n2].child[n3].name);
-			this.$page.prePage().selectPost = this.types[n1].child[n2].child[n3];
-			uni.navigateBack({
-				delta:1
+			console.log('点击的值为', this.list[n1].child[n2].child[n3].name);
+			this.$mRouter.redirectTo({
+				route: this.$mRoutesConfig.search,
+				query: {
+					keyword: this.list[n1].child[n2].child[n3].name
+				}
 			})
 		}
 	}

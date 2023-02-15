@@ -2,7 +2,7 @@
 	<view class="classification">
 		<view class="left">
 			<scroll-view class="leftScroll" style="height: 100vh;" :scroll-top="scrollTop" scroll-y="true">
-				<view :class="{type1:true, current:(index1 === i)}" :style="{lineHeight: type1LineHeight, fontSize: type1Size, height: type1Height, color: selected(i)}" v-for="(item,i) in list" :key="i" @click="changeType1(item,i)">{{item.name}}</view>
+				<view :class="{type1:true, current:(index1 === i)}" :style="{lineHeight: type1LineHeight, fontSize: type1Size, height: type1Height, color: selected(i)}" v-for="(item,i) in dataList" :key="i" @click="changeType1(item,i)">{{item.name}}</view>
 			</scroll-view>
 		</view>
 		<view class="right">
@@ -11,7 +11,6 @@
 					<p :style="{fontSize: type2Size}">{{ item.name }}</p>
 					<view class="type3Box">
 						<view class="type3" v-for="(item1,i1) in item.child" :key="i1" @click="selectType1(i,i1)">
-							<!-- <image class="icon" mode="aspectFill" lazy-load="true" :src="item1.icon"></image> -->
 							<text :style="{fontSize: type3Size}">{{item1.name}}</text>
 						</view>
 					</view>
@@ -28,7 +27,7 @@
 				type: Number,
 				default: 0
 			},
-			list: {
+			dataList:{
 				type: Array
 			},
 			selectedColor: {
@@ -59,35 +58,22 @@
 		data() {
 			return {
 				scrollTop: 0,
-				data1: [], // 用来存储传来的数据
 				index1: 0, // 标识当前选中的type1
 				data2: [], // 用来存储当前选中的type2数据
 				color: "", // 用来存储选中type1的颜色
-				load: 0 // 用来判断是否是第一次加载数据
+				load: 0,
 			}
-		},
-		mounted() {
 		},
 		beforeUpdate() {
-			if(this.load == 0){
+			if(this.load === 0){
 				this.index1 = this.index
-				this.data1 = this.list
 				this.color = this.selectedColor
-				console.log("这个时候的数据",this.list)
-				this.changeType1(this.data1[this.index1],this.index1)
+				console.log("这个时候的数据",this.dataList)
+				this.changeType1(this.dataList[this.index1],this.index1)
 				this.load++
-			}
+				}
 		},
 		methods: {
-			
-			init(){
-				console.log("init")
-				this.index1 = this.index
-				this.data1 = this.list
-				this.color = this.selectedColor
-				this.changeType1(this.data1[this.index1],this.index1)
-			},
-			
 			changeType1(item,index) {
 				console.log("现在的index",index)
 				this.index1 = index
