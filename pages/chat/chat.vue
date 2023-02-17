@@ -10,7 +10,7 @@
 		<swiper :style="{ height: '1200rpx' }" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
 			<swiper-item class="swiper-item" v-for="(item, index) in tabs" :key="index">
 				<scroll-view scroll-y style="height: 100%;width: 100%;">
-					<!-- <view class="scroll-items">
+					<view class="scroll-items">
 						<view class="scroll-item" v-for="(ite, ind) in 30" :key="ind">
 							<view class="scroll-item-image-box"><image src="/static/HM-PersonalCenter/l4.png" mode="aspectFill" class="scroll-item-image"></image></view>
 							<view class="scroll-item-text-box">
@@ -18,7 +18,7 @@
 								<view>真可爱</view>
 							</view>
 						</view>
-					</view> -->
+					</view>
 					<template>
 						<m-empty-data :coverUrl="no_order_1" noTxt="暂无消息"></m-empty-data>
 					</template>

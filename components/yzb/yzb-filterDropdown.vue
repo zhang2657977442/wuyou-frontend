@@ -336,7 +336,7 @@
 								});
 								item[j] = s;
 								s.forEach((v, k) => {
-									value[i][j][k] = (v==null||v>=this.subData[i].submenu[j].submenu.length)?null:this.subData[i].submenu[j].submenu[v].value;
+									value[i][j][k] = (v==null||v>=this.subData[i].submenu[j].submenu.length)?null:this.subData[i].submenu[j].submenu[v].name;
 									if(this.subData[i].type == 'radio' && value[i][j][k] == null){
 										value[i][j] = [];
 										index[i][j] = [];
@@ -346,18 +346,18 @@
 						});
 					}else{
 						let submenu = this.subData[i].submenu[item[0]];
-						value[i][0] = submenu.value;
+						value[i][0] = submenu.name;
 						if(value[i].length>=2  && item[1]!=null){
 							if(submenu.submenu.length>0){
 								submenu = submenu.submenu[item[1]];
-								value[i][1] = submenu.hasOwnProperty('value')?submenu.value:null;
+								value[i][1] = submenu.hasOwnProperty('name')?submenu.name:null;
 							}else{
 								value[i][1] = null
 							}
 							if(value[i].length>=3 && item[2]!=null){
 								if(submenu.submenu.length>0){
 									submenu = submenu.submenu[item[2]];
-									value[i][2] = submenu.hasOwnProperty('value')?submenu.value:null;
+									value[i][2] = submenu.hasOwnProperty('name')?submenu.name:null;
 								}else{
 									value[i][2] = null;
 								}
@@ -463,7 +463,7 @@
 				return tmpArr;
 			},
 			processSubMenu(menu) {
-				if (menu.hasOwnProperty('submenu') && menu.submenu.length > 0) {
+				if (menu.hasOwnProperty('submenu') && Array.isArray(menu.submenu) && menu.submenu.length > 0) {
 					for (let i = 0; i < menu.submenu.length; i++) {
 						menu.submenu[i] = this.processSubMenu(menu.submenu[i]);
 					}
@@ -479,7 +479,7 @@
 				function each(data, floor) {
 					data.forEach(e => {
 						max = floor > max ? floor : max;
-						if (e.hasOwnProperty('submenu') && e.submenu.length > 0) {
+						if (e.hasOwnProperty('submenu') && Array.isArray(e.submenu) && e.submenu.length > 0) {
 							each(e.submenu, floor + 1)
 						}
 					})

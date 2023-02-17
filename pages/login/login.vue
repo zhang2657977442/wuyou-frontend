@@ -38,7 +38,7 @@
 		},
 		
 		onShow: function() {
-			this.verifyPro();
+			// this.verifyPro();
 		},
 		
 		methods:{
