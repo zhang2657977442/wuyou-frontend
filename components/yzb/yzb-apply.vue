@@ -5,7 +5,6 @@
 				<view class="title space-between">
 					<view class="left">
 						<text class="title-name">{{ item.position.postName }}</text>
-						<text class="title-share" v-if="item.position.positionType==3">共享</text>
 					</view>
 					<text class="right">{{ item.position.salary }}</text>
 				</view>

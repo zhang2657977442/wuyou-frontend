@@ -87,9 +87,9 @@ export default {
 			}else if(this.type==3){
 				this.$page.prePage().content = this.content;
 			}else if(this.type==4){
-				this.$page.prePage().company.companyProfile = this.content;
+				this.$page.prePage().company.introduce = this.content;
 			}else if(this.type==5){
-				this.$page.prePage().position.descr = this.content;
+				this.$page.prePage().position.skill = this.content;
 			}
 			uni.navigateBack({
 				delta:1

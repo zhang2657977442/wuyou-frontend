@@ -31,8 +31,8 @@ export default {
 		return {
 			severList2: [
 				[
-					{ name: '版本号', show: true, right: false, icon: '', content: '1.0.1', url: null },
-					{ name: '发布日期', show: true, right: false, icon: '', content: '2022-05-01', url: null },
+					{ name: '版本号', show: true, right: false, icon: '', content: '1.0.0', url: null },
+					{ name: '发布日期', show: true, right: false, icon: '', content: '2023-05-01', url: null },
 				],
 				[
 					// { name: '修改密码', show: true, right: true, icon: '', content: '', url: this.$mRoutesConfig.resetPwd },

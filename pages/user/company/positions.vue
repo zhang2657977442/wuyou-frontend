@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<view class="QS-tabs-box">
+<!-- 		<view class="QS-tabs-box">
 			<QSTabs
 				ref="tabs"
 				:tabs="tabs"
@@ -14,7 +14,7 @@
 				:font-size="30"
 				swiperWidth="750"
 			></QSTabs>
-		</view>
+		</view> -->
 		<swiper :style="{ height: scrollHeight + 'px' }" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
 			<swiper-item class="swiper-item" v-for="(item, index) in tabs" :key="index">
 				<scroll-view
@@ -41,12 +41,12 @@
 								<view class="height-line"></view>
 								{{ item2.salary }}
 							</view>
-							<view class="desc">
+<!-- 							<view class="desc">
 								<text v-for="(item3, index3) in item2.skill" :key="index3">{{item3}}</text>
-								<!-- <text>需求分析</text>
+								<text>需求分析</text>
 								<text>软件开发</text>
-								<text>团队管理</text> -->
-							</view>
+								<text>团队管理</text>
+							</view> -->
 						</view>
 					</view>
 					<template v-else>
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import QSTabs from '@/components/QS-tabs/QS-tabs.vue';
 import mEmptyData from '@/components/m-empty-data/m-empty-data.vue';
 const Sys = uni.getSystemInfoSync();
@@ -73,6 +74,9 @@ export default {
 		QSTabs,
 		mEmptyData
 	},
+	computed: {
+		...mapState(['userInfo'])
+	},
 	data() {
 		return {
 			tabs: ['全部', '开放中', '待开放', '审核失败', '已关闭'],
@@ -81,13 +85,14 @@ export default {
 			tabsHeight: 0,
 			dx: 0,
 			no_order_1: this.$mAssetsPath.no_order_1,
-			datas: [[{}, {}, {}, {}, {}, {}, {}, {}], [], [], [], []],
+			datas: [],
 			scrollHeight: 0,
 
 			status: '',
 			query: {
-				limit: 10,
-				page: 1
+				pageSize: 10,
+				current: 1,
+				id:'',
 			},
 			list: [],
 			triggered: false
@@ -95,6 +100,7 @@ export default {
 	},
 	onLoad() {
 		this.scrollHeight = wH - uni.upx2px(200);
+		this.query.id = this.userInfo.companyId
 	},
 
 	onShow() {
@@ -106,14 +112,12 @@ export default {
 		this.loadTop();
 	},
 	onReachBottom() {
-		console.log('11111111onReachBottom111111111');
 		this.loadBottom();
 	},
 
 	methods: {
 		onRefresh() {
 			this.triggered = false;
-			console.log("onRefresh");
 			if (this._freshing) return;
 			// this._freshing = true;
 			// setTimeout(() => {
@@ -124,7 +128,6 @@ export default {
 		onRestore() {
 			// this.triggered = 'restore'; // 需要重置
 			this.triggered = false;
-			console.log('onRestore');
 		},
 		change(index) {
 			this.swiperCurrent = index;
@@ -148,25 +151,19 @@ export default {
 			// this.$mRouter.push({
 			// 	route: this.$mRoutesConfig.positionDetail
 			// });
-			console.log(item);
 			this.$mRouter.push({
 				route: this.$mRoutesConfig.positionEdit,
 				query: {
-					id: item.id
+					item: encodeURIComponent(JSON.stringify(item))
 				}
 			});
 		},
 
 		async initPage() {
 			try {
-				this.query.page = 1;
-				let data = await this.$apis.getCompanyPositionList(this.query);
-				this.list = this.list.concat(data.data || []);
-				for(let i=0;i<this.list.length;i++){
-					if(this.list[i].skill){
-						this.list[i].skill=this.list[i].skill.split(",");
-					}
-				}
+				this.query.current = 1;
+				let data = await this.$apis.getCompanyJob(this.query);
+				this.list = this.list.concat(data.list || []);
 				this.datas[this.current] = this.list;
 				console.log(this.list);
 				this.changeStatus(data);
@@ -179,15 +176,10 @@ export default {
 		//下拉刷新操作
 		async loadTop() {
 			try {
-				this.query.page = 1;
-				let data = await this.$apis.getCompanyPositionList(this.query);
-				for(let i=0;i<data.data.length;i++){
-					if(data.data[i].skill){
-						data.data[i].skill=data.data[i].skill.split(",");
-					}
-				}
+				this.query.current = 1;
+				let data = await this.$apis.getCompanyJob(this.query);
 				setTimeout(() => {
-					this.list = data.data || [];
+					this.list = data.list || [];
 					this.datas[this.current] = this.list;
 					this.changeStatus(data);
 					uni.stopPullDownRefresh();
@@ -208,15 +200,10 @@ export default {
 				return;
 			}
 			try {
-				this.query.page++;
+				this.query.current++;
 				this.status = '请求中';
-				let data = await this.$apis.getCompanyPositionList(this.query);
-				for(let i=0;i<data.data.length;i++){
-					if(data.data[i].skill){
-						data.data[i].skill=data.data[i].skill.split(",");
-					}
-				}
-				this.list = this.list.concat(data.data || []);
+				let data = await this.$apis.getCompanyJob(this.query);
+				this.list = this.list.concat(data.list || []);
 				this.datas[this.current] = this.list;
 				this.changeStatus(data);
 			} catch (error) {
@@ -227,15 +214,10 @@ export default {
 		// 网络错误 重新加载
 		async reLoad() {
 			try {
-				if (this.query.page == 1) this.query.page++;
+				if (this.query.current == 1) this.query.current++;
 				this.status = '请求中';
-				let data = await this.$apis.getCompanyPositionList(this.query);
-				for(let i=0;i<data.data.length;i++){
-					if(data.data[i].skill){
-						data.data[i].skill=data.data[i].skill.split(",");
-					}
-				}
-				this.list = this.list.concat(data.data || []);
+				let data = await this.$apis.getCompanyJob(this.query);
+				this.list = this.list.concat(data.list || []);
 				this.datas[this.current] = this.list;
 				this.changeStatus(data);
 			} catch (error) {
@@ -247,7 +229,7 @@ export default {
 		changeStatus(data) {
 			if (this.list.length === 0) {
 				this.status = '暂无数据';
-			} else if (this.query.page >= Math.ceil(data.count / this.query.limit)) {
+			} else if (this.query.current >= Math.ceil(data.total / this.query.pageSize)) {
 				this.status = '没有更多';
 			} else {
 				this.status = '请求更多';

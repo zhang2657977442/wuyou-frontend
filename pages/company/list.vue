@@ -2,8 +2,7 @@
 	<joy-page class="">
 		<image class="top" :src="bgImg"></image>
 		<view style="position: relative;">
-			<m-company :list="list" @click="detail">
-			</m-company>
+			<m-company :list="list" @click="detail"></m-company>
 			<view class="load-more-box">
 				<uni-load-more v-if="status == '请求中'" status="正在加载..." :showIcon="true"></uni-load-more>
 				<uni-load-more v-if="status == '没有更多'" status="没有更多了" :showIcon="false"></uni-load-more>
@@ -17,13 +16,11 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import mSwiper from '@/components/m-swiper/m-swiper.vue';
-import uniGrid from '@/components/uni-grid/uni-grid.vue';
 import mCompany from '@/components/m-company/m-company.vue';
 import mAd from '@/components/m-ad/m-ad.vue';
 export default {
 	components: {
 		mSwiper,
-		uniGrid,
 		mCompany,
 		mAd
 	}, 

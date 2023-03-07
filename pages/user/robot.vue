@@ -25,14 +25,14 @@
 							<view class="margin-left padding-chat flex-column-start" style="border-radius: 35rpx;background-color: #f9f9f9;">
 								<text style="word-break: break-all;">{{ x.msg }}</text>
 								<!-- 消息模板 =>初次问候 -->
-								<view class="flex-column-start" v-if="x.type == 1" style="color: #2fa39b;">
+<!-- 								<view class="flex-column-start" v-if="x.type == 1" style="color: #2fa39b;">
 									<text style="color: #838383;font-size: 22rpx;margin-top: 15rpx;">您可以这样问我:</text>
 									<text @click="answer(item)" style="margin-top: 10upx;" v-for="(item, index) in x.questionList" :key="index">{{ item.ask }}</text>
 									<view class="flex-row-between  padding-top-sm" v-if="totalPage > 1">
 										<text class="my-neirong-sm">没有您要的答案?</text>
 										<text class="padding-left" style="color: #12ae85;" @click="switchAsks">换一批</text>
 									</view>
-								</view>
+								</view> -->
 								<!-- 消息模板 =>多个答案 -->
 								<view class="flex-column-start" v-if="x.type == 2" style="color: #2fa39b;">
 									<text style="color: #838383;font-size: 22rpx;margin-top: 15rpx;">猜您想问:</text>
@@ -143,8 +143,8 @@ export default {
 
 	onLoad() {
 		this.initView();
-		this.getChatAskList();
-		this.getRobotLogList();
+		// this.getChatAskList();
+		// this.getRobotLogList();
 	},
 
 	onPullDownRefresh() {
@@ -318,7 +318,7 @@ export default {
 				msg: this.msg,
 				type: 3
 			};
-			this.addRobotLog(ask);
+			// this.addRobotLog(ask);
 			// 保证消息可见
 			this.msgGo();
 			// 回答问题
@@ -328,16 +328,16 @@ export default {
 		},
 		async msgKf(x) {
 			this.msgLoad = true;
-			console.log(x);
-			let res = await this.$apis.getChatReply({ ask: x });
-			console.log('getChatReply===', res);
+			let res = true
+			// let res = await this.$apis.getChatReply({ ask: x });
+			// console.log('getChatReply===', res);
 			if (res == true) {
 				setTimeout(() => {
 					// 取消loading
 					this.msgLoad = false;
 					this.msgList.push({
 						my: false,
-						msg: '我不懂您在说什么哦',
+						msg: '功能正在开发中，敬请期待~',
 						type: 0,
 						questionList: this.questionList
 					});
@@ -346,7 +346,7 @@ export default {
 						msg: '我不懂您在说什么哦',
 						type: 3
 					};
-					this.addRobotLog(reply);
+					// this.addRobotLog(reply);
 					// this.msgList.push({ my: false, msg: '单消息模板', type: -1 });
 					// this.msgList.push({
 					// 	my: false,
@@ -360,7 +360,7 @@ export default {
 				this.msgLoad = false;
 				this.msgList.push({
 					my: false,
-					msg: res.reply,
+					msg: '功能正在开发中，敬请期待~',
 					type: 3
 				});
 			}

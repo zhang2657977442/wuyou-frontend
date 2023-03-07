@@ -56,6 +56,7 @@ const store = new Vuex.Store({
 		},
 		SET_LOGOUT(state) {
 			state.token = "";
+			state.userInfo = {}
 			uni.setStorageSync("token", "");
 		}
 	},

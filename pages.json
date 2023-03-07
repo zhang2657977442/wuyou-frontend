@@ -18,8 +18,8 @@
 			"path": "pages/position/list",
 			"style": {
 				"navigationBarTitleText": "岗位列表",
-				 "navigationBarBackgroundColor":"#FFFFFF",
-				 "navigationBarTextStyle":"black"
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
@@ -32,8 +32,8 @@
 			"path": "pages/position/search",
 			"style": {
 				"navigationBarTitleText": "职位搜索",
-				"navigationBarBackgroundColor":"#FFFFFF",
-				"navigationBarTextStyle":"black"
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
@@ -76,6 +76,13 @@
 			}
 		},
 		{
+			"path": "pages/user/helpcenterDetails",
+			"style": {
+				"navigationBarTitleText": "帮助详情"
+			}
+
+		},
+		{
 			"path": "pages/user/settings",
 			"style": {
 				"navigationBarTitleText": "系统设置"
@@ -96,13 +103,13 @@
 		{
 			"path": "pages/user/connected",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "谁看过我"
 			}
 		},
 		{
 			"path": "pages/user/browse",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "谁看过我"
 			}
 		},
 		{
@@ -156,17 +163,30 @@
 				"navigationBarTitleText": "消息"
 			}
 		},
-
+		{
+			"path": "pages/chat/notice/notices",
+			"style": {
+				"navigationBarTitleText": "系统消息",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/chat/notice/noticeDetail",
+			"style": {
+				"navigationBarTitleText": "消息详情",
+				"enablePullDownRefresh": true
+			}
+		},
 		{
 			"path": "pages/type/type",
 			"style": {
 				"navigationBarTitleText": "分类"
 			}
 		}
+
 	],
 
-	"subPackages": [
-		{
+	"subPackages": [{
 			"root": "pages/login",
 			"pages": [{
 					"path": "login",
@@ -224,11 +244,11 @@
 					}
 				},
 				{
-						"path": "resumeDetail",
-						"style": {
-							"navigationBarTitleText": "个人简历"
-						}
-					},
+					"path": "resumeDetail",
+					"style": {
+						"navigationBarTitleText": "个人简历"
+					}
+				},
 				{
 					"path": "edit-cert",
 					"style": {

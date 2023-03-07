@@ -11,7 +11,7 @@
 				</view>
 			</view>
 			<view class="time">
-				<!-- <text class="title">福利待遇</text> -->
+<!-- 				<text class="title">福利待遇</text> -->
 				<view class="require">
 					<view class="item">
 						<text class="yzb yzb-gongzuobao top-icon"></text>

@@ -21,13 +21,11 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import mSwiper from '@/components/m-swiper/m-swiper.vue';
-import uniGrid from '@/components/uni-grid/uni-grid.vue';
 import mPosition from '@/components/m-position/m-position.vue';
 import mAd from '@/components/m-ad/m-ad.vue';
 export default {
 	components: {
 		mSwiper,
-		uniGrid,
 		mPosition,
 		mAd
 	}, 

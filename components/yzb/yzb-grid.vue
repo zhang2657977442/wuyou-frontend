@@ -8,7 +8,7 @@
 					<view style="line-height: 1;">
 						<image class="uni-grid-item-image" :src="item.image"></image>
 					</view>
-					<text class="uni-grid-item-text" style="margin-top: 0upx;">{{item.text}}</text>
+					<text class="uni-grid-item-text">{{item.text}}</text>
 				</view>
 			</view>
 		</view>
@@ -93,6 +93,7 @@
 		&__flex {
 			display: flex;
 			flex-direction: row;
+			margin: 10upx 0;
 		}
 
 		&-item {
@@ -140,7 +141,7 @@
 			&-text {
 				font-size: 28upx;
 				color: $uni-text-color;
-				margin-top: 12upx;
+				// margin-top: 12upx;
 			}
 
 			&-hover {
@@ -192,6 +193,7 @@
         .uni-grid__flex .uni-grid-item:first-child:after {
         	border-left-width: 0px;
         }
+		
     }
 
 	.uni-grid-item-oblong {
@@ -214,5 +216,10 @@
 				margin-left: 12upx;
 			}
 		}
+	}
+	
+	.uni-grid-item-image{
+		width: 80upx;
+		height: 80upx;
 	}
 </style>

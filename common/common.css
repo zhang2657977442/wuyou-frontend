@@ -9,6 +9,10 @@
 	align-items: center;
 }
 
+.flex {
+	display:flex;
+}
+
 /**
  * 横向布局
  */

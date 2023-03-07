@@ -4,14 +4,16 @@
 			<view class="input-column border-bottom-1px" @click="toPost()">
 				<text class="title">职位名称</text>
 				<view class="space-between-algin row padding-height-20">
-					<input class="padding-10" disabled="true" placeholder="请选择职位名称" :value="selectPost.name" />
+					<input class="padding-10" disabled="true" placeholder="请选择职位名称" :value="position.postName" />
 					<text class="yzb yzb-next"></text>
 				</view>
 			</view>
 			<view class="input-column border-bottom-1px">
 				<text class="title">学历</text>
 				<view class="picker">
-					<picker @change="bindPickerChange2" :value="position.minEducation" :range="educations"><input class="padding-10" placeholder="请选择学历" :value="position.minEducation" /></picker>
+					<picker @change="bindPickerChange2" :value="position.minEducation" :range="educations">
+						<input class="padding-10" placeholder="请选择学历" :value="position.minEducation" />
+					</picker>
 					<text class="yzb yzb-next"></text>
 				</view>
 			</view>
@@ -33,14 +35,25 @@
 					<text class="yzb yzb-next"></text>
 				</view>
 			</view>
-			<view class="input-column border-bottom-1px" @click="toWorkContent">
-				<text class="title">职位描述</text>
-				<view class="space-between-algin row padding-height-20">
-					<input class="padding-10" disabled="true" placeholder="请输入职位描述" v-model="position.descr" />
+			<view class="input-column border-bottom-1px" @click="selectAddress">
+				<text class="title">工作地点</text>
+				<view class="input-item">
+					<input class="padding-10" placeholder="请选择工作地点" disabled="true" v-model="position.address" />
 					<text class="yzb yzb-next"></text>
 				</view>
+				<text class="padding-width-10 text-color-grey text-size-base">{{ position.address }}</text>
 			</view>
 			<view class="input-column border-bottom-1px">
+				<view class="space-between-algin" style="display: flex;">
+					<text class="title">职位详情</text>
+					<text class="yzb yzb-bianji2" @click="toWorkContent()"></text>
+				</view>
+
+				<view class="skill width-100 padding-height-30 column bottom-line">
+					<text class="item-content">{{ position.skill }}</text>
+				</view>
+			</view>
+			<!-- 			<view class="input-column border-bottom-1px">
 				<text class="super-title">职位关键词</text>
 				<view class="skill-item">
 					<view class="center-algin skill-item-item" v-for="(item, index) in keys" :key="index">
@@ -53,166 +66,129 @@
 						   + 添加  
 					</text>
 				</view>
-			</view>
-			<view class="input-column border-bottom-1px" @click="selectAddress">
-				<text class="title">工作地点</text>
-				<view class="input-item">
-					<input class="padding-10" placeholder="请选择工作地点" disabled="true" v-model="position.addressName" />
-					<text class="yzb yzb-next"></text>
-				</view>
-				<text class="padding-width-10 text-color-grey text-size-base">{{ position.address }}</text>
-			</view>
-			<view class="input-column border-bottom-1px">
-				<text class="title">工作点门牌号</text>
-				<view class="input-item"><input class="padding-10" placeholder="请输入门牌号" v-model="position.addressHouse" /></view>
-			</view>
+			</view> -->
 		</view>
 		<view class="btn-row row top-line">
 			<button v-if="id" type="warn" class="btn-delete" @tap="remove">删除</button>
-			<button type="primary" class="btn-save" :class="id ? 'width-55' : 'width-90'" @tap="register">保存</button>
+			<button type="primary" class="btn-save" :class="id ? 'width-55' : 'width-90'" @tap="update">保存</button>
 		</view>
-		
+
 		<!-- 提交信息 -->
 		<uni-popup id="dialogInput" ref="dialogInput" type="dialog">
-			<uni-popup-dialog mode="input" title="添加关键词" value="" placeholder="请输入内容(3-8字)" @confirm="dialogInputConfirm"></uni-popup-dialog>
+			<uni-popup-dialog
+				mode="input"
+				title="添加关键词"
+				value=""
+				placeholder="请输入内容(3-8字)"
+				@confirm="dialogInputConfirm"
+			></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import graceChecker from '@/common/graceChecker.js';
-import formRuleConfig from '@/config/formRule.config.js';
+import { mapState } from 'vuex'
+import graceChecker from '@/common/graceChecker.js'
+import formRuleConfig from '@/config/formRule.config.js'
 export default {
-	components: {
-	},
+	components: {},
 	computed: {
-		...mapState(['openId', 'customerInfo'])
+		...mapState(['userInfo'])
 	},
 
 	data() {
 		return {
-			position:{
-				postId:0,
-				postName:'',
-				minEducation:'',
-				expRequire:'',
-				phone:'',
-				salary:'',
-				descr:'',
-				address:"",
-				addressName:"",
-				addressHouse:"",
-				latitude:"",
-				longitude:"",
-			},
-			id: 0,
-			selectPost: {
-				name: '',
-				id: ''
-			},
+			position: {},
+			id: '',
 			current: 0,
 			salaryValue: null,
-			salaeyArray: [ '面议','1-3K','3-5K','5-8K','8-12K','12-15K','15-20K','20K以上'],
-			expRequires:["不限","1年以内","1-3年","3-5年","5-10年","10年以上"],
+			salaeyArray: ['面议', '1-3K', '3-5K', '5-8K', '8-12K', '12-15K', '15-20K', '20K以上'],
+			expRequires: ['不限', '1年以内', '1-3年', '3-5年', '5-10年', '10年以上'],
 			keys: [],
-			educations: ['高中以下', '高中', '中专/技校', '大专', '本科', '硕士', '博士'],
-		};
+			educations: ['高中以下', '高中', '中专/技校', '大专', '本科', '硕士', '博士']
+		}
 	},
 	onLoad(query) {
-		console.log(query);
-		this.id = query.id;
-		console.log(this.id);
-		if (this.id) {
-			this.getDetail();
-		}else{
-			this.getCompanyDetail();
+		if (query.item) {
+			const data = decodeURIComponent(query.item)
+			this.position = JSON.parse(data)
+			this.id = this.position.id
+			uni.setNavigationBarTitle({
+				title: '编辑职位信息'
+			})
+		} else {
+			this.position = {
+				id: '',
+				companyId: this.userInfo.companyId,
+				postId: '0031a478',
+				expRequire: '',
+				minEducation: '',
+				salary: '',
+				jobType: '全职',
+				skill: '',
+				address:''
+			}
 		}
 	},
 	methods: {
-		
-		async getDetail() {
-			let res = await this.$apis.getPositionDetail({ id: this.id });
-			console.log('res====', res);
-			if (res) {
-				this.position = res;
-				this.selectPost.name=res.postName;
-				this.selectPost.id=res.postId;
-				if(res.skill){
-					this.keys=res.skill.split(",");
-				}
-			}
-		},
-		
-		async getCompanyDetail() {
-			let res = await this.$apis.getCompanyDetail();
-			if (res) {
-				this.position.address=res.address;
-				this.position.addressName=res.addressName;
-				this.position.addressHouse=res.addressHouse;
-				this.position.latitude=res.latitude;
-				this.position.longitude=res.longitude;
-			}
-		},
-		
 		/**
 		 * 打开提交信息
 		 */
 		confirmDialog() {
-			console.log(this.$refs.dialogInput);
-			this.$refs.dialogInput.open();
+			console.log(this.$refs.dialogInput)
+			this.$refs.dialogInput.open()
 		},
-		
+
 		/**
 		 * 输入对话框的确定事件
 		 */
 		dialogInputConfirm(done, val) {
-			console.log(val);
-			this.value = val;
-			if(!this.value){
+			console.log(val)
+			this.value = val
+			if (!this.value) {
 				uni.showToast({
-					icon:'none',
-					title:"请输入内容"
+					icon: 'none',
+					title: '请输入内容'
 				})
-				return;
+				return
 			}
-			if(this.value.length<3 || this.value.length >8){
+			if (this.value.length < 3 || this.value.length > 8) {
 				uni.showToast({
-					icon:'none',
-					title:"请输入3-8个字"
+					icon: 'none',
+					title: '请输入3-8个字'
 				})
-				return;
+				return
 			}
-			this.keys.push(this.value);
-			this.$refs.dialogInput.close();
+			this.keys.push(this.value)
+			this.$refs.dialogInput.close()
 		},
-		
-		select(index){
-			this.value=this.keys[index];
-			this.$refs.dialogInput.open();
+
+		select(index) {
+			this.value = this.keys[index]
+			this.$refs.dialogInput.open()
 		},
-		
-		deleteImg(index){
-			this.keys.splice(index,1);
+
+		deleteImg(index) {
+			this.keys.splice(index, 1)
 		},
-		
+
 		selectAddress() {
 			uni.chooseLocation({
 				success: res => {
-					console.log('选择详细地址结果');
-					console.log(res);
-					console.log(res.name);
-					console.log(res.address);
+					console.log('选择详细地址结果')
+					console.log(res)
+					console.log(res.name)
+					console.log(res.address)
 					if (res.address == '') {
-						this.address = '请选择详细地址';
-						return;
+						this.address = '请选择详细地址'
+						return
 					}
-					this.position.addressName = res.name;
-					this.position.address = res.address;
-					this.position.latitude = res.latitude;
-					this.position.longitude = res.longitude;
+					this.position.addressName = res.name
+					this.position.address = res.address
+					this.position.latitude = res.latitude
+					this.position.longitude = res.longitude
 				}
-			});
+			})
 		},
 
 		toWorkContent() {
@@ -220,59 +196,51 @@ export default {
 				route: this.$mRoutesConfig.editProContent,
 				query: {
 					type: 5,
-					content:this.position.descr
+					content: this.position.skill
 				}
-			});
+			})
 		},
-		
+
 		toPost() {
 			this.$mRouter.push({
 				route: this.$mRoutesConfig.post,
 				query: {
 					id: 1
 				}
-			});
+			})
 		},
 
 		bindPickerChange2: function(e) {
-			this.position.minEducation = this.educations[e.target.value];
+			this.position.minEducation = this.educations[e.target.value]
 		},
-		
+
 		bindPickerChange3: function(e) {
-			this.position.expRequire = this.expRequires[e.target.value];
+			this.position.expRequire = this.expRequires[e.target.value]
 		},
-		
+
 		bindPickerChange: function(e) {
-			this.position.salary=this.salaeyArray[e.target.value];
+			this.position.salary = this.salaeyArray[e.target.value]
 		},
-		
+
 		// 点击注册按钮
-		async register() {
-			console.log(this.position);
-			let skill="";
-			for(let i in this.keys){
-				skill=skill+","+this.keys[i];
+		async update() {
+			let res = null
+			if (this.id) {
+				res = await this.$apis.updateJobInfo(this.position)
+			} else {
+				res = await this.$apis.addJob(this.position)
 			}
-			skill=skill.substr(1,skill.length);
-			this.position.postId=this.selectPost.id;
-			this.position.postName=this.selectPost.name;
-			this.position.skill=skill;
-			let checkRes = graceChecker.check(this.position, formRuleConfig.regPositionRule);
-			if (!checkRes) {
-				uni.showToast({
-					title: graceChecker.error,
-					icon: 'none'
-				});
-				return;
-			}
-			if (this.id && this.id != 0) {
-				this.position.id = this.id;
-			}
-			let res = await this.$apis.updatePosition(this.position);
 			if (res) {
-				uni.navigateBack({
-					delta: 1
-				});
+				uni.showToast({
+					title: '保存成功',
+					icon: 'success',
+					duration: 2000
+				})
+				setTimeout(() => {
+					uni.navigateBack({
+						delta: 1
+					})
+				}, 1000)
 			}
 		},
 
@@ -282,22 +250,20 @@ export default {
 				content: '确定要删除吗？',
 				success: res => {
 					if (res.confirm) {
-						this.$apis.deletePositionById({
-							id: this.id
-						}).then(() => {
+						this.$apis.deleteJob(this.id).then(() => {
 							uni.showToast({
-								title: "操作成功"
+								title: '操作成功'
 							})
 							setTimeout(() => {
-								this.$mRouter.back();
+								this.$mRouter.back()
 							}, 1000)
 						})
 					}
 				}
-			});
+			})
 		}
 	}
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -456,7 +422,7 @@ radio-group {
 	padding: 20upx;
 	flex-wrap: wrap;
 	display: flex;
-	.skill-item-item{
+	.skill-item-item {
 		position: relative;
 		margin-right: 20upx;
 	}
@@ -481,5 +447,8 @@ radio-group {
 	top: -15upx;
 	z-index: 10;
 	align-items: center;
+}
+.item-content {
+	font-size: 30upx;
 }
 </style>

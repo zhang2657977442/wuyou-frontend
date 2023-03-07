@@ -1,7 +1,8 @@
 <template>
 	<yzb-page :loadStatus="loadStatus">
-		<yzb-browse  v-if="list.length>0" :list="list" @click="toDetail" @onDelete="toDelete"></yzb-browse>
-		<m-empty-data v-else :coverUrl="no_order_1" noTxt="暂无记录"></m-empty-data>
+		<m-company v-if="list.length > 0 && query.type === 0"  :list="list" @click="companyDetail"></m-company>
+		<yzb-resume v-if="list.length > 0 && query.type === 1" :list="list" @click="resumeDetail"></yzb-resume>
+		<m-empty-data v-if="list.length === 0" :coverUrl="no_order_1" noTxt="暂无记录"></m-empty-data>
 		<view class="load-more-box">
 			<uni-load-more v-if="status == '请求中'" status="正在加载..." :showIcon="true"></uni-load-more>
 			<uni-load-more v-if="status == '没有更多'" status="没有更多了" :showIcon="false"></uni-load-more>
@@ -14,7 +15,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import mEmptyData from '@/components/m-empty-data/m-empty-data.vue';
-import yzbBrowse from '@/components/yzb/yzb-browse.vue';
+import mCompany from '@/components/m-company/m-company.vue';
+import yzbResume from '@/components/yzb/yzb-resume.vue'
 export default {
 	computed: {
 		...mapState(['userInfo']),
@@ -22,7 +24,8 @@ export default {
 	},
 	components: {
 		mEmptyData,
-		yzbBrowse
+		mCompany,
+		yzbResume
 	},
 	data() {
 		return {
@@ -30,40 +33,47 @@ export default {
 			list:[],
 			status: '暂无数据',
 			query:{
-				page: 1,
-				limit: 10,
-				type:0,
+				userId: '',
+				current: 1,
+				pageSize: 10,
+				type: 0 //0-投递方，1-接收方
 			},
 			loadStatus:'loading',//loading、fail、success
 		};
 	},
 	onLoad() {
-		this.getList();
+		this.query.userId = this.userInfo.id
+		if (this.userInfo.role == '求职者') {
+			this.query.type = 0
+		} else {
+			this.query.type = 1
+		}
 	},
 	
+	onShow() {
+		this.query.current = 1
+		this.list = []
+		this.getList()
+	},
+
 	onReachBottom() {
-		this.query.page++;
-		this.getList();
+		this.query.current++
+		this.getList()
 	},
-	
+
 	onPullDownRefresh() {
-		this.query.page=1;
-		this.list=[];
-		this.getList();
+		this.query.current = 1
+		this.list = []
+		this.getList()
 	},
 	
 	methods: {
 		async getList() {
-			if(this.userInfo.memberRole==1){
-				this.query.type=1;
-			}else{
-				this.query.type=0;
-			}
 			this.status = '请求中';
 			let res = await this.$apis.getBrowseList(this.query);
 			console.log("-------",res);
 			if (res) {
-				let data = res.data;
+				let data = res.list;
 				this.list = this.list.concat(data || []);
 				this.changeStatus(res);
 				this.loadStatus='success';
@@ -73,53 +83,34 @@ export default {
 			uni.stopPullDownRefresh();
 		},
 		
+		resumeDetail(item) {
+			this.$mRouter.push({
+				route: this.$mRoutesConfig.resumeDetail,
+				query: {
+					id: item.id
+				}
+			})
+		},
+		companyDetail(item) {
+			this.$mRouter.push({
+				route: this.$mRoutesConfig.companyDetail,
+				query: {
+					id: item.id
+				}
+			});
+		},
+		
 		// 修改请求状态
 		changeStatus(data) {
 			if (this.list.length === 0) {
 				this.status = '';
-			} else if (this.query.page >= Math.ceil(data.count / this.query.limit)) {
+			} else if (this.query.page >= Math.ceil(data.total / this.query.pageSize)) {
 				this.status = '没有更多';
 			} else {
 				this.status = '请求更多';
 			}
 			console.log("this.status",this.status);
 		},
-		
-		toDetail(item) {
-			console.log(item);
-			this.$mRouter.push({
-				route: this.$mRoutesConfig.positionDetail,
-				query: {
-					id: item.position.id
-				}
-			});
-		},
-		
-		toDelete(item){
-			let that=this;
-			uni.showModal({
-				title: '提示',
-				content: '确定删除该浏览记录吗？',
-				success: res => {
-					if (res.confirm) {
-						that.doDelete(item);
-					}
-				}
-			});
-		},
-		
-		async doDelete(item){
-			let param={
-				id:item.id
-			}
-			let res = await this.$apis.deleteBrowseById(param);
-			if (res) {
-				this.query.page=1;
-				this.list=[];
-				this.getList();
-			}else{
-			}
-		}
 	}
 };
 </script>

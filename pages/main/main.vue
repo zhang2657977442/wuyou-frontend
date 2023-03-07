@@ -9,7 +9,7 @@
 		<view style="position: relative;top: 80upx;">
 			<m-swiper :list="banner"></m-swiper>
 			<view style="padding: 20upx 0;background-color: #FFFFFF;">
-				<uni-grid :columnNum="5" :data="grid" show-border="false" @click="handleClickGrid"></uni-grid>
+				<yzb-grid :columnNum="4" :data="grid" show-border="false" @click="handleClickGrid"></yzb-grid>
 			</view>
 			<view class="notice">
 				<view class="content">
@@ -66,17 +66,15 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import mSwiper from '@/components/m-swiper/m-swiper.vue'
-import uniGrid from '@/components/uni-grid/uni-grid.vue'
 import mPosition from '@/components/m-position/m-position.vue'
 import yzbResume from '@/components/yzb/yzb-resume.vue'
-import mAd from '@/components/m-ad/m-ad.vue'
+import yzbGrid from '@/components/yzb/yzb-grid.vue'
 import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'
 export default {
 	components: {
 		mSwiper,
-		uniGrid,
 		mPosition,
-		mAd,
+		yzbGrid,
 		uniLoadMore,
 		yzbResume
 	},
@@ -96,7 +94,6 @@ export default {
 				'https://pan.whiteones.cn/d/PicGo/wuyou/resume_banner.png'
 			],
 			grid: [],
-			ka: [],
 			adList: [],
 			postList: [
 				{ name: '销售', selected: false, type: 1 },
@@ -123,11 +120,15 @@ export default {
 	},
 
 	onShow() {
+		this.page = 1
+		this.limit = 10
+		this.list = []
 		if (this.hasLogin && this.userInfo.role === '招聘者') {
 			this.getResumeList()
 		} else {
 			this.getJobList()
 		}
+		this.getGrids()
 	},
 
 	onReachBottom() {
@@ -139,7 +140,7 @@ export default {
 			let param = {
 				current: this.page,
 				pageSize: this.limit,
-				jobName: ""
+				jobName: ''
 			}
 			this.status = '请求中'
 			let res = await this.$apis.getJobList(param)
@@ -180,41 +181,6 @@ export default {
 			}
 		},
 
-		getGrids() {
-			this.grid = [
-				{
-					image: this.$mAssetsPath.grid_1,
-					text: '最新发布',
-					path: this.$mRoutesConfig.positionList,
-					type: 1
-				},
-				{
-					image: this.$mAssetsPath.grid_7,
-					text: '全部职位',
-					path: this.$mRoutesConfig.type,
-					type: 999
-				},
-				{
-					image: this.$mAssetsPath.grid_5,
-					text: '热门公司',
-					path: this.$mRoutesConfig.companyList,
-					type: 2
-				},
-				{
-					image: this.$mAssetsPath.grid_2,
-					text: '高薪优选',
-					path: this.$mRoutesConfig.positionList,
-					type: 2
-				},
-				{
-					image: this.$mAssetsPath.grid_6,
-					text: '简历列表',
-					path: this.$mRoutesConfig.resumeList,
-					type: 2
-				}
-			]
-		},
-
 		handleClickGrid(o) {
 			if (this.grid[o.index].type == 999) {
 				uni.switchTab({
@@ -229,7 +195,41 @@ export default {
 				}
 			})
 		},
-
+		getGrids(){
+			this.grid = [{
+					image: this.$mAssetsPath.grid_1,
+					text: '最新发布',
+					path: this.$mRoutesConfig.positionList,
+					type: 1
+				},
+				{
+					image: this.$mAssetsPath.grid_7,
+					text: '全部职位',
+					path: this.$mRoutesConfig.type,
+					type: 999
+				},
+				{
+					image: this.$mAssetsPath.grid_2,
+					text: '高薪优选',
+					path: this.$mRoutesConfig.positionList,
+					type: 2
+				}]
+			if (this.hasLogin && this.userInfo.role === '招聘者') {
+				this.grid.push({
+					image: this.$mAssetsPath.grid_6,
+					text: '简历列表',
+					path: this.$mRoutesConfig.resumeList,
+					type: 2
+				})
+			} else {
+				this.grid.push({
+					image: this.$mAssetsPath.grid_5,
+					text: '热门公司',
+					path: this.$mRoutesConfig.companyList,
+					type: 2
+				})
+			}
+		},
 		positionDetail(item) {
 			this.$mRouter.push({
 				route: this.$mRoutesConfig.positionDetail,
@@ -251,9 +251,6 @@ export default {
 		toAllPost() {
 			this.$mRouter.push({
 				route: this.$mRoutesConfig.post,
-				query: {
-					id: 1
-				}
 			})
 		},
 
@@ -267,26 +264,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ka {
-	width: 100%;
-	height: 260upx;
-	position: relative;
-
-	&:after {
-		content: '';
-		position: absolute;
-		transform-origin: center;
-		box-sizing: border-box;
-		pointer-events: none;
-		top: -50%;
-		left: -50%;
-		right: -50%;
-		bottom: -50%;
-		border-bottom: 1px solid #c8c7cc;
-		transform: scale(0.5);
-	}
-}
-
 // 搜索框
 .mp-search {
 	position: fixed;

@@ -2,51 +2,92 @@
 	<view class="content reg-page">
 		<view class="input-group">
 			<view class="input-column border-bottom-1px"><text class="super-title">基本信息</text></view>
-			<view class="input-row border-bottom-1px" @click="uploadImg">
+			<!-- 			<view class="input-row border-bottom-1px" @click="uploadImg">
 				<text class="title">公司Logo</text>
 				<view class="align-height row">
 					<view class="head-img"><image :src="company.logo || '/static/img/company.png'"></image></view>
 					<text class="yzb yzb-next"></text>
 				</view>
-			</view>
+			</view> -->
 			<view class="input-row border-bottom-1px">
 				<text class="title">公司名称</text>
-				<view class="input-row-item"><input class="padding-10" disabled="true" v-model="company.name" /></view>
+				<view class="input-row-item"><input class="padding-10" v-model="company.name" /></view>
 			</view>
 			<view class="input-row border-bottom-1px">
 				<text class="title">公司全称</text>
-				<view class="input-row-item"><input class="padding-10" disabled="true" v-model="company.fullName" /></view>
+				<view class="input-row-item"><input class="padding-10" v-model="company.fullName" /></view>
+			</view>
+			<view class="input-row border-bottom-1px" @click="toIndustry()">
+				<text class="title">所属行业</text>
+				<view class="row">
+					<input
+						class="padding-10"
+						disabled="true"
+						style="text-align: right;"
+						placeholder="请选择所属行业"
+						:value="company.industryName"
+					/>
+					<text class="yzb yzb-next"></text>
+				</view>
 			</view>
 			<view class="input-row border-bottom-1px">
-				<text class="title">所属行业</text>
-				<view class="input-row-item"><input class="padding-10" disabled="true" v-model="company.industryName" /></view>
+				<text class="title">公司性质</text>
+				<view class="picker row align-width">
+					<picker @change="natureChange" :value="nature" :range="natureArray">
+						<input
+							class="padding-10"
+							style="text-align: right;"
+							placeholder="请选择公司性质"
+							:value="company.nature"
+						/>
+					</picker>
+					<text class="yzb yzb-next"></text>
+				</view>
 			</view>
 			<view class="input-row border-bottom-1px">
 				<text class="title">人员规模</text>
 				<view class="picker row align-width">
-					<picker @change="bindPickerChange" :value="education" :range="array">
-						<input class="padding-10" style="text-align: right;" placeholder="" :value="company.staffSize" />
+					<picker @change="staffSizeChange" :value="staffSize" :range="staffSizeArray">
+						<input
+							class="padding-10"
+							style="text-align: right;"
+							placeholder="请选择人员规模"
+							:value="company.staffSize"
+						/>
 					</picker>
 					<text class="yzb yzb-next"></text>
 				</view>
+			</view>
+			<view class="input-column border-bottom-1px"><text class="super-title">福利待遇</text></view>
+			<view class="welfare">
+				<!-- <text class="items" v-for="(item, index) in company.welfare" :key="index" >{{item}}</text> -->
+				<text class="items">社保</text>
+				<text class="items">五险一金</text>
+				<text class="items">节日福利</text>
 			</view>
 			<view class="input-column border-bottom-1px"><text class="super-title">工作时间</text></view>
 			<view class="input-column border-bottom-1px">
 				<text class="title">工作时间</text>
 				<view class="row space-between-algin">
-					<picker mode="time" v-model="company.startTime" @change="bindDate1Change">
-						<input class="padding-10" placeholder="开始时间" :value="company.startTime" />
+					<picker mode="time" v-model="date1" @change="bindDate1Change">
+						<input class="padding-10" placeholder="开始时间" :value="date1" />
 					</picker>
 					至
-					<picker mode="time" v-model="company.endTime" @change="bindDate2Change">
-						<input class="padding-10" style="text-align: center;" placeholder="结束时间" :value="company.endTime" />
+					<picker mode="time" v-model="date2" @change="bindDate2Change">
+						<input class="padding-10" style="text-align: center;" placeholder="结束时间" :value="date2" />
 					</picker>
 				</view>
 			</view>
 			<view class="input-column border-bottom-1px">
 				<text class="title">休息时间</text>
 				<view class="skill-item">
-					<text v-for="(item, index) in restTimes" :key="index" @click="selectRest(index)" class="item" :class="item.selected == true ? 'text-blue' : 'text-normal'">
+					<text
+						v-for="(item, index) in restTimes"
+						:key="index"
+						@click="selectRest(index)"
+						class="item"
+						:class="item.name == company.restTime ? 'text-blue' : 'text-normal'"
+					>
 						{{ item.name }}
 					</text>
 				</view>
@@ -54,80 +95,69 @@
 			<view class="input-column border-bottom-1px">
 				<text class="title">加班情况</text>
 				<view class="skill-item">
-					<text v-for="(item, index) in overTimes" :key="index" @click="selectOverTime(index)" class="item" :class="item.selected == true ? 'text-blue' : 'text-normal'">
+					<text
+						v-for="(item, index) in overTimes"
+						:key="index"
+						@click="selectOverTime(index)"
+						class="item"
+						:class="item.name == company.workOvertime ? 'text-blue' : 'text-normal'"
+					>
 						{{ item.name }}
 					</text>
 				</view>
-			</view>
-
-			<view class="input-column border-bottom-1px"><text class="super-title">福利待遇</text></view>
-			<view class="skill-item">
-				<text v-for="(item, index) in welfareList" :key="index" @click="select(index)" class="item" :class="item.selected == true ? 'text-blue' : 'text-normal'">
-					{{ item.name }}
-				</text>
 			</view>
 			<view class="input-column border-bottom-1px"><text class="super-title">公司位置</text></view>
 			<view class="input-column border-bottom-1px" @click="selectAddress">
 				<text class="title">工作地点</text>
 				<view class="input-item">
-					<input class="padding-10" placeholder="请选择工作地点" disabled="true" v-model="company.addressName" />
+					<input class="padding-10" placeholder="请选择工作地点" disabled="true" v-model="company.address" />
 					<text class="yzb yzb-next"></text>
 				</view>
 				<text class="padding-width-10 text-color-grey text-size-base">{{ company.address }}</text>
 			</view>
 			<view class="input-column border-bottom-1px">
-				<text class="title">门牌号</text>
-				<view class="input-item"><input class="padding-10" placeholder="请输入门牌号" v-model="company.addressHouse" /></view>
-			</view>
-			<view class="input-column border-bottom-1px" @click="toWorkContent(company.desc)">
-				<text class="super-title">公司介绍</text>
-				<view class="space-between-algin row padding-height-20">
-					<input class="padding-10" disabled="true" placeholder="选填 请输入" v-model="company.companyProfile" />
-					<text class="yzb yzb-next"></text>
+				<view class="space-between-algin" style="display: flex;">
+					<text class="super-title">公司介绍</text>
+					<text class="yzb yzb-bianji2" @click="toWorkContent(company.introduce)"></text>
+				</view>
+
+				<view class="skill width-100 padding-height-30 column bottom-line">
+					<text class="item-content">{{ company.introduce }}</text>
 				</view>
 			</view>
-			<view class="input-column border-bottom-1px"><text class="super-title">公司相册</text></view>
+			<!-- 			<view class="input-column border-bottom-1px"><text class="super-title">公司相册</text></view>
 			<view class="module-image">
 				<view class="image_view" v-for="(item, index) in ablumList" :key="index" v-if="ablumList.length > 0">
 					<image :src="item" class="release_img" @click="previewImg(index)"></image>
 					<view class="img_delete center-algin" @click="deleteImg(index)"><text class="text-white text-size-base text-color-inverse">X</text></view>
 				</view>
 				<view class="release_img center-algin release_img_dottedLine" @click="uploadImgs()" v-if="ablumList.length < 9"><text class="text-grey">+</text></view>
-			</view>
+			</view> -->
 		</view>
 		<view class="btn-row row">
-			<button v-if="id" type="warn" class="btn-delete" @tap="remove">删除</button>
-			<button type="primary" class="btn-save" :class="id ? 'width-55' : 'width-90'" @tap="register">保存</button>
+			<button type="primary" class="btn-save" :class="id ? 'width-55' : 'width-90'" @tap="save">保存</button>
 		</view>
 	</view>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { formatDate, calCurrentYear } from '@/common/date';
-import uploadImage from '@/common/ossutil/uploadFile';
+import { mapState } from 'vuex'
+import { formatDate, calCurrentYear } from '@/common/date'
+import uploadImage from '@/common/ossutil/uploadFile'
 export default {
 	components: {},
 	computed: {
-		...mapState(['openId', 'customerInfo']),
-		startDate() {
-			return this.getDate('start');
-		},
-		endDate() {
-			return this.getDate('end');
-		}
+		...mapState(['userInfo'])
 	},
 
 	data() {
-		const currentDate = this.getDate({
-			format: true
-		});
 		return {
 			id: 0,
-			date1: null,
-			date2: null,
-			content: null,
-			array: ['0-20人', '20-99人', '100-499人', '500-999人', '1000-9999人', '10000人以上'],
+			date1: '',
+			date2: '',
+			staffSizeArray: ['0-20人', '20-99人', '100-499人', '500-999人', '1000-9999人', '10000人以上'],
+			natureArray: ['私营/民营企业', '国有企业', '合资企业', '其他'],
+			industryArray: [],
 			restTimes: [
 				{
 					name: '双休',
@@ -158,129 +188,137 @@ export default {
 				{
 					name: '弹性工作',
 					selected: false
-				}],
-			education: null,
+				}
+			],
+			staffSize: null,
+			nature: null,
 			company: null,
+			starttime: null,
+			endtime: null,
 			imgList: [],
 			ablumList: [],
 			welfareList: [],
 			welfareName: '',
 			welfareId: ''
-		};
+		}
 	},
-	onLoad(query) {
-		this.getDetail();
+	onLoad() {
+		this.getCompanyInfo(this.userInfo.companyId)
+		this.getIndustryList()
 	},
 	methods: {
-		formatDates(time) {
-			if (time == null || time === '') {
-				return null;
-			}
-			let date = new Date(time);
-			return formatDate(date, 'yyyy-MM-dd');
-		},
-
-		async getDetail() {
-			let res = await this.$apis.getCompanyDetail();
+		async getCompanyInfo(id) {
+			let res = await this.$apis.getCompanyInfo(id)
 			if (res) {
-				this.company = res;
-				this.ablumList = res.album.split(',');
-				this.initSelectDatas();
-				this.getWelfareList();
-			}
-			console.log('company====', res);
-		},
-		
-		
-		initSelectDatas(){
-			for(let i=0;i<this.restTimes.length;i++){
-				if(this.company.restTime==this.restTimes[i].name){
-					this.restTimes[i].selected = true;
-				}else{
-					this.restTimes[i].selected = false;
-				}
-			}
-			for(let i=0;i<this.overTimes.length;i++){
-				if(this.company.workOvertime==this.overTimes[i].name){
-					this.overTimes[i].selected = true;
-				}else{
-					this.overTimes[i].selected = false;
+				this.company = res
+				this.date1 = this.company.workTime.split('-')[0]
+				this.date2 = this.company.workTime.split('-')[1]
+			} else {
+				this.company = {
+					address: '',
+					authId: null,
+					cityId: null,
+					enableStatus: true,
+					fullName: '',
+					id: '',
+					industryId: '623bcdbb',
+					introduce: '',
+					logo: 'https://pan.whiteones.cn/d/PicGo/wuyou/company_avatar.png',
+					name: '',
+					nature: '',
+					restTime: '',
+					staffSize: '',
+					workOvertime: '',
+					workTime: ''
 				}
 			}
 		},
-
-		async getWelfareList() {
-			let res = await this.$apis.getWelfareList();
+		async getIndustryList() {
+			let param = {
+				current: 1,
+				pageSize: 999
+			}
+			let res = await this.$apis.getIndustryList(param)
 			if (res) {
-				this.welfareList = res;
-				let selectWelfare=this.company.welfare.split(",");
-				for (let i = 0; i < this.welfareList.length; i++) {
-					for(let j=0;j<selectWelfare.length;j++){
-						if (this.welfareList[i].name == selectWelfare[j]) {
-							this.welfareList[i].selected=true;
-						}
-					}
+				this.industryArray = res.list.filter(item => item.pid === null)
+			}
+		},
+		initSelectDatas() {
+			for (let i = 0; i < this.restTimes.length; i++) {
+				if (this.company.restTime == this.restTimes[i].name) {
+					this.restTimes[i].selected = true
+				} else {
+					this.restTimes[i].selected = false
+				}
+			}
+			for (let i = 0; i < this.overTimes.length; i++) {
+				if (this.company.workOvertime == this.overTimes[i].name) {
+					this.overTimes[i].selected = true
+				} else {
+					this.overTimes[i].selected = false
 				}
 			}
 		},
 
-		getDate(type) {
-			const date = new Date();
-			let year = date.getFullYear();
-			let month = date.getMonth() + 1;
-			let day = date.getDate();
+		// async getWelfareList() {
+		// 	let res = await this.$apis.getWelfareList()
+		// 	if (res) {
+		// 		this.welfareList = res
+		// 		let selectWelfare = this.company.welfare.split(',')
+		// 		for (let i = 0; i < this.welfareList.length; i++) {
+		// 			for (let j = 0; j < selectWelfare.length; j++) {
+		// 				if (this.welfareList[i].name == selectWelfare[j]) {
+		// 					this.welfareList[i].selected = true
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// },
 
-			if (type === 'start') {
-				year = year - 60;
-			} else if (type === 'end') {
-				year = year + 2;
-			}
-			month = month > 9 ? month : '0' + month;
-			day = day > 9 ? day : '0' + day;
-			return `${year}-${month}-${day}`;
+		staffSizeChange: function(e) {
+			this.company.staffSize = this.staffSizeArray[e.target.value]
 		},
-
-		bindPickerChange: function(e) {
-			console.log(e.target.value);
-			this.company.staffSize = this.array[e.target.value];
+		natureChange: function(e) {
+			this.company.nature = this.natureArray[e.target.value]
 		},
 
 		bindDate1Change: function(e) {
-			console.log(e.target.value);
-			this.company.startTime = e.target.value;
+			this.date1 = e.target.value
+			console.log(this.date1)
 		},
 		bindDate2Change: function(e) {
-			this.company.endTime = e.target.value;
+			this.date2 = e.target.value
+			console.log(this.date2)
 		},
 
 		// 选择图片
 		uploadImg() {
-			let that = this;
+			let that = this
 			uni.chooseImage({
 				success(res) {
-					let tempFilePaths = res.tempFilePaths;
-					that.tmpImageUrl = tempFilePaths[0];
-					that.uploadFile();
+					let tempFilePaths = res.tempFilePaths
+					that.tmpImageUrl = tempFilePaths[0]
+					that.uploadFile()
 				}
-			});
+			})
 		},
 
 		// 上传图片
 		uploadFile() {
 			uni.showLoading({
 				title: '图片上传中'
-			});
+			})
 			uploadImage(0, this.tmpImageUrl, 'job/user/', result => {
-				console.log('图片上传结果：', result);
-				this.company.logo = result;
-				uni.hideLoading();
-			});
+				console.log('图片上传结果：', result)
+				this.company.logo = result
+				uni.hideLoading()
+			})
 		},
 
 		// 选择图片
 		uploadImgs() {
-			let that = this;
-			this.cover = '';
+			let that = this
+			this.cover = ''
 			uni.chooseMedia({
 				count: 9 - that.ablumList.length,
 				mediaType: ['image'],
@@ -288,67 +326,67 @@ export default {
 				maxDuration: 30,
 				camera: 'back',
 				success(res) {
-					console.log(res);
-					console.log(res.tempFiles);
-					let tmpFiles = res.tempFiles;
+					console.log(res)
+					console.log(res.tempFiles)
+					let tmpFiles = res.tempFiles
 					if (res.type == 'video') {
-						that.mediaType = 1;
-						let data = that.imgList;
+						that.mediaType = 1
+						let data = that.imgList
 						if (data.length < 9) {
-							data.push(tmpFiles[0].tempFilePath);
+							data.push(tmpFiles[0].tempFilePath)
 						}
-						that.imgList = data;
+						that.imgList = data
 					} else {
-						let data = that.imgList;
+						let data = that.imgList
 						if (data.length < 9) {
 							for (var i = 0; i < tmpFiles.length; i++) {
-								data.push(tmpFiles[i].tempFilePath);
+								data.push(tmpFiles[i].tempFilePath)
 							}
 						} else {
 							uni.showToast({
 								icon: 'none',
 								title: '最多只能有九张图片'
-							});
-							return;
+							})
+							return
 						}
-						that.imgList = data;
+						that.imgList = data
 					}
-					that.uploadFiles();
+					that.uploadFiles()
 				}
-			});
+			})
 		},
 
 		// 上传图片
 		uploadFiles() {
-			uni.showLoading();
+			uni.showLoading()
 			for (var i in this.imgList) {
 				if (this.mediaType == 1) {
 					uploadImage(1, this.imgList[i], 'video/', result => {
 						// console.log('视频上传结果：', result);
-						this.videoUrl = result;
-						this.cover = result + '?x-oss-process=video/snapshot,t_1000,f_jpg,w_800,h_600,m_fast,ar_auto';
-						this.ablumList.push(result);
+						this.videoUrl = result
+						this.cover = result + '?x-oss-process=video/snapshot,t_1000,f_jpg,w_800,h_600,m_fast,ar_auto'
+						this.ablumList.push(result)
 						if (this.imgList.length == this.ablumList.length) {
 							// 图片上传完调用提交帖子
 							// this.addPost();
 						}
-					});
+					})
 				} else {
 					uploadImage(0, this.imgList[i], 'images/', result => {
 						// console.log('图片上传结果：', result);
 						// this.imageUrl = result;
-						this.ablumList.push(result);
+						this.ablumList.push(result)
 
 						if (this.imgList.length == this.ablumList.length) {
 							// 图片上传完调用提交帖子
 							// this.addPost();
 						}
-					});
+					})
 				}
 			}
-			this.imgList = [];
-			uni.hideLoading();
-			console.log('ablumList===', this.ablumList);
+			this.imgList = []
+			uni.hideLoading()
+			console.log('ablumList===', this.ablumList)
 		},
 
 		// 查看图片
@@ -358,57 +396,39 @@ export default {
 				loop: true,
 				current: this.ablumList[index],
 				urls: this.ablumList
-			});
+			})
 		},
 
 		// 删除图片
 		deleteImg(index) {
 			if (this.mediaType == 0) {
-				this.ablumList.splice(index, 1);
+				this.ablumList.splice(index, 1)
 				// this.imgList.splice(index, 1);
 			} else {
-				this.imgList = [];
-				this.mediaType = 0;
-				this.$forceUpdate();
+				this.imgList = []
+				this.mediaType = 0
+				this.$forceUpdate()
 			}
 		},
 
 		selectAddress() {
 			uni.chooseLocation({
 				success: res => {
-					console.log('选择详细地址结果');
-					console.log(res);
-					console.log(res.name);
-					console.log(res.address);
+					console.log('选择详细地址结果')
+					console.log(res)
+					console.log(res.name)
+					console.log(res.address)
 					if (res.address == '') {
-						this.address = '请选择详细地址';
-						return;
+						this.address = '请选择详细地址'
+						return
 					}
-					this.company.addressName = res.name;
-					this.company.address = res.address;
-					console.log(this.company.address);
-					this.company.latitude = res.latitude;
-					this.company.longitude = res.longitude;
+					this.company.addressName = res.name
+					this.company.address = res.address
+					console.log(this.company.address)
+					this.company.latitude = res.latitude
+					this.company.longitude = res.longitude
 				}
-			});
-		},
-
-		toIndustry() {
-			this.$mRouter.push({
-				route: this.$mRoutesConfig.industry,
-				query: {
-					id: 1
-				}
-			});
-		},
-
-		toPost() {
-			this.$mRouter.push({
-				route: this.$mRoutesConfig.post,
-				query: {
-					id: 1
-				}
-			});
+			})
 		},
 
 		toWorkContent(content) {
@@ -416,111 +436,97 @@ export default {
 				route: this.$mRoutesConfig.editProContent,
 				query: {
 					type: 4,
-					content: this.company.companyProfile
+					content: this.company.introduce
 				}
-			});
+			})
 		},
 
-		// 点击注册按钮
-		async register() {
-			var img = '';
-			for (var i in this.ablumList) {
-				img += this.ablumList[i] + ',';
-			}
-			//去掉最后一个逗号
-			if (img.length > 0) {
-				img = img.substr(0, img.length - 1);
-			}
-			this.company.album = img;
-			let res = await this.$apis.updateCompany(this.company);
+		async save() {
+			this.company.workTime = this.date1 + '-' + this.date2
+			let res = await this.$apis.updateCompanyInfo(this.company)
 			if (res) {
-				uni.navigateBack({
-					delta: 1
-				});
-			}
-		},
-
-		async doUpdate() {
-			let res = await this.$apis.updateCompany(this.company);
-			if (res) {
-				uni.navigateBack({
-					delta: 1
-				});
-			}
-		},
-
-		async remove() {
-			let res = await this.$apis.deleteEduExpById({ id: this.id });
-			if (res) {
-				uni.navigateBack({
-					delta: 1
-				});
+				uni.showToast({
+					title: '保存成功',
+					icon: 'success',
+					duration: 2000
+				})
+				setTimeout(() => {
+					uni.navigateBack({
+						delta: 1
+					})
+				}, 1000)
 			}
 		},
 		select(index) {
-			this.welfareList[index].selected = !this.welfareList[index].selected;
-			this.$forceUpdate();
+			this.welfareList[index].selected = !this.welfareList[index].selected
+			this.$forceUpdate()
 			//获取已选择的
 			// this.selected=[];
-			this.welfareName = '';
-			this.welfareId = '';
+			this.welfareName = ''
+			this.welfareId = ''
 			for (let i = 0; i < this.welfareList.length; i++) {
 				if (this.welfareList[i].selected == true) {
 					// this.selected.push(this.welfareList[i]);
-					this.welfareName = this.welfareName + ',' + this.welfareList[i].name;
-					this.welfareId = this.welfareId + ',' + this.welfareList[i].id;
+					this.welfareName = this.welfareName + ',' + this.welfareList[i].name
+					this.welfareId = this.welfareId + ',' + this.welfareList[i].id
 				}
 			}
-			this.welfareName = this.welfareName.substr(1, this.welfareName.length);
-			this.welfareId = this.welfareId.substr(1, this.welfareId.length);
-			console.log(this.welfareName);
-			this.company.welfare = this.welfareName;
+			this.welfareName = this.welfareName.substr(1, this.welfareName.length)
+			this.welfareId = this.welfareId.substr(1, this.welfareId.length)
+			console.log(this.welfareName)
+			this.company.welfare = this.welfareName
 		},
-		
+
 		/**
 		 * 选择休息时间
 		 */
-		selectRest(index){
-			if(this.restTimes[index].selected==false){//选中
+		selectRest(index) {
+			if (this.restTimes[index].selected == false) {
+				//选中
 				//把其他的全部关闭
-				for(let i=0;i<this.restTimes.length;i++){
-					if(i==index){
-						this.restTimes[index].selected = true;
-						this.company.restTime=this.restTimes[index].name;
-					}else{
-						this.restTimes[i].selected = false;
+				for (let i = 0; i < this.restTimes.length; i++) {
+					if (i == index) {
+						this.restTimes[index].selected = true
+						this.company.restTime = this.restTimes[index].name
+					} else {
+						this.restTimes[i].selected = false
 					}
 				}
-			}else{
-				this.restTimes[index].selected = false;
-				this.company.restTime="";
+			} else {
+				this.restTimes[index].selected = false
+				this.company.restTime = ''
 			}
-			this.$forceUpdate();
+			this.$forceUpdate()
 		},
-		
+
 		/**
 		 * 选择加班情况
 		 */
-		selectOverTime(index){
-			if(this.overTimes[index].selected==false){//选中
+		selectOverTime(index) {
+			if (this.overTimes[index].selected == false) {
+				//选中
 				//把其他的全部关闭
-				for(let i=0;i<this.overTimes.length;i++){
-					if(i==index){
-						this.overTimes[index].selected = true;
-						this.company.workOvertime=this.overTimes[index].name;
-					}else{
-						this.overTimes[i].selected = false;
+				for (let i = 0; i < this.overTimes.length; i++) {
+					if (i == index) {
+						this.overTimes[index].selected = true
+						this.company.workOvertime = this.overTimes[index].name
+					} else {
+						this.overTimes[i].selected = false
 					}
 				}
-			}else{
-				this.overTimes[index].selected = false;
-				this.company.workOvertime="";
+			} else {
+				this.overTimes[index].selected = false
+				this.company.workOvertime = ''
 			}
-			this.$forceUpdate();
+			this.$forceUpdate()
+		},
+		toIndustry() {
+			this.$mRouter.push({
+				route: this.$mRoutesConfig.industry
+			})
 		}
-		
 	}
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -548,6 +554,23 @@ input {
 		input {
 			text-align: right;
 		}
+	}
+}
+
+.welfare {
+	display: flex;
+	flex-direction: row;
+	margin-top: 25upx;
+	padding-left: 30upx;
+	flex-wrap: wrap;
+	.items {
+		font-size: $uni-font-size-base;
+		padding: 10upx 20upx;
+		margin-right: 15upx;
+		background-color: $border-color-base;
+		border-radius: 5upx;
+		color: $font-color-666;
+		margin-top: 15upx;
 	}
 }
 
@@ -758,5 +781,8 @@ radio-group {
 	position: fixed;
 	bottom: 0;
 	left: 0;
+}
+.item-content {
+	font-size: 30upx;
 }
 </style>

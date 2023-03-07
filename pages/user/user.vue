@@ -63,16 +63,15 @@ export default {
 				//name-标题 icon-图标 badge-角标
 				{ name: '我的简历', show:true, icon: 'yzb-jianli', badge: 0, url: this.$mRoutesConfig.personReume },
 				{ name: '我的投递', show:true,icon: 'yzb-mianshiyaoqing', badge: 0, url: this.$mRoutesConfig.apply},
-				{ name: '我的收藏', show:true,icon: 'yzb-ziyuan141', badge: 2, url: this.$mRoutesConfig.collect },
-				{ name: '谁看过我', show:true,icon: 'yzb-liulanjilu', badge: 1, url: this.$mRoutesConfig.connected }
+				{ name: '我的收藏', show:true,icon: 'yzb-ziyuan141', badge: 0, url: this.$mRoutesConfig.collect },
+				{ name: '谁看过我', show:true,icon: 'yzb-liulanjilu', badge: 0, url: this.$mRoutesConfig.browse }
 			],
 			orderTypeLise2: [
 				//name-标题 icon-图标 badge-角标
 				{ name: '公司主页', show:true,icon: 'yzb-liulanjilu', badge: 0, url: this.$mRoutesConfig.companyDetail},
-				{ name: '已沟通过', show:true, icon: 'yzb-jianli', badge: 1, url: this.$mRoutesConfig.connected },
-				{ name: '收到简历', show:true,icon: 'yzb-mianshiyaoqing', badge: 0, url:this.$mRoutesConfig.apply},
-				{ name: '我的收藏', show:true,icon: 'yzb-ziyuan141', badge: 2, url: this.$mRoutesConfig.collect },
-				// { name: '谁看过我', show:true,icon: 'yzb-liulanjilu', badge: 1, url: null }
+				{ name: '面试邀请', show:true,icon: 'yzb-mianshiyaoqing', badge: 0, url:this.$mRoutesConfig.apply},
+				{ name: '我的收藏', show:true,icon: 'yzb-ziyuan141', badge: 0, url: this.$mRoutesConfig.collect },
+				{ name: '谁看过我', show:true,icon: 'yzb-liulanjilu', badge: 0, url: this.$mRoutesConfig.browse }
 			],
 			severList: [
 				[
@@ -87,7 +86,7 @@ export default {
 			],
 			severList2: [
 				[
-					{ name: '公司认证', show: true, icon: 'auth.png', url: this.$mRoutesConfig.companyAuth },
+					// { name: '公司认证', show: true, icon: 'auth.png', url: this.$mRoutesConfig.companyAuth },
 					{ name: '公司管理', show:true,icon: 'company.png', url:  this.$mRoutesConfig.company}, 
 					{ name: '职位管理', show:true,icon: 'yijian.png', url:this.$mRoutesConfig.positions}, 
 					{ name: '我要求职', show:false,icon: 'switch.png', url:"qiuzhi"}],
@@ -104,7 +103,6 @@ export default {
 		if (this.hasLogin) {
 			this.getUserInfo();
 		}
-		console.log('是否一登录', this.hasLogin);
 	},
 	methods: {
 		// 获取用户信息
@@ -129,7 +127,7 @@ export default {
 			this.$mRouter.push({
 				route: this.orderTypeLise2[index].url,
 				query: {
-					id: 0
+					id: this.userInfo.companyId
 				}
 			});
 		},

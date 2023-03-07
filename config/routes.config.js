@@ -95,6 +95,18 @@ export default {
 		path: "/pages/trade/trade",
 		requiresAuth: true
 	},
+	notices: {
+		name: "系统消息",
+		path: "/pages/chat/notice/notices",
+	},
+	noticeDetail: {
+		name: "消息详情",
+		path: "/pages/chat/notice/noticeDetail",
+	},
+	privateChat: {
+		name: "聊天",
+		path: "/pages/chat/privateChat",
+	},
 
 	// 非权限路由
 	main: {

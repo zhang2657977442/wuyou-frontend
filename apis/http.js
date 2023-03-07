@@ -48,7 +48,7 @@ function HTTP(obj, config) {
 					// 返回 data:[]
 					else {
 						if (data.code === 0) {
-							resolve(data.data || true)
+							resolve(data.data)
 						} else {
 							wx.showToast({
 								title: data.message,
@@ -111,6 +111,13 @@ export default {
 			url,
 			data,
 			method: "POST"
+		}, config);
+	},
+	DELETE(url, data = {}, config) {
+		return HTTP({
+			url,
+			data,
+			method: "DELETE"
 		}, config);
 	},
 

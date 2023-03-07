@@ -12,12 +12,13 @@ export default {
 	data() {
 		return {
 			list: [
-				{name: '一、配送问题'},
-				{name: '二、商品问题'},
-				{name: '三、支付问题'},
-				{name: '四、发票问题'},
-				{name: '五、账户问题'},
-				{name: '六、售后问题'},
+				{id:0,name: '一、简历相关'},
+				{id:1,name: '二、沟通相关'},
+				{id:2,name: '三、隐私与安全'},
+				{id:3,name: '四、账号信息'},
+				{id:4,name: '五、职位相关'},
+				{id:5,name: '六、面试相关'},
+				{id:6,name: '七、其他问题'},
 			]
 		};
 	},
@@ -31,9 +32,9 @@ export default {
 	},
 	methods: {
 		navTo(obj) {
-			uni.navigateTo({
-				url: '/pages/user/helpcenterDetails?id='+obj.id
-			});
+			// uni.navigateTo({
+			// 	url: '/pages/user/helpcenterDetails?id='+obj.id
+			// });
 		},
 	},
 };

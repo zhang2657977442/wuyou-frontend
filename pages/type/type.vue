@@ -41,6 +41,7 @@ export default {
 	data() {
 		return {
 			positionList: [],
+			jobList: [],
 			status: '',
 			page: 1,
 			limit: 10,
@@ -85,6 +86,7 @@ export default {
 					}
 				}
 				this.positionList = this.positionList.concat(data || [])
+				this.jobList = this.positionList
 				this.changeStatus(res)
 			}
 		},
@@ -138,6 +140,31 @@ export default {
 			console.log(e)
 			this.indexArr = e.index
 			this.valueArr = e.value
+            const res = this.filterList(e.value)
+			this.positionList = res
+		},
+		// 根据条件进行过滤
+		filterList(data){
+			let list = []
+			const isNull = (element) => element !== null;
+			if(data[0].some(isNull)){
+			list = this.positionList.filter(item => data[0].includes(item.postName))
+			}
+			if(data[1].some(isNull)){
+			list = this.positionList.filter(item => data[1].includes(item.industryName))
+			}
+			if(data[2][0] === null || data[2][0] === '全部分类'){
+			    list = this.jobList
+			}else{
+				list = this.positionList.filter(item => data[2][0] === item.salary)
+				return list
+			}
+			if(data[3][0] === null || data[3][0] === '全部分类'){
+			    list = this.jobList
+			}else{
+				list = this.positionList.filter(item => data[3][0] === item.expRequire)
+			}
+			return list
 		}
 	}
 }
