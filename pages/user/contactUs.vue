@@ -39,8 +39,7 @@ export default {
 		};
 	},
 	onLoad() {
-		console.log("1111111111111111111111111111111");
-		this.getContactUs()
+		// this.getContactUs()
 	},
 	methods: {
 		// 获取联系我们
@@ -64,14 +63,15 @@ export default {
 			var params = {
 				content: this.opinion
 			}
-			let res= await this.$apis.getFeedbackAdd(params);
+			// let res= await this.$apis.getFeedbackAdd(params);
+			let res = true
 			if(res){
 				uni.showToast({title: '提交成功'})
 				setTimeout(function(){
 					uni.navigateBack({
 						delta: 1
 					})
-				},1200)
+				},1000)
 			}else{
 				uni.showToast({title: '提交失败'})
 			}

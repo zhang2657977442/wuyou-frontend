@@ -21,33 +21,14 @@ export default {
 	},
 	data() {
 		return {
-			detail: {},
-			where: {},
-			id: null,
-			data: {
-				title: '应用新版本上线通知',
-				content: '人才直聘新版本即将上线，敬请期待~~~~',
-				createTime: '2022-04-26'
-			}
+			data: {}
 		};
 	},
-	onLoad(options) {
-		console.log(options);
-		this.id = options.id;
-		// this.getNoticeDetail()
+	onLoad(query) {
+		const data = decodeURIComponent(query.item)
+		this.data = JSON.parse(data)
 	},
 	methods: {
-		
-		async getNoticeDetail() {
-			let res = await this.$apis.getNoticeDetail({noticeId:this.id});
-			console.log('getNoticeDetail===', res);
-			if (res) {
-				this.data = res;
-				console.log('data===', this.data);
-			}
-		},
-		
-		async addNoticeRead() {}
 	}
 };
 </script>

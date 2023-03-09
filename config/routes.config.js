@@ -34,7 +34,14 @@ export default {
 		name: "关于我们",
 		path: "/pages/user/aboutUs"
 	},
-	
+	terms: {
+		name: "用户协议",
+		path: "/pages/user/terms",
+	},
+	privacy: {
+		name: "隐私政策",
+		path: "/pages/user/privacy",
+	},
 	contactUs: {
 		name: "联系我们",
 		path: "/pages/user/contactUs"
@@ -74,26 +81,6 @@ export default {
 	apply: {
 		name: "我的投递",
 		path: "/pages/user/apply",
-	},
-	ccList: {
-		name: "信用卡管理",
-		path: "/pages/cc/ccList",
-		requiresAuth: true
-	},
-	ccDetail: {
-		name: "信用卡详情",
-		path: "/pages/cc/ccDetail",
-		requiresAuth: true
-	},
-	ccAdd: {
-		name: "添加信用卡",
-		path: "/pages/cc/ccAdd",
-		requiresAuth: true
-	},
-	trade: {
-		name: "商户收款",
-		path: "/pages/trade/trade",
-		requiresAuth: true
 	},
 	notices: {
 		name: "系统消息",
@@ -144,10 +131,6 @@ export default {
 		path: "/pages/position/detail"
 	},
 	
-	positionSearch: {
-		name: "职位搜索",
-		path: "/pages/position/search"
-	},
 	
 	companyList: {
 		name: "公司列表",
@@ -203,10 +186,6 @@ export default {
 		name: "教育经历",
 		path: "/pages/user/person/edit-edu"
 	},
-	editCert:{
-		name: "资格证书",
-		path: "/pages/user/person/edit-cert"
-	},
 	
 	enter:{
 		name: "公司入驻",
@@ -241,10 +220,6 @@ export default {
 	regSuccess: {
 		name: "提交成功",
 		path: "/pages/login/success"
-	},
-	ccApply: {
-		name: "信用卡申请",
-		path: "/pages/cc/ccApply"
 	},
 
 }

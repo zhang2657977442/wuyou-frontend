@@ -4,8 +4,14 @@
 			<view class="input-column border-bottom-1px">
 				<text class="title">姓名</text>
 				<view class="input-item">
-					<m-input type="text" clearable v-model="resumeInfo.name" placeholder="请输入姓名" :maxLength="30"></m-input>
-<!-- 					<text class="yzb yzb-next"></text> -->
+					<m-input
+						type="text"
+						clearable
+						v-model="resumeInfo.name"
+						placeholder="请输入姓名"
+						:maxLength="30"
+					></m-input>
+					<!-- 					<text class="yzb yzb-next"></text> -->
 				</view>
 			</view>
 
@@ -22,11 +28,17 @@
 					</label>
 				</radio-group>
 			</view>
-			
+
 			<view class="input-column border-bottom-1px">
 				<text class="title">出生年月</text>
 				<view class="picker">
-					<picker mode="date" :value="resumeInfo.birthday" :start="startDate" :end="endDate" @change="bindBirthdayChange">
+					<picker
+						mode="date"
+						:value="resumeInfo.birthday"
+						:start="startDate"
+						:end="endDate"
+						@change="bindBirthdayChange"
+					>
 						<view class="uni-input">{{ resumeInfo.birthday }}</view>
 					</picker>
 					<text class="yzb yzb-next"></text>
@@ -36,13 +48,13 @@
 			<view class="input-column border-bottom-1px">
 				<text class="title">最高学历</text>
 				<view class="picker">
-					<picker :value="resumeInfo.education" :range="array" @change="bindPickerChange" >
+					<picker :value="resumeInfo.education" :range="array" @change="bindPickerChange">
 						<input class="padding-10" placeholder="请选择学历" :value="resumeInfo.education" />
 					</picker>
 					<text class="yzb yzb-next"></text>
 				</view>
 			</view>
-			
+
 			<view class="input-column border-bottom-1px">
 				<text class="title">工作经验</text>
 				<view class="picker">
@@ -52,7 +64,6 @@
 					<text class="yzb yzb-next"></text>
 				</view>
 			</view>
-
 		</view>
 
 		<view class="btn-row"><button type="primary" class="primary" @tap="update">保存</button></view>
@@ -60,14 +71,15 @@
 </template>
 
 <script>
-import mInput from '@/components/m-input/m-input.vue';
-import mCell from '@/components/m-cell/m-cell.vue';
-import mpvuePicker from '@/components/mpvue-picker/mpvue-picker.vue';
-import cityData from '@/common/cityData.js';
-import graceChecker from '@/common/graceChecker.js';
-import mUpimg from '@/components/m-upimg/m-upimg.vue';
-import mCodedialog from '@/components/m-codedialog/m-codedialog.vue';
-import formRuleConfig from '@/config/formRule.config.js';
+import { mapState } from 'vuex';
+import mInput from '@/components/m-input/m-input.vue'
+import mCell from '@/components/m-cell/m-cell.vue'
+import mpvuePicker from '@/components/mpvue-picker/mpvue-picker.vue'
+import cityData from '@/common/cityData.js'
+import graceChecker from '@/common/graceChecker.js'
+import mUpimg from '@/components/m-upimg/m-upimg.vue'
+import mCodedialog from '@/components/m-codedialog/m-codedialog.vue'
+import formRuleConfig from '@/config/formRule.config.js'
 export default {
 	components: {
 		mInput,
@@ -77,90 +89,111 @@ export default {
 		mCodedialog
 	},
 	computed: {
+			...mapState(['userInfo']),
 		startDate() {
-			return this.getDate('start');
+			return this.getDate('start')
 		},
 		endDate() {
-			return this.getDate('end');
+			return this.getDate('end')
 		}
 	},
 
 	data() {
 		const currentDate = this.getDate({
 			format: true
-		});
-		return{ 
+		})
+		return {
 			array: ['高中以下', '高中', '中专/技校', '大专', '本科', '硕士', '博士'],
-			exparray: ['1年以内','1-3年','3-5年','5-10年','10年以上'],
-			resumeInfo:{
-				birthday:currentDate,
-				experience:'',
-				name:'',
-				gender:'男',
-				education:'',
+			exparray: ['1年以内', '1-3年', '3-5年', '5-10年', '10年以上'],
+			isCreate: true,
+			resumeInfo: {
+				userId: "",
+				birthday: currentDate,
+				experience: '',
+				name: '',
+				gender: '男',
+				education: ''
 			}
-		};
+		}
 	},
 	onLoad() {
-		this.getUserResume();
+		this.getUserResume()
+		this.resumeInfo.userId = this.userInfo.id
 	},
 	methods: {
-		
-		async getUserResume(){
-			this.resumeInfo = await this.$apis.getUserResume();
+		async getUserResume() {
+			const res = await this.$apis.getUserResume()
+			if (res) {
+				this.resumeInfo = res
+				this.isCreate = false
+			} else {
+				this.isCreate = true
+			}
 		},
-		
-		radioChange (e) {
+
+		radioChange(e) {
 			this.resumeInfo.gender = e.target.value
 		},
-		
+
 		bindBirthdayChange: function(e) {
 			this.resumeInfo.birthday = e.target.value
 		},
-		
+
 		bindPickerChange: function(e) {
 			this.resumeInfo.education = this.array[e.target.value]
 		},
-		
+
 		bindExpChange: function(e) {
 			this.resumeInfo.experience = this.exparray[e.target.value]
 		},
-		
+
 		getDate(type) {
-			const date = new Date();
-			let year = date.getFullYear();
-			let month = date.getMonth() + 1;
-			let day = date.getDate();
-		
+			const date = new Date()
+			let year = date.getFullYear()
+			let month = date.getMonth() + 1
+			let day = date.getDate()
+
 			if (type === 'start') {
-				year = year - 60;
+				year = year - 60
 			} else if (type === 'end') {
-				year = year + 2;
+				year = year + 2
 			}
-			month = month > 9 ? month : '0' + month;
-			day = day > 9 ? day : '0' + day;
-			return `${year}-${month}-${day}`;
+			month = month > 9 ? month : '0' + month
+			day = day > 9 ? day : '0' + day
+			return `${year}-${month}-${day}`
 		},
 
 		// 更新
 		async update() {
-			let checkRes = graceChecker.check(this.resumeInfo, formRuleConfig.regResumeBaseRule);
+			let checkRes = graceChecker.check(this.resumeInfo, formRuleConfig.regResumeBaseRule)
 			if (!checkRes) {
 				uni.showToast({
 					title: graceChecker.error,
 					icon: 'none'
-				});
-				return;
-			}
-			let res = await this.$apis.updateResume(this.resumeInfo);
-			if(res){
-				uni.navigateBack({
-					delta:1
 				})
+				return
 			}
-		},
+			let res = null
+			if (this.isCreate) {
+				res = await this.$apis.addResume(this.resumeInfo)
+			} else {
+				res = await this.$apis.updateResume(this.resumeInfo)
+			}
+			if (res) {
+				uni.showToast({
+					title: '保存成功',
+					icon: 'success',
+					duration: 2000
+				})
+				setTimeout(() => {
+					uni.navigateBack({
+						delta: 1
+					})
+				}, 1000)
+			}
+		}
 	}
-};
+}
 </script>
 
 <style lang="scss" scoped>

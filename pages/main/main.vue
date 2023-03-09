@@ -35,7 +35,6 @@
 					<text class="yzb yzb-next post-next"></text>
 				</view>
 			</view>
-			<!-- <m-ad :list="adList"></m-ad> -->
 			<template v-if="hasLogin == false || (hasLogin && userInfo.role == '求职者')">
 				<view class="expect">
 					<scroll-view class="items" :scroll-x="true"><text class="title">热门工作</text></scroll-view>

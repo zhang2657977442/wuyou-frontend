@@ -69,7 +69,6 @@ import EmojiDecoder from '@/lib/EmojiDecoder';
 import mEmptyData from '@/components/m-empty-data/m-empty-data.vue';
 import { formatDate } from '@/common/date';
 import IMService from '@/lib/imservice';
-const recorderManager = uni.getRecorderManager();
 
 export default {
 	components: {
@@ -193,8 +192,6 @@ export default {
 			}
 		},
 
-		onqueryload(val) {
-		},
 		renderConversations(content) {
 			this.conversations = content.conversations || [];
 			//格式化内容

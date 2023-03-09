@@ -6,9 +6,9 @@
 			<uni-list-chat
 				v-for="(item, index) in data"
 				:key="index"
-				:title="item.title"
-				:avatar="item.pic"
-				:note="item.summary"
+				title="系统通知"
+				avatar="/static/img/logo.png"
+				:note="item.text"
 				:time="formatCreateTime(item.createTime)"
 				@click="toDetail(item)"
 				:clickable="clickable"
@@ -39,14 +39,7 @@ export default {
 			clickable:true,
 			unreadTotal: 0,
 			where: {},
-			data: [
-				{
-					title: '系统通知',
-					summary: '人才直聘新版本即将上线，敬请期待~~~~',
-					createTime: '2023-04-26',
-					pic: '/static/img/logo.png'
-				}
-			],
+			data: [],
 			loading: false,
 		};
 	},
@@ -57,30 +50,29 @@ export default {
 		console.log('---onReachBottom---');
 	},
 	onLoad() {
-		// this.getNoticeList();
+		this.getNoticeList();
 	},
 	onShow() {},
 
 	methods: {
 		async getNoticeList() {
 			let param = {
-				page: 1,
-				limit: 1
+				  "current": 1,
+				  "pageSize": 999,
+				  "type": 3
 			};
-			let res = await this.$apis.getNoticeList(param);
-			console.log('getNoticeList===', res);
-			if (res.data.length > 0) {
-				this.data = res.data;
-				console.log('data===', this.data);
+			let res = await this.$apis.getCmsList(param);
+			if (res.list.length > 0) {
+				this.data = res.list;
+
 			}
 		},
 
 		toDetail(item) {
-			console.log(item);
 			this.$mRouter.push({
 				route: this.$mRoutesConfig.noticeDetail,
 				query: {
-					id: 1
+					item: encodeURIComponent(JSON.stringify(item))
 				}
 			});
 		},

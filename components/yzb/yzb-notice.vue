@@ -1,12 +1,12 @@
 <template>
 	<view class="content">
 		<view class="title">
-			<text>{{ detail.title }}</text>
+			<text>系统通知</text>
 		</view>
 		<view class="date">
 			<text v-if="detail">{{ formatCreateTime(detail.createTime) }}</text>
 		</view>
-		<view class="detail"><bctos-rich-text :nodes="detail.content"></bctos-rich-text></view>
+		<view class="detail"><bctos-rich-text :nodes="detail.text"></bctos-rich-text></view>
 	</view>
 </template>
 

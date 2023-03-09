@@ -66,7 +66,7 @@ export default {
 
 	onReachBottom() {
 		this.page++
-		this.getPositionList()
+		this.getJobList()
 	},
 
 	methods: {

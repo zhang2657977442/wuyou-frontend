@@ -12,6 +12,9 @@ export const getUserInfo = (data) => http.GET(`${config.baseUrl}/user/getUserInf
 // 用户角色切换
 export const switchRole = (data) => http.POST(`${config.baseUrl}/user/switchRole`, data);
 
+
+// 新增简历信息
+export const addResume = (data) => http.POST(`${config.baseUrl}/resume/addResume`, data);
 // 查询简历信息
 export const getResumeInfo = (id) => http.GET(`${config.baseUrl}/resume/getResumeInfo/${id}`);
 // 查询用户简历
@@ -37,6 +40,8 @@ export const getPositionList = (data) => http.POST(`${config.baseUrl}/position/g
 // 查询福利列表
 export const getWelfareList = (data) => http.POST(`${config.baseUrl}/welfare/getWelfareList`, data);
 
+// 新增公司信息
+export const addCompany = (data) => http.POST(`${config.baseUrl}/company/addCompany`, data);
 // 查询公司职位列表
 export const getCompanyJob = (data) => http.POST(`${config.baseUrl}/company/getCompanyJob`, data);
 // 查询公司列表
@@ -45,6 +50,8 @@ export const getCompanyList = (data) => http.POST(`${config.baseUrl}/company/get
 export const getCompanyInfo = (id) => http.GET(`${config.baseUrl}/company/getCompanyInfo/${id}`);
 // 更新公司信息
 export const updateCompanyInfo = (data) => http.POST(`${config.baseUrl}/company/updateCompanyInfo`, data);
+
+
 // 新增/更新职位信息
 export const updatePosition = (data) => http.POST(`${config.baseUrl}/company/updatePosition`, data);
 // 查询职位信息
@@ -130,17 +137,6 @@ export const upload = (data) => http.POST(`${config.baseUrl}/register/upImg`, da
 export const downloadImg = (data) => http.GET(`${config.baseUrl}/my/downloadImg`, data);
 
 
-// 查询轮播图
-export const getBanners = (data) => http.GET(`${config.baseUrl}/cms/ad/list`, data);
-// 关于我们
-export const getAboutUs = (data) => http.GET(`${config.baseUrl}/cms/aboutUs/detail`, data);
-// 联系我们
-export const getContactUs = (data) => http.GET(`${config.baseUrl}/cms/contactUs/detail`, data);
-// 平台说明内容
-export const getHelpDetail = (data) => http.GET(`${config.baseUrl}/cms/help/detail`, data);
+
 // 查询公告列表
-export const getNoticeList = (data) => http.GET(`${config.baseUrl}/cms/notice/list`, data);
-// 查询公告列表
-export const getNoticeDetail = (data) => http.GET(`${config.baseUrl}/cms/notice/detail`, data);
-// 添加意见反馈
-export const getFeedbackAdd = (data) => http.GET(`${config.baseUrl}/cms/feedback/add`, data);
+export const getCmsList = (data) => http.POST(`${config.baseUrl}/cms/getCmsList`, data);

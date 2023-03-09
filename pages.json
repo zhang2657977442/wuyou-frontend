@@ -29,14 +29,6 @@
 			}
 		},
 		{
-			"path": "pages/position/search",
-			"style": {
-				"navigationBarTitleText": "职位搜索",
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTextStyle": "black"
-			}
-		},
-		{
 			"path": "pages/company/list",
 			"style": {
 				"navigationBarTitleText": "公司列表"
@@ -68,6 +60,21 @@
 			"style": {
 				"navigationBarTitleText": "关于我们"
 			}
+		},
+		{
+			"path": "pages/user/terms",
+			"style": {
+				"navigationBarTitleText": "用户协议",
+				"enablePullDownRefresh": false
+			}
+		
+		}, {
+			"path": "pages/user/privacy",
+			"style": {
+				"navigationBarTitleText": "隐私政策",
+				"enablePullDownRefresh": false
+			}
+		
 		},
 		{
 			"path": "pages/user/help",
@@ -133,22 +140,7 @@
 		}, {
 			"path": "pages/user/userInfo",
 			"style": {
-				"navigationBarTitleText": "基本信息",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"btnType": "EDIT",
-							"text": "\ue901",
-							"fontSize": "20px",
-							"fontSrc": "/static/icomoon-local/fonts/icomoon.ttf"
-						}]
-					}
-				}
-			}
-		}, {
-			"path": "pages/user/uUserInfo",
-			"style": {
-				"navigationBarTitleText": "修改结算卡"
+				"navigationBarTitleText": "基本信息"
 			}
 		},
 		{
@@ -247,12 +239,6 @@
 					"path": "resumeDetail",
 					"style": {
 						"navigationBarTitleText": "个人简历"
-					}
-				},
-				{
-					"path": "edit-cert",
-					"style": {
-						"navigationBarTitleText": ""
 					}
 				},
 				{

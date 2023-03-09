@@ -81,11 +81,6 @@ export default {
 	
 	/*公司入驻 */
 	regCompanyRule: [{
-		name: "logo",
-		checkType: "notnull",
-		checkRule: "",
-		errorMsg: "公司Logo不能为空"
-	},{
 		name: "name",
 		checkType: "notnull",
 		checkRule: "",

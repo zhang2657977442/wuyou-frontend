@@ -50,7 +50,6 @@
 
 <script>
 import mInput from '@/components/m-input/m-input.vue';
-import uploadImage from '@/common/ossutil/uploadFile';
 import graceChecker from '@/common/graceChecker.js';
 import formRuleConfig from '@/config/formRule.config.js';
 export default {

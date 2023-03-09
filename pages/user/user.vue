@@ -75,7 +75,7 @@ export default {
 			],
 			severList: [
 				[
-					{ name: '隐私设置', show:true,icon: 'faxian.png', url:this.$mRoutesConfig.hideSetting}, 
+					// { name: '隐私设置', show:true,icon: 'faxian.png', url:this.$mRoutesConfig.hideSetting}, 
 					{ name: '我要招聘', show:true,icon: 'switch.png', url:"zhaopin" }],
 				[
 					{ name: '客服中心', show:true,icon: 'contactus.png', url: this.$mRoutesConfig.robot },
@@ -338,8 +338,8 @@ page {
 			font-size: 26upx;
 			.icon {
 				position: relative;
-				width: 7vw;
-				height: 7vw;
+				width: 8vw;
+				height: 8vw;
 				margin: 0 1vw;
 				.badge {
 					position: absolute;

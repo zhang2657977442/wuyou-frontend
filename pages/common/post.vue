@@ -62,7 +62,7 @@ export default {
 					}
 				})
 			} else {
-				this.$page.prePage().position.id = this.list[n1].child[n2].child[n3].id
+				this.$page.prePage().position.postId = this.list[n1].child[n2].child[n3].id
 				this.$page.prePage().position.postName = this.list[n1].child[n2].child[n3].name
 				uni.navigateBack({
 					delta: 1

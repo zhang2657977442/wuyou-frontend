@@ -2,20 +2,15 @@
 	<!-- 关于我们 -->
 	<view class="aboutus-bg">
 		<!-- Logo -->
-		<image class="img-head" :src="aboutData.logo"></image>
+		<image class="img-head" src="/static/img/logo.png"></image>
 		<!-- content -->
-		<scroll-view :scroll-y="true" style="width: 94%;height: 700upx;">
-			<rich-text :nodes="aboutData.content"></rich-text>
+		<scroll-view :scroll-y="true" style="width: 94%;height: 1000upx;">
+			<rich-text :nodes="data.text"></rich-text>
 		</scroll-view>
-		<!-- <text class="txt-head"> {{aboutData.content || '暂无'}}</text> -->
-		<!-- 客服电话 -->
 		<view class="footer column">
-			<view class="aboutus-tail tail">
-				<text class="txt-head">客服电话{{aboutData.servicePhone || '暂无'}}</text>
-			</view>
 			<!-- 公司名称 -->
 			<view class="aboutus-tail">
-				<text class="txt-head">{{aboutData.copyright || '暂无'}}</text>
+				<text class="txt-head">©2023人才直聘</text>
 			</view>
 		</view>
 	</view>
@@ -25,9 +20,7 @@
 export default{
 	name: 'cgAbout',
 	props:{
-		aboutData:{
-			// type: Array,
-			
+		data:{			
 		}
 	}
 }

@@ -27,11 +27,12 @@ export default {
 		contentLength(){
 			return this.content.length;
 		}
+				
 	},
 	data() {
 		return {
 			resume:{},
-			content:"1231",
+			content:"",
 			len:150,
 		}
 	},
@@ -47,7 +48,7 @@ export default {
 			if (!checkRes) {
 				uni.showToast({
 					title: graceChecker.error,
-					icon: 'none'
+					icon: 'none',
 				});
 				return;
 			}

@@ -18,7 +18,7 @@
 </script>
 
 <style lang="scss">
-	@import "./common/yzb-icon.css";
+	@import "./static/css/yzb-icon.css";
 	
 	/*通用 */
 	view {

@@ -4,8 +4,8 @@
 			<view class="top">
 				<view class="space-between">
 					<view class="company">
-						<text class="name">{{company.name}}</text>
-						<text class="require">{{company.industryName}} · {{company.staffSize}}</text>
+						<text class="name">{{company.name || '暂无数据'}}</text>
+						<text class="require">{{company.industryName || '暂无数据'}} · {{company.staffSize || '暂无数据'}}</text>
 					</view>
 					<image class="logo" :src="company.logo || '/static/img/company.png'"></image>
 				</view>
@@ -39,7 +39,7 @@
 				<text class="title">公司地址</text>
 				<view class="space-between">
 					<view class="column">
-						<text class="info">{{company.address}}</text>
+						<text class="info">{{company.address || '暂无数据'}}</text>
 					</view>
 					<view class="nav" @click="toMap()">
 						<text class="yzb yzb-daohang"></text>
@@ -50,7 +50,7 @@
 			</view>
 			<view class="detail">
 				<text class="title">公司介绍</text>
-				<view class="desc"><sunui-grand :content="company.introduce" color="#1D82FE" bg="#fff" :clamp="3" expandText="点击展开全文" shinkText="收起"></sunui-grand></view>
+				<view class="desc"><sunui-grand :content="company.introduce || '暂无数据'" color="#1D82FE" bg="#fff" :clamp="3" expandText="点击展开全文" shinkText="收起"></sunui-grand></view>
 			</view>
 			
 

@@ -17,12 +17,10 @@
 import { mapState, mapGetters } from 'vuex';
 import mSwiper from '@/components/m-swiper/m-swiper.vue';
 import mCompany from '@/components/m-company/m-company.vue';
-import mAd from '@/components/m-ad/m-ad.vue';
 export default {
 	components: {
 		mSwiper,
 		mCompany,
-		mAd
 	}, 
 	computed: {
 		...mapState(['forcedLogin']),

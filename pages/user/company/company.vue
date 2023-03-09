@@ -10,23 +10,24 @@
 				</view>
 			</view> -->
 			<view class="input-row border-bottom-1px">
-				<text class="title">公司名称</text>
-				<view class="input-row-item"><input class="padding-10" v-model="company.name" /></view>
+				<text class="title">公司简称</text>
+				<view class="input-row-item"><input class="padding-10" v-model="company.name" placeholder="请输入公司简称"/></view>
 			</view>
 			<view class="input-row border-bottom-1px">
 				<text class="title">公司全称</text>
-				<view class="input-row-item"><input class="padding-10" v-model="company.fullName" /></view>
+				<view class="input-row-item"><input class="padding-10" v-model="company.fullName" placeholder="请输入公司全称"/></view>
 			</view>
-			<view class="input-row border-bottom-1px" @click="toIndustry()">
+			<view class="input-row border-bottom-1px">
 				<text class="title">所属行业</text>
-				<view class="row">
-					<input
-						class="padding-10"
-						disabled="true"
-						style="text-align: right;"
-						placeholder="请选择所属行业"
-						:value="company.industryName"
-					/>
+				<view class="picker row align-width">
+					<picker @change="industryChange" :value="industry" :range="industryArray" range-key="name">
+						<input
+							class="padding-10"
+							style="text-align: right;"
+							placeholder="请选择公司性质"
+							:value="company.industryName"
+						/>
+					</picker>
 					<text class="yzb yzb-next"></text>
 				</view>
 			</view>
@@ -143,7 +144,6 @@
 <script>
 import { mapState } from 'vuex'
 import { formatDate, calCurrentYear } from '@/common/date'
-import uploadImage from '@/common/ossutil/uploadFile'
 export default {
 	components: {},
 	computed: {
@@ -195,6 +195,7 @@ export default {
 			company: null,
 			starttime: null,
 			endtime: null,
+			industry: null,
 			imgList: [],
 			ablumList: [],
 			welfareList: [],
@@ -203,7 +204,28 @@ export default {
 		}
 	},
 	onLoad() {
+		if(this.userInfo.companyId){
 		this.getCompanyInfo(this.userInfo.companyId)
+		}else{
+			this.company = {
+				address: '',
+				industryName:'',
+				authId: null,
+				cityId: null,
+				enableStatus: true,
+				fullName: '',
+				id: '',
+				industryId: '',
+				introduce: '',
+				logo: 'https://pan.whiteones.cn/d/PicGo/wuyou/company_avatar.png',
+				name: '',
+				nature: '',
+				restTime: '',
+				staffSize: '',
+				workOvertime: '',
+				workTime: ''
+			}
+		}
 		this.getIndustryList()
 	},
 	methods: {
@@ -213,24 +235,6 @@ export default {
 				this.company = res
 				this.date1 = this.company.workTime.split('-')[0]
 				this.date2 = this.company.workTime.split('-')[1]
-			} else {
-				this.company = {
-					address: '',
-					authId: null,
-					cityId: null,
-					enableStatus: true,
-					fullName: '',
-					id: '',
-					industryId: '623bcdbb',
-					introduce: '',
-					logo: 'https://pan.whiteones.cn/d/PicGo/wuyou/company_avatar.png',
-					name: '',
-					nature: '',
-					restTime: '',
-					staffSize: '',
-					workOvertime: '',
-					workTime: ''
-				}
 			}
 		},
 		async getIndustryList() {
@@ -281,7 +285,10 @@ export default {
 		natureChange: function(e) {
 			this.company.nature = this.natureArray[e.target.value]
 		},
-
+		industryChange: function(e) {
+			this.company.industryId = this.industryArray[e.target.value].id
+			this.company.industryName = this.industryArray[e.target.value].name
+		},
 		bindDate1Change: function(e) {
 			this.date1 = e.target.value
 			console.log(this.date1)
@@ -443,7 +450,13 @@ export default {
 
 		async save() {
 			this.company.workTime = this.date1 + '-' + this.date2
-			let res = await this.$apis.updateCompanyInfo(this.company)
+			let res = null
+			if(this.userInfo.companyId){
+			res = await this.$apis.updateCompanyInfo(this.company)
+			}
+			else{
+			res = await this.$apis.addCompany(this.company)
+			}
 			if (res) {
 				uni.showToast({
 					title: '保存成功',
@@ -520,11 +533,6 @@ export default {
 			}
 			this.$forceUpdate()
 		},
-		toIndustry() {
-			this.$mRouter.push({
-				route: this.$mRoutesConfig.industry
-			})
-		}
 	}
 }
 </script>

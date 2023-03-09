@@ -25,7 +25,7 @@ export default {
 			let param = {
 				  "current": 1,
 				  "pageSize": 999,
-				  "type": 2
+				  "type": 0
 			};
 			let res = await this.$apis.getCmsList(param);
 			this.data = res.list[0]

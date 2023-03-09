@@ -62,7 +62,7 @@
         },
         "permission" : {
             "scope.userLocation" : {
-                "desc" : ""
+                "desc" : "获取位置"
             }
         }
     },
