@@ -89,9 +89,9 @@
 				</view>
 			</view>
 			<view class="btn-row row">
-				<button type="primary" class="btn-save width-55"  @click="apply">
+				<button type="primary" class="btn-save width-55" @click="apply">
 					<text class="yzb label-icon yzb-mianshiyaoqing"></text>
-					{{isApply ? '取消投递' : '投递简历'}}
+					{{ isApply ? '取消投递' : '投递简历' }}
 				</button>
 				<button class="btn-delete" @click="collect">
 					<text class="yzb label-icon yzb-ziyuan141"></text>
@@ -107,6 +107,8 @@ import { mapState, mapGetters } from 'vuex'
 import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'
 import { isApply } from '../../apis/index.js'
 const QQMapWX = require('../../common/qqmap-wx-jssdk.min.js')
+import IMService from '@/lib/imservice'
+
 export default {
 	components: { uniLoadMore },
 	computed: {
@@ -121,16 +123,16 @@ export default {
 			adList: [],
 			position: {},
 			isCollect: false,
-			isApply:false,
+			isApply: false,
 			query: {
 				current: 1,
 				pageSize: 10,
 				id: null
 			},
 			params: {
-				dataId: "",
+				dataId: '',
 				type: 0,
-				userId: ""
+				userId: ''
 			},
 			positionList: [],
 			status: '',
@@ -154,6 +156,7 @@ export default {
 		this.checkApply()
 		this.checkCollect()
 		this.addBrowse()
+		this.initGoeasy()
 	},
 	onReachBottom() {
 		this.query.current++
@@ -213,10 +216,10 @@ export default {
 					})
 				}
 			}
-
 		},
-        
-		async apply(){
+
+		async apply() {
+			const that = this
 			if (!this.isApply) {
 				let res = await this.$apis.addApply(this.params)
 				this.isApply = !this.isApply
@@ -224,6 +227,33 @@ export default {
 					uni.showToast({
 						title: '投递成功',
 						duration: 2000
+					})
+					// 发送消息
+					const im = this.goEasy.im
+					//创建消息, 内容最长不超过3K，可以发送字符串，对象和json格式字符串
+					const textMessage = im.createTextMessage({
+						text: '您好Boss，我对此岗位有兴趣，可以具体了解一下吗？', //消息内容
+						to: {
+							type: this.GoEasy.IM_SCENE.PRIVATE, //私聊还是群聊，群聊为GoEasy.IM_SCENE.GROUP
+							id: this.position.userId, //接收方用户id
+							data: { avatar: this.position.userAvatar, nickname: this.position.username } //接收方用户扩展数据, 任意格式的字符串或者对象，用于更新会话列表conversation.data
+						}
+					})
+
+					//发送消息
+					im.sendMessage({
+						message: textMessage,
+						onSuccess: function(message) {
+							//发送成功
+							console.log('Private message sent successfully.', message)
+							that.toChat()
+						},
+						onFailed: function(error) {
+							//发送失败
+							console.log(
+								'Failed to send private message，code:' + error.code + ' ,error ' + error.content
+							)
+						}
 					})
 				}
 			} else {
@@ -237,19 +267,19 @@ export default {
 				}
 			}
 		},
-		
-		async checkApply(){
+
+		async checkApply() {
 			let res = await this.$apis.isApply(this.params)
 			this.isApply = res
 		},
-		async checkCollect(){
+		async checkCollect() {
 			let res = await this.$apis.isCollect(this.params)
 			this.isCollect = res
 		},
-		async addBrowse(){
+		async addBrowse() {
 			const params = {
 				type: 0,
-				dataId:  this.position.companyId,
+				dataId: this.position.companyId,
 				userId: this.userInfo.id
 			}
 			let res = await this.$apis.addBrowse(params)
@@ -283,6 +313,24 @@ export default {
 					details: encodeURIComponent(JSON.stringify(item))
 				}
 			})
+		},
+		toChat() {
+			setTimeout(() => {
+				this.$mRouter.push({
+					route: this.$mRoutesConfig.privateChat,
+					query: {
+						id: this.position.userId,
+						avatar: this.position.userAvatar,
+						name: this.position.username
+					}
+				})
+			}, 1000)
+		},
+		initGoeasy() {
+			if (this.goEasy.getConnectionStatus() === 'disconnected') {
+				getApp().globalData.imService = new IMService(this.goEasy, this.GoEasy)
+				getApp().globalData.imService.connect(this.userInfo)
+			}
 		}
 	}
 }

@@ -50,7 +50,7 @@
 				:title="item.data.name"
 				:avatar="item.data.avatar"
 				:note="item.lastMessage.payload.text"
-				:time="formatDate(item.lastMessage.timestamp)"
+				:time="formatTimestamp(item.lastMessage.timestamp)"
 				badge-positon="left"
 				:badge-text="item.unread"
 				:showBadge="true"
@@ -67,7 +67,7 @@ import { mapState, mapMutations, mapGetters } from 'vuex';
 import GoEasyAudioPlayer from '@/components/GoEasyAudioPlayer/GoEasyAudioPlayer';
 import EmojiDecoder from '@/lib/EmojiDecoder';
 import mEmptyData from '@/components/m-empty-data/m-empty-data.vue';
-import { formatDate } from '@/common/date';
+import { formatDate,timestampToTime} from '@/common/date';
 import IMService from '@/lib/imservice';
 
 export default {
@@ -150,7 +150,6 @@ export default {
 		};
 	},
 	onLoad() {
-		// this.getNoticeList();
 	},
 	async onShow() {
 		this.initData();
@@ -170,6 +169,7 @@ export default {
 				//加载会话列表
 				this.goEasy.im.latestConversations({
 					onSuccess: function(result) {
+						console.log(result)
 						let content = result.content;
 						self.renderConversations(content);
 					},
@@ -178,17 +178,6 @@ export default {
 						console.log('失败获取最新会话列表, code:' + error.code + ' content:' + error.content);
 					}
 				});
-			}
-		},
-
-		async getNoticeList() {
-			let param = {
-				page: 1,
-				limit: 1
-			};
-			let res = await this.$apis.getNoticeList(param);
-			if (res.data.length > 0) {
-				this.notice = res.data[0];
 			}
 		},
 
@@ -233,7 +222,7 @@ export default {
 				query: {
 					id: item.userId,
 					avatar: item.data.avatar,
-					name: item.data.name
+					name: item.data.nickname
 				}
 			});
 		},
@@ -288,6 +277,9 @@ export default {
 			let date = new Date(str);
 			return formatDate(date, 'MM-dd hh:mm');
 		},
+		formatTimestamp(timestamp){
+			return timestampToTime(timestamp)
+		}
 	}
 };
 </script>

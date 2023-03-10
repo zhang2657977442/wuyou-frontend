@@ -1,15 +1,5 @@
 <template>
 	<view class="chatInterface">
-		<!-- <view class="top" id="top"> -->
-		<!-- <view class="navbar" :style="{ height: totalHeight + 'px' }">
-			<view class="nabar-body" :style="{ 'margin-top': statusBarHeight + 'px' }">
-				<text class="yzb yzb-return"></text>
-				<view class="name">
-					<text>测试</text>
-					<text></text>
-				</view>
-			</view>
-		</view> -->
 		<uni-grid ref="grid" v-if="userInfo.memberRole != 1" class="grid" :column="3" :show-border="false" :square="false">
 			<uni-grid-item v-for="(item, index) in topList" :index="index" :key="index" @click.native="tapGrid(item)">
 				<view class="grid-item-box">
@@ -27,8 +17,8 @@
 				<template>
 					<!--时间显示，类似于微信，隔5分钟不发言，才显示时间-->
 					<view class="time-lag">{{ renderMessageDate(message, index) }}</view>
-					<view class="message-item" :class="{ self: message.senderId == (userInfo && userInfo.memberSn) }">
-						<view class="avatar" v-if="message.senderId != (userInfo && userInfo.memberSn)"><image :src="friend.avatar"></image></view>
+					<view class="message-item" :class="{ self: message.senderId == (userInfo && userInfo.id) }">
+						<view class="avatar" v-if="message.senderId != (userInfo && userInfo.id)"><image :src="friend.avatar"></image></view>
 						<view class="avatar" v-else><image :src="userInfo.avatar"></image></view>
 						<view class="contents">
 							<b class="pending" v-if="message.status == 'sending'"></b>
@@ -137,6 +127,7 @@ import { mapState, mapMutations, mapGetters } from 'vuex';
 import GoEasyAudioPlayer from '@/components/GoEasyAudioPlayer/GoEasyAudioPlayer';
 import EmojiDecoder from '@/lib/EmojiDecoder';
 import IMService from '@/lib/imservice';
+import { timestampToTime} from '@/common/date';
 const recorderManager = uni.getRecorderManager();
 export default {
 	name: 'privateChat',
@@ -285,7 +276,6 @@ export default {
 			this.comMemberId = friendId;
 			this.memberId = this.userInfo.memberSn;
 		}
-		this.getComMemberInfo();
 		//从服务器获取最新的好友信息
 		// this.friend = imService.findFriendById(friendId);
 		this.friend = {
@@ -317,7 +307,7 @@ export default {
 			this.markPrivateMessageAsRead(friendId);
 		}
 		this.loadMoreHistoryMessage();
-		this.getCommunicated();
+		// this.getCommunicated();
 	},
 	onPullDownRefresh(e) {
 		this.loadMoreHistoryMessage();
@@ -332,19 +322,6 @@ export default {
 		this.$mUtils.stopAudioPlay();
 	},
 	methods: {
-		//查询招聘者电话
-		async getComMemberInfo() {
-			let param = {
-				memberSn: this.comMemberId
-			};
-			let res = await this.$apis.getMemberBySn(param);
-			this.comMemberPhone = res.phone;
-			if(this.companyId){
-				this.companyId=res.companyId;
-			}
-			console.log('companyId===', this.companyId);
-			console.log('comMemberPhone===', this.comMemberPhone);
-		},
 
 		async getCommunicated() {
 			let param = {
@@ -363,24 +340,6 @@ export default {
 			console.log('是否已沟通：', this.isCommunicated);
 		},
 
-		/**
-		 * 添加沟通记录，第一次发送成功触发
-		 */
-		async addCommu() {
-			console.log('-----addCommu-----');
-			if (this.isCommunicated == false) {
-				let param = {
-					memberId: this.memberId,
-					comMemberId: this.comMemberId,
-					positionId: this.positionId,
-					companyId: this.companyId
-				};
-				let res = await this.$apis.updateComm(param);
-				console.log('addCommu', res);
-				this.getCommunicated();
-			}
-		},
-
 		//渲染文本消息，如果包含表情，替换为图片
 		//todo:本不需要该方法，可以在标签里完成，但小程序有兼容性问题，被迫这样实现
 		renderTextMessage(message) {
@@ -394,10 +353,10 @@ export default {
 		//todo:本不需要该方法，可以在标签里完成，但小程序有兼容性问题，被迫这样实现
 		renderMessageDate(message, index) {
 			if (index === 0) {
-				return this.formatDate(message.timestamp);
+				return this.formatTimestamp(message.timestamp);
 			} else {
 				if (message.timestamp - this.messages[index - 1].timestamp > 5 * 60 * 1000) {
-					return this.formatDate(message.timestamp);
+					return this.formatTimestamp(message.timestamp);
 				}
 			}
 			return '';
@@ -445,8 +404,6 @@ export default {
 				message: message,
 				onSuccess: function(message) {
 					console.log('发送成功.', message);
-					//此时添加沟通记录
-					_self.addCommu();
 				},
 				onFailed: function(error) {
 					console.log('发送失败:', error);
@@ -800,6 +757,9 @@ export default {
 				phoneNumber: this.comMemberPhone
 			});
 		},
+		formatTimestamp(timestamp){
+			return timestampToTime(timestamp)
+		},
 
 		unlike() {
 			uni.showModal({
@@ -826,7 +786,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import url('../../static/style/chatInterface.css');
+@import url('/static/css/chatInterface.css');
 
 .chatInterface {
 	height: 100vh;

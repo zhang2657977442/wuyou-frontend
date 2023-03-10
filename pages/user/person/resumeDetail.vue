@@ -54,6 +54,8 @@
 import { mapState, mapGetters } from 'vuex'
 import mCell from '@/components/m-cell/m-cell.vue'
 import { formatDate, calCurrentYear } from '@/common/date'
+import IMService from '@/lib/imservice'
+
 export default {
 	components: {
 		mCell
@@ -67,10 +69,10 @@ export default {
 			isApply: false,
 			isCollect: false,
 			params: {
-				dataId: "",
+				dataId: '',
 				type: 1,
-				userId: ""
-			},
+				userId: ''
+			}
 		}
 	},
 	onLoad(query) {
@@ -80,6 +82,7 @@ export default {
 		this.checkApply()
 		this.checkCollect()
 		this.addBrowse()
+		this.initGoeasy()
 	},
 	methods: {
 		formatAge(birthday) {
@@ -109,10 +112,10 @@ export default {
 					})
 				}
 			}
-		
 		},
-		
-		async apply(){
+
+		async apply() {
+			const that = this
 			if (!this.isApply) {
 				let res = await this.$apis.addApply(this.params)
 				this.isApply = !this.isApply
@@ -120,6 +123,33 @@ export default {
 					uni.showToast({
 						title: '邀请成功',
 						duration: 2000
+					})
+					// 发送消息
+					const im = this.goEasy.im
+					//创建消息, 内容最长不超过3K，可以发送字符串，对象和json格式字符串
+					const textMessage = im.createTextMessage({
+						text: '您好，我们正在寻求并肩奋斗的伙伴，如感兴趣，我们沟通一下？', //消息内容
+						to: {
+							type: this.GoEasy.IM_SCENE.PRIVATE, //私聊还是群聊，群聊为GoEasy.IM_SCENE.GROUP
+							id: this.resume.userId, //接收方用户id
+							data: { avatar: this.resume.userAvatar, nickname: this.resume.username } //接收方用户扩展数据, 任意格式的字符串或者对象，用于更新会话列表conversation.data
+						}
+					})
+
+					//发送消息
+					im.sendMessage({
+						message: textMessage,
+						onSuccess: function(message) {
+							//发送成功
+							console.log('Private message sent successfully.', message)
+							that.toChat()
+						},
+						onFailed: function(error) {
+							//发送失败
+							console.log(
+								'Failed to send private message，code:' + error.code + ' ,error ' + error.content
+							)
+						}
 					})
 				}
 			} else {
@@ -133,18 +163,36 @@ export default {
 				}
 			}
 		},
-		
-		async checkApply(){
+
+		async checkApply() {
 			let res = await this.$apis.isApply(this.params)
 			this.isApply = res
 		},
-		async checkCollect(){
+		async checkCollect() {
 			let res = await this.$apis.isCollect(this.params)
 			this.isCollect = res
 		},
-		async addBrowse(){
+		async addBrowse() {
 			let res = await this.$apis.addBrowse(this.params)
 		},
+		toChat() {
+			setTimeout(() => {
+				this.$mRouter.push({
+					route: this.$mRoutesConfig.privateChat,
+					query: {
+						id: this.resume.userId,
+						avatar: this.resume.userAvatar,
+						name: this.resume.username
+					}
+				})
+			}, 1000)
+		},
+		initGoeasy() {
+			if (this.goEasy.getConnectionStatus() === 'disconnected') {
+				getApp().globalData.imService = new IMService(this.goEasy, this.GoEasy)
+				getApp().globalData.imService.connect(this.userInfo)
+			}
+		}
 	}
 }
 </script>
@@ -215,6 +263,5 @@ view {
 	.width-55 {
 		width: 55%;
 	}
-
 }
 </style>

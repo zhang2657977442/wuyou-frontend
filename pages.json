@@ -156,6 +156,12 @@
 			}
 		},
 		{
+			"path": "pages/chat/privateChat",
+			"style": {
+				"navigationBarTitleText": "消息"
+			}
+		},
+		{
 			"path": "pages/chat/notice/notices",
 			"style": {
 				"navigationBarTitleText": "系统消息",

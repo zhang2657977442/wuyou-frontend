@@ -52,7 +52,7 @@
 
 <script>
 // 头像大小
-const avatarWidth = 45;
+const avatarWidth = 50;
 
 /**
  * ListChat 聊天列表
@@ -431,8 +431,8 @@ $hover: #f5f5f5;
 .uni-list-chat__header-image {
 	// margin: 1px;
 	/* #ifdef APP-NVUE */
-	width: 80upx;
-	height: 80upx;
+	width: 100upx;
+	height: 100upx;
 	/* #endif */
 	/* #ifndef APP-NVUE */
 	width: $avatar-width;
