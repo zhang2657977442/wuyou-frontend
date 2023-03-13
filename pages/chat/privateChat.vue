@@ -1,6 +1,6 @@
 <template>
 	<view class="chatInterface">
-		<uni-grid ref="grid" v-if="userInfo.memberRole != 1" class="grid" :column="3" :show-border="false" :square="false">
+		<uni-grid ref="grid" v-if="userInfo.memberRole === 1" class="grid" :column="3" :show-border="false" :square="false">
 			<uni-grid-item v-for="(item, index) in topList" :index="index" :key="index" @click.native="tapGrid(item)">
 				<view class="grid-item-box">
 					<text class="yzb" :class="item.icon" :style="{ color: item.color }"></text>
