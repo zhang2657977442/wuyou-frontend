@@ -27,7 +27,7 @@
 			<view class="user">
 				<view class="left">
 					<image :src="item.userAvatar"></image>
-					<text class="name">{{ item.userName }}</text>
+					<text class="name">{{ item.username }}</text>
 				</view>
 				<view class="right">
 					<text class="address">{{item.address}}</text>

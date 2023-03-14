@@ -47,7 +47,7 @@
 			<uni-list-chat
 				v-for="(item, index) in conversations"
 				:key="index"
-				:title="item.data.name"
+				:title="item.data.nickname"
 				:avatar="item.data.avatar"
 				:note="item.lastMessage.payload.text"
 				:time="formatTimestamp(item.lastMessage.timestamp)"
