@@ -117,7 +117,7 @@ export default {
 	},
 	
 	post: {
-		name: "职位选择",
+		name: "岗位选择",
 		path: "/pages/common/post"
 	},
 	
