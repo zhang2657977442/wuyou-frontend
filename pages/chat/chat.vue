@@ -47,7 +47,7 @@
 			<uni-list-chat
 				v-for="(item, index) in conversations"
 				:key="index"
-				:title="item.data.nickname"
+				:title="item.data.name"
 				:avatar="item.data.avatar"
 				:note="item.lastMessage.payload.text"
 				:time="formatTimestamp(item.lastMessage.timestamp)"
@@ -222,7 +222,7 @@ export default {
 				query: {
 					id: item.userId,
 					avatar: item.data.avatar,
-					name: item.data.nickname
+					name: item.data.name
 				}
 			});
 		},

@@ -236,7 +236,7 @@ export default {
 						to: {
 							type: this.GoEasy.IM_SCENE.PRIVATE, //私聊还是群聊，群聊为GoEasy.IM_SCENE.GROUP
 							id: this.position.userId, //接收方用户id
-							data: { avatar: this.position.userAvatar, nickname: this.position.username } //接收方用户扩展数据, 任意格式的字符串或者对象，用于更新会话列表conversation.data
+							data: { avatar: this.position.userAvatar, name: this.position.username } //接收方用户扩展数据, 任意格式的字符串或者对象，用于更新会话列表conversation.data
 						}
 					})
 
