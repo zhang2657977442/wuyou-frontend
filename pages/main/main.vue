@@ -132,7 +132,11 @@ export default {
 
 	onReachBottom() {
 		this.page++
-		this.getJobList()
+		if (this.hasLogin && this.userInfo.role === '招聘者') {
+			this.getResumeList()
+		} else {
+			this.getJobList()
+		}
 	},
 	methods: {
 		async getJobList() {

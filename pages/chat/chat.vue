@@ -112,7 +112,7 @@ export default {
 				},
 				{
 					icon: 'yzb-kanguowode',
-					text: '谁看过我',
+					text: '浏览记录',
 					// badge: '19',
 					type: 'error',
 					to: this.$mRoutesConfig.browse,
@@ -139,7 +139,7 @@ export default {
 				},
 				{
 					icon: 'yzb-kanguowode',
-					text: '谁看过我',
+					text: '浏览记录',
 					// badge: '19',
 					type: 'error',
 					to: this.$mRoutesConfig.connected,

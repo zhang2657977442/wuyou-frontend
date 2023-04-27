@@ -116,7 +116,7 @@
 		{
 			"path": "pages/user/browse",
 			"style": {
-				"navigationBarTitleText": "谁看过我"
+				"navigationBarTitleText": "浏览记录"
 			}
 		},
 		{

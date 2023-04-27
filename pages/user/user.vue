@@ -64,14 +64,14 @@ export default {
 				{ name: '我的简历', show:true, icon: 'yzb-jianli', badge: 0, url: this.$mRoutesConfig.personReume },
 				{ name: '我的投递', show:true,icon: 'yzb-mianshiyaoqing', badge: 0, url: this.$mRoutesConfig.apply},
 				{ name: '我的收藏', show:true,icon: 'yzb-ziyuan141', badge: 0, url: this.$mRoutesConfig.collect },
-				{ name: '谁看过我', show:true,icon: 'yzb-liulanjilu', badge: 0, url: this.$mRoutesConfig.browse }
+				{ name: '浏览记录', show:true,icon: 'yzb-liulanjilu', badge: 0, url: this.$mRoutesConfig.browse }
 			],
 			orderTypeLise2: [
 				//name-标题 icon-图标 badge-角标
 				{ name: '公司主页', show:true,icon: 'yzb-liulanjilu', badge: 0, url: this.$mRoutesConfig.companyDetail},
 				{ name: '面试邀请', show:true,icon: 'yzb-mianshiyaoqing', badge: 0, url:this.$mRoutesConfig.apply},
 				{ name: '我的收藏', show:true,icon: 'yzb-ziyuan141', badge: 0, url: this.$mRoutesConfig.collect },
-				{ name: '谁看过我', show:true,icon: 'yzb-liulanjilu', badge: 0, url: this.$mRoutesConfig.browse }
+				{ name: '浏览记录', show:true,icon: 'yzb-liulanjilu', badge: 0, url: this.$mRoutesConfig.browse }
 			],
 			severList: [
 				[
