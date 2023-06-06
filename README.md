@@ -57,6 +57,6 @@
 ![](https://raw.githubusercontent.com/zhang2657977442/MyPicGo/master/other/%E8%B5%9E%E8%B5%8F%E7%A0%81.jpg)
 
 如有问题请联系
-+ QQ：2657977449
++ QQ：2657977449 
 + 微信：zhang2657977449
 
