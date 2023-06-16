@@ -150,13 +150,7 @@ export default {
 				// uni.redirectTo({
 				// 	url:'/pages/login/authphonelogin?nickName='+this.bindUserInfo.nickName+"&avatar="+this.bindUserInfo.avatarUrl
 				// })
-			}else{
-				console.log("绑定手机号")
-				uni.redirectTo({
-					url:'/pages/login/authphonelogin'
-				})
 			}
-
 		},
 
 		toPhoneLogin(){
