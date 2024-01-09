@@ -79,7 +79,8 @@ export default {
 	},
 	data() {
 		return {
-			tabs: ['全部', '开放中', '待开放', '审核失败', '已关闭'],
+			// tabs: ['全部', '开放中', '待开放', '审核失败', '已关闭'],
+			tabs: ['全部'],
 			current: 0,
 			swiperCurrent: 0,
 			tabsHeight: 0,
