@@ -2,11 +2,14 @@
 
 :star:一款基于uni-app编写的招聘求职类前端，该前端包含了大部分核心页面和逻辑交互。前端分了两种角色：求职者和招聘者，通过角色切换可以进行页面和功能的切换。建议使用Hbuilder X打开，适合学习\二次开发等用途。
 
+## [快速开始](https://www.wuyoujobs.com/)
+
 ## 项目列表
 
-+ [无忧直聘前端(Uni-app+Vue2)](https://github.com/zhang2657977442/wuyou-frontend)
-+ [无忧直聘后端(Java+SpringBoot2+MybatisPlus+Mysql)](https://github.com/zhang2657977442/wuyou-backend)
-+ [无忧直聘管理端(React+Ant Design+Ant Design Pro)](https://github.com/zhang2657977442/wuyou-admin)
++ [项目官网](https://www.wuyoujobs.com/)
++ 无忧直聘前端(Uni-app+Vue2)
++ 无忧直聘后端(Java+SpringBoot2+MybatisPlus+Mysql)
++ 无忧直聘管理端(React+Ant Design+Ant Design Pro)
 
 ## 功能模块
 
@@ -28,7 +31,7 @@
 
 ## 运行步骤
 
-+ 启动[无忧直聘后端服务](https://github.com/zhang2657977442/wuyou-backend)
++ 启动无忧直聘后端服务
 + 修改manifest.json文件中的AppID
 
 ![](https://raw.githubusercontent.com/zhang2657977442/MyPicGo/master/wuyou-frontend/%E4%BF%AE%E6%94%B9appid.png)
@@ -39,22 +42,6 @@
 
 ![](https://raw.githubusercontent.com/zhang2657977442/MyPicGo/master/wuyou-frontend/%E4%BF%AE%E6%94%B9%E8%85%BE%E8%AE%AF%E4%BD%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1.png)
 
-
-
-## 后续计划
-
-由于时间原因，以下功能暂未实现：
-
-+ 个人/公司实名认证
-+ 简历附件
-+ 智能客服
-+ 屏蔽公司
-
-欢迎各位developer二次开发~
-
-## 开源不易 谢谢支持
-
-![](https://raw.githubusercontent.com/zhang2657977442/MyPicGo/master/other/%E8%B5%9E%E8%B5%8F%E7%A0%81.jpg)
 
 如有问题请联系
 + QQ：2657977449 
