@@ -47,5 +47,4 @@
 + QQ：2657977449 
 + 微信：zhang2657977449
   
-<img src="https://github.com/zhang2657977442/MyPicGo/blob/master/other/qq.jpg?raw=true" alt="" width="30%">
-<img src="https://github.com/zhang2657977442/MyPicGo/blob/master/other/wechat.jpg?raw=true" alt="" width="30%">
+<img src="https://github.com/zhang2657977442/MyPicGo/blob/master/other/qq.jpg?raw=true" alt="" width="30%"><img src="https://github.com/zhang2657977442/MyPicGo/blob/master/other/wechat.jpg?raw=true" alt="" width="30%">
