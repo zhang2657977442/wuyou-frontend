@@ -46,4 +46,5 @@
 如有问题请联系
 + QQ：2657977449 
 + 微信：zhang2657977449
-
+  
+<img src="https://gitee.com/zsj265/my-pic-go/raw/master/other/wechat.jpg" alt="" width="35%">
