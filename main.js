@@ -54,7 +54,7 @@ Vue.prototype.$db = Db;
 import GoEasy from "./lib/goeasy.min.js";
 const goEasy = GoEasy.getInstance({
 	host:"hangzhou.goeasy.io",//应用所在的区域地址: 【hangzhou.goeasy.io |singapore.goeasy.io】
-	appkey:"BC-0b1184f0b6ac41bb8ab27549eb6bcda2",	// common key,
+	appkey:"你的appkey",	// common key,
     modules:["im"],
 	// true表示支持通知栏提醒，false则表示不需要通知栏提醒
     allowNotification:true //仅有效于app,小程序和H5将会被自动忽略

@@ -146,7 +146,7 @@ export default {
 		const data = decodeURIComponent(query.details)
 		this.position = JSON.parse(data)
 		this.qqmapsdk = new QQMapWX({
-			key: 'H2RBZ-76OWD-BUO4P-PDBMT-TXUTS-PABLR'
+			key: '你的key'
 		})
 		this.query.id = this.position.companyId
 		this.params.dataId = this.position.id
