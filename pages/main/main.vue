@@ -87,10 +87,10 @@ export default {
 			page: 1,
 			limit: 10,
 			banner: [
-				'https://pan.whiteones.cn/d/PicGo/wuyou/jobhigh_banner.png',
-				'https://pan.whiteones.cn/d/PicGo/wuyou/jobnew_banner.png',
-				'https://pan.whiteones.cn/d/PicGo/wuyou/company_banner.png',
-				'https://pan.whiteones.cn/d/PicGo/wuyou/resume_banner.png'
+				'https://gitee.com/zsj265/my-pic-go/raw/master/wuyou/jobhigh_banner.png',
+				'https://gitee.com/zsj265/my-pic-go/raw/master/wuyou/jobnew_banner.png',
+				'https://gitee.com/zsj265/my-pic-go/raw/master/wuyou/company_banner.png',
+				'https://gitee.com/zsj265/my-pic-go/raw/master/wuyou/resume_banner.png'
 			],
 			grid: [],
 			adList: [],

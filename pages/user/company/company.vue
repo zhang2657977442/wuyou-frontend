@@ -217,7 +217,7 @@ export default {
 				id: '',
 				industryId: '',
 				introduce: '',
-				logo: 'https://pan.whiteones.cn/d/PicGo/wuyou/company_avatar.png',
+				logo: 'https://gitee.com/zsj265/my-pic-go/raw/master/wuyou/company_avatar.png',
 				name: '',
 				nature: '',
 				restTime: '',

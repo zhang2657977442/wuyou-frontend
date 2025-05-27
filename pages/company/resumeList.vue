@@ -25,7 +25,7 @@ export default {
 			page: 1,
 			limit: 10,
 			status:"",
-			bgImg:"https://pan.whiteones.cn/d/PicGo/wuyou/resume_banner.png"
+			bgImg:"https://gitee.com/zsj265/my-pic-go/raw/master/wuyou/resume_banner.png"
 		};
 	},
 	async onLoad(query) {

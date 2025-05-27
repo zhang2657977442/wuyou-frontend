@@ -53,10 +53,10 @@ export default {
 	banner_1: PATH + "/s1.png",
 	
 	//高薪职位
-	job_high: "https://pan.whiteones.cn/d/PicGo/wuyou/job-high.png",
+	job_high: "https://gitee.com/zsj265/my-pic-go/raw/master/wuyou/jobhigh_banner.png",
 	//最新职位
-	job_new: "https://pan.whiteones.cn/d/PicGo/wuyou/job-new.png",
-	job_new: "https://pan.whiteones.cn/d/PicGo/wuyou/job-new.png",
+	job_new: "https://gitee.com/zsj265/my-pic-go/raw/master/wuyou/jobnew_banner.png",
+	job_new: "https://gitee.com/zsj265/my-pic-go/raw/master/wuyou/jobnew_banner.png",
 
 	// 图片上传示例图
 	upload_1: PATH + "/upload-50.png",

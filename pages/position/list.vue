@@ -34,12 +34,12 @@ export default {
 	async onLoad(query) {
 		this.type=query.type;
 		if(this.type==1){
-			this.bgImg="https://pan.whiteones.cn/d/PicGo/wuyou/jobnew_banner.png";
+			this.bgImg="https://gitee.com/zsj265/my-pic-go/raw/master/wuyou/jobnew_banner.png";
 			uni.setNavigationBarTitle({
 				title:"最近发布"
 			})
 		}else if(this.type==2){
-			this.bgImg="https://pan.whiteones.cn/d/PicGo/wuyou/jobhigh_banner.png";
+			this.bgImg="https://gitee.com/zsj265/my-pic-go/raw/master/wuyou/jobhigh_banner.png";
 			uni.setNavigationBarTitle({
 				title:"高薪优选"
 			})
