@@ -27,7 +27,8 @@
 					@refresherrefresh="onRefresh"
 					refresher-enabled
 				>
-					<view class="scroll-items" v-if="datas[index].length > 0">
+          <!-- <view class="scroll-items" v-if="datas[index].length > 0"> -->
+          <view class="scroll-items" v-if="datas[0].length > 0">
 						<view class="item bottom-line" v-for="(item2, index2) in datas[index]" :key="index2"
 						 @click="toDetail(item2)">
 							<view class="title space-between">
